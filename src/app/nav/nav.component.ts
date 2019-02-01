@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
+  appTitle: string = 'MyBankApp';
+  // OR (either will work)
+  //appTitle = 'myapp';
+
   constructor() { }
 
   ngOnInit() {
