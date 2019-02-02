@@ -8,6 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ContactComponent implements OnInit {
 
+  submitted: boolean;
+  success: boolean;
+  messageForm: any;
+
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -19,11 +24,7 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    if (this.messageForm.invalid) {
-        return;
-    }
-
+    if (this.messageForm.invalid) { return;}
     this.success = true;
 }
 

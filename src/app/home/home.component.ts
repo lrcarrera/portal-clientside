@@ -9,6 +9,7 @@ import { DataService } from '../data.service';
 export class HomeComponent implements OnInit {
 
   users: Object;
+  h1Style: boolean;
 
   constructor(private data: DataService) { }
 
