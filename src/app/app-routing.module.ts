@@ -12,6 +12,14 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  {
+        path: 'externalRedirect',
+        resolve: {
+            url: externalUrlProvider,
+        },
+        // We need a component here because we cannot define the route otherwise
+        component: NotFoundComponent,
+    },
 ];
 
 

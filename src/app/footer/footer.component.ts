@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
+  link: any;
+
   constructor() { }
 
+
   ngOnInit() {
+    //this.link = this.router.navigate(['/externalRedirect', { externalUrl: 'www.google.com' }]);
+
   }
 
 }
