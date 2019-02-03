@@ -9,6 +9,7 @@ import { DataService } from '../data.service';
 export class HomeComponent implements OnInit {
 
   users: Object;
+  tasks: any;
   h1Style: boolean;
 
   constructor(private data: DataService) { }
@@ -19,11 +20,18 @@ export class HomeComponent implements OnInit {
         console.log(this.users);
       }
     );
+
+    this.data.getTasks().subscribe(data => {
+        this.tasks = data
+        console.log(this.tasks);
+      }
+    );
   }
 
   firstClick() {
     console.log('sup fool!');
     this.h1Style = true;
+    window.alert('tasks->'+this.tasks);
   }
 
 }
