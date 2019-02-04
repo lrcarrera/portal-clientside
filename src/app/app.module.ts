@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { RootComponent } from './root/root.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +19,8 @@ import { FooterComponent } from './footer/footer.component';
     AboutComponent,
     ContactComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    RootComponent
   ],
   imports: [
     BrowserModule,

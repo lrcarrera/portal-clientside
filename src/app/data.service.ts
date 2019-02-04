@@ -12,9 +12,13 @@ export class DataService {
     return this.http.get('https://reqres.in/api/users');
   }
 
-  getTasks(){
-    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/hola');
+/*  getTasks(){
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/tasks');
   }
+
+  postAPICustomer(){
+    return this.http.post('/api/postData', {'firstName' : 'Code', 'lastName' : 'Handbook'})
+  }*/
   firstClick() {
     return console.log('clicked');
   }
