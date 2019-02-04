@@ -9,7 +9,7 @@ export class RootService {
   constructor(private http: HttpClient) { }
 
   getAPIData(){
-    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/customers');
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/tasks');
   }
 
   postAPIData(){

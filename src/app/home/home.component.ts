@@ -17,15 +17,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.data.getUsers().subscribe(data => {
-        this.users = data
+        this.users = data;
         console.log(this.users);
       }
     );
-    this.customerService.postAPIData().subscribe(data => {
-        this.customers = data
+
+    this.customerService.getAPIData().subscribe(data2 => {
+        this.customers = data2;
         console.log(this.customers);
       }
     );
+
 /*
     this.data.getTasks().subscribe(data => {
         this.tasks = data
@@ -37,7 +39,8 @@ export class HomeComponent implements OnInit {
   firstClick() {
     console.log('sup fool!');
     this.h1Style = true;
-   window.alert('tasks->'+this.customers);
+    window.alert('tasks->'+this.customers);
+   //this.customers.postApiData();
   }
 
 }
