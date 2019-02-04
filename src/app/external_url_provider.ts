@@ -1,16 +1,21 @@
-/*@NgModule({
-    providers: [
-        {
-            provide: externalUrlProvider,
-            useValue: (route: ActivatedRouteSnapshot) => {
-                const externalUrl = route.paramMap.get('externalUrl');
-                window.open(externalUrl, '_self');
-            },
-        },
-    ],
-    imports: [
-        RouterModule.forRoot(routes),
-    ],
-    exports: [RouterModule],
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
 })
-export class AppRoutingModule {}*/
+export class DataService {
+
+  constructor(private http: HttpClient) { }
+
+  getUsers() {
+    return this.http.get('https://reqres.in/api/users');
+  }
+
+  getTasks(){
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/tasks');
+  }
+  firstClick() {
+    return console.log('clicked');
+  }
+}
