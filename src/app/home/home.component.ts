@@ -22,11 +22,7 @@ export class HomeComponent implements OnInit {
       }
     );
 
-    this.customerService.getAPIData().subscribe(data2 => {
-        this.customers = data2;
-        console.log(this.customers);
-      }
-    );
+
 
 /*
     this.data.getTasks().subscribe(data => {
@@ -36,10 +32,23 @@ export class HomeComponent implements OnInit {
     );*/
   }
 
+  invokePost(){
+    this.customerService.postAPIData().subscribe(result => {
+        console.log(result);
+      }
+    );
+
+  }
+
   firstClick() {
-    console.log('sup fool!');
+    console.log('see the list!');
     this.h1Style = true;
-    window.alert('tasks->'+this.customers);
+
+    this.customerService.getAPIData().subscribe(result => {
+        this.customers = result;
+        console.log(this.customers);
+      }
+    );
    //this.customers.postApiData();
   }
 

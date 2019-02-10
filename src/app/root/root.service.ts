@@ -13,7 +13,7 @@ export class RootService {
   }
 
   postAPIData(){
-    return this.http.post('https://enigmatic-mountain-27495.herokuapp.com/customers', {'name' : 'Pepe', 'money' : '100'})
+    return this.http.post('https://enigmatic-mountain-27495.herokuapp.com/tasks', {'name' : 'Pepe'});
   }
 
 }
