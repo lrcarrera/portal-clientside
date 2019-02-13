@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './authentication/authentication.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +12,7 @@ export class NavComponent implements OnInit {
   // OR (either will work)
   //appTitle = 'myapp';
 
-  constructor() { }
+  constructor(public auth: AuthenticationService) {}
 
   ngOnInit() {
   }
