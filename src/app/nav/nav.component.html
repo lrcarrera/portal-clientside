@@ -5,6 +5,8 @@
       <ul>
         <li><a routerLink="/">Home</a></li>
         <li *ngIf="!auth.isLoggedIn()"><a routerLink="/login">Sign in</a></li>
+        <li *ngIf="!auth.isLoggedIn()"><a routerLink="/register">Register</a></li>
+
         <li><a routerLink="/about">About</a></li>
         <li *ngIf="auth.isLoggedIn()"><a routerLink="/profile">Profile</a></li>
         <li><a routerLink="/contact">Contact us</a></li>
