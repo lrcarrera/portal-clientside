@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -19,6 +20,7 @@ export class RegisterComponent {
   register() {
     this.auth.register(this.credentials).subscribe(() => {
       this.router.navigateByUrl('/profile');
+      console.log("entro done");
     }, (err) => {
       console.error(err);
     });

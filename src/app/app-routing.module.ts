@@ -7,6 +7,8 @@ import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AuthGuardService } from './guards/auth-guard.service';
+
 
 
 const routes: Routes = [
@@ -16,13 +18,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate:
-  /*{
-        path: 'externalRedirect',
-        resolve: {
-            url: externalUrlProvider,
-        },
-        component: NotFoundComponent,
-    },*/
     [AuthGuardService] }
     ];
 
