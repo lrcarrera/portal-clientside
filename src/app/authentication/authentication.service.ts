@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
+import { Headers } from '@angular/http';
 
 export interface UserDetails {
   _id: string;
@@ -97,8 +98,8 @@ export class AuthenticationService {
     } else {
       //return this.http.get('https://reqres.in/api/users');
 //TODO: PENDING TO VALIDATE THAT THIS GET METHOD WORKS
-      base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-
+      base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
+//base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
       //base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
 
