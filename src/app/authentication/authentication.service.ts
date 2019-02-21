@@ -35,11 +35,11 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) {}
 
   public register(user: TokenPayload): Observable<any> {
-    return this.request('post', 'register', user);
+    return this.request('register', user);
   }
 
   public login(user: TokenPayload): Observable<any> {
-    return this.request('post', 'login', user);
+    return this.request('login', user);
   }
 
   public logout(): void {
@@ -49,7 +49,7 @@ export class AuthenticationService {
   }
 
   public profile(): Observable<any> {
-    return this.request('get', 'profile');
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/profile', { headers: { Authorization: `Bearer ${this.getToken()}`}});
   }
 
   private saveToken(token: string): void {
@@ -86,31 +86,28 @@ export class AuthenticationService {
   }
 
   //Manage our requests to endpoint authentication routes
-  private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: TokenPayload): Observable<any> {
+  private request(type: 'login'|'register', user?: TokenPayload): Observable<any> {
     let base;
 
-    if (method === 'post') {
+  //  if (method === 'post') {
       //base = this.http.post(`/api/${type}`, user);
       base = this.http.post(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, user);
       //base = this.http.post(`/api/${type}`, user);
+      const request = base.pipe(
+        map((data: TokenResponse) => {
+          console.log(data);
+          if (data.token) {
+            this.saveToken(data.token);
+          }
+          return data;
+        })
+      );
 
-    } else {
-      //return this.http.get('https://reqres.in/api/users');
-//TODO: PENDING TO VALIDATE THAT THIS GET METHOD WORKS
+      return request;
+  /*  } else {
       base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
-//base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-      //base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-    }
+  }*/
 
-    const request = base.pipe(
-      map((data: TokenResponse) => {
-        if (data.token) {
-          this.saveToken(data.token);
-        }
-        return data;
-      })
-    );
 
-    return request;
   }
 }

@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.auth.profile().subscribe(user => {
-      this.details = user;
+      this.details = user.authorizedData;
     }, (err) => {
       console.error(err);
     });
