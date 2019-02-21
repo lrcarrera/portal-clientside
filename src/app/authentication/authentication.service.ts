@@ -95,7 +95,9 @@ export class AuthenticationService {
       //base = this.http.post(`/api/${type}`, user);
 
     } else {
-      base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      //return this.http.get('https://reqres.in/api/users');
+//TODO: PENDING TO VALIDATE THAT THIS GET METHOD WORKS
+      base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}/${this.getToken()}`);
 
       //base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
