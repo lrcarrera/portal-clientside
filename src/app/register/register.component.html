@@ -11,5 +11,45 @@
     <label for="password">Password</label>
     <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
   </div>
-  <button type="submit" class="btn btn-default">Register!</button>
+  <!--<button type="submit" class="btn btn-default">Register!</button>-->
+    <input type="submit" value="Register!" class="cta">
 </form>
+
+
+
+
+<!--
+
+<form [formGroup]="messageForm" (ngSubmit)="register()">
+
+    <h5 *ngIf="success">Your Register form is valid!</h5>
+
+    <label>
+      Full name:
+      <input type="text" formControlName="name" placeholder="Enter your name" [(ngModel)]="credentials.name">
+      <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
+        <div *ngIf="messageForm.controls.name.errors.required">Your name is required</div>
+      </div>
+    </label>
+
+
+    <label>
+      Email address:
+      <input type="text" formControlName="email" placeholder="Enter email" [(ngModel)]="credentials.email">
+      <div *ngIf="submitted && messageForm.controls.email.errors" class="error">
+        <div *ngIf="messageForm.controls.email.errors.required">Your email is required</div>
+      </div>
+    </label>
+
+    <label>
+      Password:
+      <input type="password" formControlName="password" placeholder="Password" [(ngModel)]="credentials.password">
+      <div *ngIf="submitted && messageForm.controls.password.errors" class="error">
+        <div *ngIf="messageForm.controls.password.errors.required">Your password is required</div>
+      </div>
+    </label>
+
+
+    <input type="submit" value="Send message" class="cta">
+
+  </form>-->
