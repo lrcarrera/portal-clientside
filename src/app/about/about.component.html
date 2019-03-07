@@ -1,3 +1,33 @@
-<p>
-  about works!
-</p>
+<mat-sidenav-container [class.m2app-dark]="isDarkTheme">
+
+  <mat-toolbar color="primary">
+    <span class="title">Angular Material Demo</span>
+  </mat-toolbar>
+
+  <div class="app-content">
+
+    <!-- Material Button -->
+    <mat-card>
+      <mat-card-content>
+        <h2 class="example-h2">Material Button</h2>
+        <button class="app-button" mat-button>FLAT</button>
+        <button class="app-button" mat-raised-button mat-tooltip="This is a tooltip!">RAISED</button>
+        <button class="app-button" mat-raised-button color="primary">PRIMARY RAISED</button>
+        <button class="app-button" mat-raised-button color="accent">ACCENT RAISED</button>
+      </mat-card-content>
+    </mat-card>
+    <!-- /Material Button -->
+
+
+    <!-- Material Dialog-->
+    <mat-card>
+      <mat-card-content>
+        <h2 class="example-h2">Material Dialog</h2>
+        <p>Last dialog result: {{lastDialogResult}}</p>
+        <button mat-raised-button (click)="openDialog()">DIALOG</button>
+        <button mat-raised-button (click)="showSnackbar()">SNACKBAR</button>
+      </mat-card-content>
+    </mat-card>
+    <!-- /Material Dialog-->
+  </div>
+</mat-sidenav-container>
