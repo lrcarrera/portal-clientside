@@ -22,12 +22,16 @@ label {
     background: #7700FF;
     border: none;
     color: white;
-
     text-transform: uppercase;
     border-radius: 4px;
     padding: 1em;
     cursor: pointer;
     font-family: 'Montserrat';
+    margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-top: 35px;
+
 }
 
 .results {
@@ -40,4 +44,14 @@ label {
         margin-bottom: 20px;
         display: block;
     }
+}
+.elevator-container {
+  padding: 50px;
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-control {
+  text-align: center;
 }
