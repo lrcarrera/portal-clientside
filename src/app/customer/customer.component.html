@@ -1,65 +1,70 @@
-<!-- Material Spinner -->
-<mat-card>
-  <mat-card-content>
-    <h2 class="example-h2">Progress spinner configuration</h2>
-
-    <section class="example-section">
-      <label class="example-margin">Color:</label>
-      <mat-radio-group [(ngModel)]="color">
-        <mat-radio-button class="example-margin" value="primary">
-          Primary
-        </mat-radio-button>
-        <mat-radio-button class="example-margin" value="accent">
-          Accent
-        </mat-radio-button>
-        <mat-radio-button class="example-margin" value="warn">
-          Warn
-        </mat-radio-button>
-      </mat-radio-group>
-    </section>
-
-    <section class="example-section">
-      <label class="example-margin">Mode:</label>
-      <mat-radio-group [(ngModel)]="mode">
-        <mat-radio-button class="example-margin" value="determinate">
-          Determinate
-        </mat-radio-button>
-        <mat-radio-button class="example-margin" value="indeterminate">
-          Indeterminate
-        </mat-radio-button>
-      </mat-radio-group>
-    </section>
-
-    <section class="example-section" *ngIf="mode === 'determinate'">
-      <label class="example-margin">Progress:</label>
-      <mat-slider class="example-margin" [(ngModel)]="value"></mat-slider>
-    </section>
-  </mat-card-content>
-</mat-card>
-<mat-card>
-  <mat-card-content>
-    <h2 class="example-h2">Result</h2>
-
-    <mat-progress-spinner class="example-margin" [color]="color" [mode]="mode" [value]="value">
-    </mat-progress-spinner>
-  </mat-card-content>
-</mat-card>
-<!-- /Material Spinner -->
-
-
 <mat-card-content>
 <!--<h2 class="example-h2">Material Grid List</h2>-->
-<mat-grid-list cols="3" rowHeight="120px">
+<mat-grid-list cols="3" rowHeight="60px">
 
 
-<mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: darkgray;">
-  Add customer
-</mat-grid-tile>
-<mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: gray;">
-  Remove customer
-</mat-grid-tile>
-<mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: darkgray;">
-  Update customer
-</mat-grid-tile>
+
+  <section class="example-section">
+    <mat-radio-group [(ngModel)]="mode">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
+        <mat-radio-button class="customer-radio-button" value="addcustomer">
+          Add customer
+        </mat-radio-button>
+      </mat-grid-tile>
+
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
+        <mat-radio-button class="customer-radio-button" value="deletecustomer">
+          Delete customer
+        </mat-radio-button>
+      </mat-grid-tile>
+
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
+        <mat-radio-button class="customer-radio-button" value="updatecustomer">
+          Update customer
+        </mat-radio-button>
+      </mat-grid-tile>
+    </mat-radio-group>
+  </section>
+
 </mat-grid-list>
 </mat-card-content>
+
+<div class="customer-content-container" *ngIf="mode === 'addcustomer'">
+  <mat-card-content>
+    <mat-grid-list cols="1" rowHeight="500px">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: gray;">
+        Create customer
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>
+
+<div class="customer-content-container" *ngIf="mode === 'deletecustomer'">
+  <mat-card-content>
+    <mat-grid-list cols="1" rowHeight="500px">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
+        Delete customer
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>
+
+<div class="customer-content-container" *ngIf="mode === 'updatecustomer'">
+  <mat-card-content>
+    <mat-grid-list cols="1" rowHeight="500px">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: darkgray;">
+        Update customer
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>
+
+<div class="customer-content-container" *ngIf="!mode">
+  <mat-card-content>
+    <mat-grid-list cols="1" rowHeight="500px">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: white;">
+
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>

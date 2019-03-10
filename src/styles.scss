@@ -37,3 +37,17 @@ section {
     margin: 0 auto;
     padding: 2em;
 }
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #7700FF;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle{
+  color: #7700FF;
+  background-color: #7700FF ;
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+
+  background-color: transparent !important;
+}
