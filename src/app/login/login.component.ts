@@ -17,7 +17,7 @@ export class LoginComponent {
 
   login() {
     this.auth.login(this.credentials).subscribe(() => {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/');
     }, (err) => {
       console.error(err);
     });
