@@ -14,6 +14,10 @@ import { FooterComponent } from './footer/footer.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CustomerComponent } from './customer/customer.component';
+
+
+
 import { FormsModule } from '@angular/forms';
 
 import 'hammerjs';
@@ -30,6 +34,7 @@ import { AppMaterialModule } from './app.material.module';
     HomeComponent,
     FooterComponent,
     RootComponent,
+    CustomerComponent,
     RegisterComponent,
     LoginComponent,
     ProfileComponent

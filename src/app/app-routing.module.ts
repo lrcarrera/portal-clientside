@@ -7,6 +7,8 @@ import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CustomerComponent } from './customer/customer.component';
+
 import { AuthGuardService } from './guards/auth-guard.service';
 
 
@@ -14,6 +16,8 @@ import { AuthGuardService } from './guards/auth-guard.service';
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate:
     [AuthGuardService] },
+  { path: 'customer', component: CustomerComponent, canActivate:
+      [AuthGuardService] },
   { path: 'about', component: AboutComponent, canActivate:
     [AuthGuardService] },
   { path: 'contact', component: ContactComponent, canActivate:

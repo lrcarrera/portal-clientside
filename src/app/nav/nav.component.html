@@ -5,12 +5,14 @@
     <nav>
       <ul>
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/home">Home</a></li>
+        <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/customer">Customer</a></li>
         <li *ngIf="!getAuth().isLoggedIn()"><a routerLink="/">Login</a></li>
         <!--<li *ngIf="!getAuth().isLoggedIn()"><a routerLink="/register">Register</a></li>
 -->
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/profile">Profile</a></li>
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/about">About</a></li>
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/contact">Contact us</a></li>
+
 
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/" (click)="logout()">Log out</a></li>
 
