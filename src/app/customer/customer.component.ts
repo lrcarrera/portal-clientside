@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-customer',
@@ -7,11 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerComponent implements OnInit {
   mode: string;
-  
-  constructor() { }
+  submitted: boolean;
+  success: boolean;
+  messageForm: any;
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.messageForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      secondName: ['', Validators.required],
+      emailAddress: ['', Validators.required],
+      dni: ['', Validators.required],
+      phone: ['', Validators.required]
+    });
   }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.messageForm.invalid) { return;}
+    this.success = true;
+}
 
   public color: string;
 

@@ -33,7 +33,54 @@
   <mat-card-content>
     <mat-grid-list cols="1" rowHeight="500px">
       <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: gray;">
-        Create customer
+        <form class="customer-form-width" [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+
+          <!--  <h5 *ngIf="success">Your form is valid!</h5>
+-->
+            <label>
+              First name:
+              <input type="text" formControlName="firstName">
+              <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
+                <div *ngIf="messageForm.controls.name.errors.required">The first name is required</div>
+              </div>
+            </label>
+
+            <label>
+              Second name:
+              <textarea type="text" formControlName="secondName"></textarea>
+              <div *ngIf="submitted && messageForm.controls.message.errors" class="error">
+                <div *ngIf="messageForm.controls.message.errors.required">The second name is required</div>
+              </div>
+            </label>
+
+            <label>
+              NIF/NIE:
+              <textarea type="text" formControlName="dni"></textarea>
+              <div *ngIf="submitted && messageForm.controls.message.errors" class="error">
+                <div *ngIf="messageForm.controls.message.errors.required">The NIF/NIE is required</div>
+              </div>
+            </label>
+
+            <label>
+              Phone number:
+              <textarea type="text" formControlName="phone"></textarea>
+              <div *ngIf="submitted && messageForm.controls.message.errors" class="error">
+                <div *ngIf="messageForm.controls.message.errors.required">The phone number is required</div>
+              </div>
+            </label>
+
+            <input type="submit" value="Guardar cliente" class="customer-button-add">
+
+          </form>
+
+          <!--<div *ngIf="submitted" class="results">
+            <strong>Name:</strong>
+            <span>{{ messageForm.controls.name.value }}</span>
+
+            <strong>Message:</strong>
+            <span>{{ messageForm.controls.message.value }}</span>
+          </div>-->
+
       </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>

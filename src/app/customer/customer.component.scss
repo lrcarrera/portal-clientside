@@ -5,3 +5,50 @@
 .customer-content-container {
   padding-bottom: 20px;
 }
+label {
+    display: block;
+
+    input, textarea {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 1em;
+    }
+
+    .error {
+        margin-top: -20px;
+        background: yellow;
+        padding: .5em;
+        display: inline-block;
+        font-size: .9em;
+        margin-bottom: 20px;
+    }
+}
+
+.customer-button-add {
+    background: #7700FF;
+    border: none;
+    color: white;
+
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 1em;
+    cursor: pointer;
+    font-family: 'Montserrat';
+}
+
+.results {
+    margin-top: 50px;
+
+    strong {
+        display: block;
+    }
+    span {
+        margin-bottom: 20px;
+        display: block;
+    }
+}
+
+.customer-form-width {
+  width: 80%;
+}
