@@ -16,9 +16,7 @@ export class CustomerService {
   }
 
   removeCustomer(id){
-    let httpParams = new HttpParams().set('customerId', id);
-    let options = { params: httpParams };
-
-    return this.http.delete('https://enigmatic-mountain-27495.herokuapp.com/customer',options);
+    var params = new HttpParams().set('customerId', id);
+    return this.http.delete("https://enigmatic-mountain-27495.herokuapp.com/customer", { params })
   }
 }

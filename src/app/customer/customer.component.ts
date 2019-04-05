@@ -74,6 +74,7 @@ export class CustomerComponent implements OnInit {
         this.deleteForm.reset();
         this.mode = null;
         this.message = 'deletecustomer';
+        window.alert(result);
       }
     );
   }
