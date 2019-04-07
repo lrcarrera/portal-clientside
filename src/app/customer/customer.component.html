@@ -39,7 +39,7 @@
 -->
             <label>
               First name:
-              <input class="customer-input-field" type="text" formControlName="firstName">
+              <input type="text" formControlName="firstName">
             <!--  <div *ngIf="submitted && messageForm.controls.firstName.errors" class="error">
                 <div *ngIf="messageForm.controls.firstName.errors.required">The first name is required</div>
               </div>-->
@@ -47,7 +47,7 @@
 
             <label>
               Second name:
-              <input class="customer-input-field" type="text" formControlName="lastName">
+              <input type="text" formControlName="lastName">
             <!--  <div *ngIf="submitted && messageForm.controls.lastName.errors" class="error">
                 <div *ngIf="messageForm.controls.lastName.errors.required">The last name is required</div>
               </div>-->
@@ -63,7 +63,7 @@
 
             <label>
               NIF/NIE:
-              <input class="customer-input-field" type="text" formControlName="dni">
+              <input type="text" formControlName="dni">
             <!--  <div *ngIf="submitted && messageForm.controls.dni.errors" class="error">
                 <div *ngIf="messageForm.controls.dni.errors.required">The NIF/NIE is required</div>
               </div>-->
@@ -76,7 +76,7 @@
             </label>-->
             <label>
               Home address:
-              <input class="customer-input-field" type="text" formControlName="address">
+              <input type="text" formControlName="address">
              <!--<div *ngIf="submitted && messageForm.controls.address.errors" class="error">
                 <div *ngIf="messageForm.controls.address.errors.required">The address is required</div>
               </div>-->
@@ -84,7 +84,7 @@
 
             <label>
               Phone number:
-              <input class="customer-input-field" type="text" formControlName="phone">
+              <input type="text" formControlName="phone">
           <!--    <div *ngIf="submitted && messageForm.controls.phone.errors" class="error">
                 <div *ngIf="messageForm.controls.phone.errors.required">The phone number is required</div>
               </div>-->
@@ -109,14 +109,14 @@
 
 <div class="customer-content-container" *ngIf="mode === 'deletecustomer'">
   <mat-card-content>
-    <mat-grid-list cols="1" rowHeight="500px">
+    <mat-grid-list cols="1" rowHeight="200px">
       <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
         <form class="customer-form-width" [formGroup]="deleteForm" (ngSubmit)="deleteCustomer()">
 
 
             <label>
-              Put a valid ID to delete the customer:
-              <input class="customer-input-field" type="text" formControlName="customerId">
+              Put a valid DNI to delete the customer:
+              <input type="text" formControlName="customerId">
                 <div *ngIf="submitted && messageFormDeleteCustomer.controls.customerId.errors" class="error">
                   <div *ngIf="messageFormDeleteCustomer.controls.customerId.errors.required">The ID was not found</div>
                 </div>
@@ -134,12 +134,60 @@
 
 <div class="customer-content-container" *ngIf="mode === 'updatecustomer'">
   <mat-card-content>
-    <mat-grid-list cols="1" rowHeight="500px">
+    <mat-grid-list cols="1" rowHeight="100px">
       <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
-        Update customer
+        <form class="customer-form-width" [formGroup]="findForm" (ngSubmit)="findCustomer()">
+              <span>Put a valid DNI to find a customer to update:</span>
+              <input class="input-find-style" matInput type="text" formControlName="customerId">
+              <!--  <div *ngIf="submittedGet && messageFormFindCustomer.controls.customerId.errors" class="error">
+                  <div *ngIf="messageFormFindCustomer.controls.customerId.errors.required">DNI not found</div>
+                </div>-->
+                <input type="submit" value="Find customer" class="customer-button-add button-find-style">
+
+          </form>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>
+
+
+  <mat-card-content *ngIf="updateCustomerForm">
+    <mat-grid-list cols="1" rowHeight="500px">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
+        <form class="customer-form-width" [formGroup]="updateForm" (ngSubmit)="updateCustomer()">
+
+            <label>
+              First name:
+              <input matInput type="text" formControlName="firstNameUpdate">
+            </label>
+
+            <label>
+              Second name:
+              <input matInput type="text" formControlName="lastNameUpdate">
+            </label>
+
+            <label>
+              NIF/NIE:
+              <input matInput type="text" formControlName="dniUpdate">
+            </label>
+
+            <label>
+              Home address:
+              <input matInput type="text" formControlName="addressUpdate">
+            </label>
+
+            <label>
+              Phone number:
+              <input matInput type="text" formControlName="phoneUpdate">
+            </label>
+
+            <input type="submit" value="Update customer" class="customer-button-add">
+
+          </form>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+
 </div>
 
 <div class="customer-content-container" *ngIf="!mode">
