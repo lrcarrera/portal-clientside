@@ -138,7 +138,7 @@
       <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: lightgray;">
         <form class="customer-form-width" [formGroup]="findForm" (ngSubmit)="findCustomer()">
               <span>Put a valid DNI to find a customer to update:</span>
-              <input class="input-find-style" matInput type="text" formControlName="customerId">
+              <input type="text" formControlName="customerId">
               <!--  <div *ngIf="submittedGet && messageFormFindCustomer.controls.customerId.errors" class="error">
                   <div *ngIf="messageFormFindCustomer.controls.customerId.errors.required">DNI not found</div>
                 </div>-->

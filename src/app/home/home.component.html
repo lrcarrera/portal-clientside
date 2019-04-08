@@ -14,12 +14,52 @@
     <!--<h2 class="example-h2">Material Grid List</h2>-->
       <mat-card-content>
     <mat-grid-list cols="4" rowHeight="100px">
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: gray;">
-        Search
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: transparent;">
+      <mat-card class="name-logo-style">
+        <mat-card-header class="header-name-logo-style">
+                <form class="customer-find-label" [formGroup]="findForm" (ngSubmit)="findCustomerAndPopulateInfo()">
+                      <input type="text" formControlName="customerId" placeholder="Search DNI:">
+                      <!--  <div *ngIf="submittedGet && messageFormFindCustomer.controls.customerId.errors" class="error">
+                          <div *ngIf="messageFormFindCustomer.controls.customerId.errors.required">DNI not found</div>
+                        </div>-->
+                        <input type="submit" value="Find" class="customer-button-search">
+
+                  </form>
+                </mat-card-header>
+
+                </mat-card>
+
+
       </mat-grid-tile>
-      <mat-grid-tile class="grid-test-1" [colspan]="3" [rowspan]="1" style="background-color: darkgray;">
-        Info
-      </mat-grid-tile>
+    <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: white;">
+      <mat-card class="name-logo-style">
+      <mat-card-header class="header-name-logo-style">
+        <div mat-card-avatar class="example-header-image"></div>
+
+       <mat-card-title class="title-info-style" *ngIf="!customerName"> - </mat-card-title>
+       <mat-card-title class="title-info-style" *ngIf="customerName">{{customerName}}</mat-card-title>
+
+       <mat-card-subtitle>Customer</mat-card-subtitle>
+      </mat-card-header>
+      </mat-card>
+    </mat-grid-tile>
+
+
+    <mat-grid-tile class="grid-test-1" [colspan]="2" [rowspan]="1" style="background-color: aliceblue;">
+    </mat-grid-tile>
+
+        <!--<mat-card-content>
+  <p>
+    The Shiba Inu is the smallest
+  </p>
+</mat-card-content>
+<mat-card-actions>
+  <button mat-button>LIKE</button>
+  <button mat-button>SHARE</button>
+</mat-card-actions>-->
+
+
+
     </mat-grid-list>
   </mat-card-content>
 
@@ -31,13 +71,13 @@
     <mat-grid-list cols="3" rowHeight="120px">
 
 
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: darkgray;">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
         Graphic
       </mat-grid-tile>
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: gray;">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
         Relations
       </mat-grid-tile>
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: darkgray;">
+      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
         Portfolio
       </mat-grid-tile>
     </mat-grid-list>
@@ -49,7 +89,7 @@
 <mat-grid-list cols="1" rowHeight="50px">
 
 
-  <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: darkgray;">
+  <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
     Global position
   </mat-grid-tile>
 </mat-grid-list>
