@@ -23,11 +23,9 @@
                           <div *ngIf="messageFormFindCustomer.controls.customerId.errors.required">DNI not found</div>
                         </div>-->
                         <input type="submit" value="Find" class="customer-button-search">
-
                   </form>
-                </mat-card-header>
-
-                </mat-card>
+        </mat-card-header>
+      </mat-card>
 
 
       </mat-grid-tile>
@@ -46,6 +44,26 @@
 
 
     <mat-grid-tile class="grid-test-1" [colspan]="2" [rowspan]="1" style="background-color: aliceblue;">
+      <mat-card class="more-info-style">
+      <mat-card-header >
+        <!--<div mat-card-avatar class="example-header-image"></div>
+
+       <mat-card-title class="title-info-style" *ngIf="!customerName"> pepepepe </mat-card-title>
+       <mat-card-title class="title-info-style" *ngIf="customerName">{{customerName}}</mat-card-title>
+       <mat-card-subtitle>Customer</mat-card-subtitle>
+-->
+      <div class="label-isolate" *ngIf="!customerDni"> - </div>
+      <div class="label-isolate" *ngIf="customerDni"> {{customerDni}} </div>
+      <div class="label-isolate" *ngIf="!customerPhone"> - </div>
+      <div class="label-isolate" *ngIf="customerPhone"> {{customerPhone}} </div>
+
+      <div class="label-isolate" *ngIf="!customerAddress"> - </div>
+      <div class="label-isolate" *ngIf="customerAddress"> {{customerAddress}}  </div>
+
+
+      </mat-card-header>
+      </mat-card>
+
     </mat-grid-tile>
 
         <!--<mat-card-content>
