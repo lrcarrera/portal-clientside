@@ -16,14 +16,18 @@ export class CustomerService {
   }
 
   removeCustomer(id){
-    return this.http.delete("https://enigmatic-mountain-27495.herokuapp.com/customer/"+id);
+    return this.http.delete("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id);
   }
 
   getCustomer(id){
-    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/customer/"+id);
+    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id);
   }
   updateCustomer(id, customer){
-    return this.http.put("https://enigmatic-mountain-27495.herokuapp.com/customer/"+id, customer);
+    return this.http.put("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id, customer);
   }
-  
+  /*ACCOUNT ROUTES*/
+  addAccountToCustomer(id, accountData){
+    return this.http.put("https://enigmatic-mountain-27495.herokuapp.com/account/" + id, accountData);
+  }
+
 }

@@ -10,6 +10,9 @@ import { NavComponent } from './nav/nav.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/home.component';
+import { AccountContentTemplate } from './home/popup_create_account/account_content_template.component';
+
+
 import { FooterComponent } from './footer/footer.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -31,6 +34,7 @@ import { AppMaterialModule } from './app.material.module';
     AboutComponent,
     ContactComponent,
     HomeComponent,
+    AccountContentTemplate,
     FooterComponent,
     RootComponent,
     CustomerComponent,
@@ -48,7 +52,7 @@ import { AppMaterialModule } from './app.material.module';
     BrowserAnimationsModule
   ],
   providers: [],
-  entryComponents: [AboutComponent],
+  entryComponents: [AboutComponent, AccountContentTemplate],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

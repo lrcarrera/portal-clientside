@@ -88,30 +88,105 @@
     <!--<h2 class="example-h2">Material Grid List</h2>-->
     <mat-grid-list cols="3" rowHeight="120px">
 
+      <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px) !important ; top: 0px; height: calc(241px);" class=" mat-elevation-z8" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
 
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
         Graphic
+
+
       </mat-grid-tile>
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
+      <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class=" mat-elevation-z8" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
         Relations
       </mat-grid-tile>
-      <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
+      <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class="mat-elevation-z8" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
         Portfolio
       </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>
 
 <br><br>
-  <mat-card-content>
-<!--<h2 class="example-h2">Material Grid List</h2>-->
-<mat-grid-list cols="1" rowHeight="50px">
+  <!--<mat-card-content>
+<h2 class="example-h2">Material Grid List</h2>-->
 
+
+
+
+<!--<mat-grid-list cols="1" rowHeight="fit">
+<mat-toolbar class="mat-elevation-z8">
 
   <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
-    Global position
-  </mat-grid-tile>
-</mat-grid-list>
+
+
+  <!--<mat-toolbar class="mat-elevation-z8">
+  <mat-grid-tile class="grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
+-->
+    <!--<span *ngIf="!accounts">Search a customer...</span>
+    <button *ngIf="customerDni" mat-raised-button class="button-add-account" (click)="openDialog()">Add</button>
+    <span *ngIf="accounts === []">Any account found for this customer...</span>-->
+
+    <mat-card-content class="mat-elevation-z8 global-position-header-style">
+  <!--<h2 class="example-h2">Material Grid List</h2>-->
+  <mat-grid-list cols="1" rowHeight="20px">
+    <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
+      Global position
+      <!--<span *ngIf="!accounts">Search a customer...</span>
+      <button *ngIf="customerDni" mat-raised-button class="button-add-account" (click)="openDialog()">Add</button>
+      <span *ngIf="accounts === []">Any account found for this customer...</span>-->
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-card-content>
+
+    <table *ngIf="tableIsFilled" mat-table
+       [dataSource]="dataSourceAccounts" multiTemplateDataRows
+       class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedAccount ? 'expanded' : 'collapsed'">
+        <div class="example-element-diagram">
+          <div class="example-element-position"> {{element.position}} </div>
+          <div class="example-element-symbol"> {{element.iban}} </div>
+          <div class="example-element-name"> {{element.name}} </div>
+          <div class="example-element-weight"> {{element.amount}} </div>
+        </div>
+        <div class="example-element-description">
+          {{element.description}}
+          <span class="example-element-description-attribution"> -- Wikipedia </span>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedAccount === element"
+      (click)="expandedAccount = expandedAccount === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+
+
+
+<br><br><br>
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
+
+
+  <!--</mat-grid-tile>
+
+  </mat-toolbar>
+</mat-grid-list>
+
+
+</mat-card-content>
+-->
 
 
 <!-- /Material Grid List -->
