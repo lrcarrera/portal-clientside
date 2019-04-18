@@ -51,7 +51,7 @@ export class AccountContentTemplate {
   }
 
 
-  private storeAccountToCustomerInContext() {
+  public storeAccountToCustomerInContext() {
 
 
       let data = this.buildRequestDataAddAccount();

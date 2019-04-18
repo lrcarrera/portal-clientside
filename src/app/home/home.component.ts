@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private fillTableWithMovements(accounts){
+  public fillTableWithMovements(accounts){
 
       accounts.forEach((account, i) => {
         console.log(account);
@@ -135,7 +135,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  private findCustomerAndPopulateInfo(){
+  public findCustomerAndPopulateInfo(){
     let formObj = this.findForm.getRawValue();
     let id = formObj.customerId;
 
