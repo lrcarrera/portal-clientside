@@ -6,8 +6,7 @@ import {AccountContentTemplate} from './popup_create_account/account_content_tem
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 
-
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog , MatDialogConfig , MatDialogModule } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog , MatDialogConfig , MatDialogModule , MatSnackBar, MatSnackBarConfig } from "@angular/material";
 
 
 export interface Movement {
@@ -92,7 +91,7 @@ export class HomeComponent implements OnInit {
   hasAccounts: boolean = false;
 
 
-  constructor(public account: MatDialog, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
+  constructor(private snackBar: MatSnackBar, public account: MatDialog, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
 
   ngOnInit(){
     this.findForm = this.formBuilderFind.group({
@@ -164,30 +163,50 @@ export class HomeComponent implements OnInit {
     let formObj = this.findForm.getRawValue();
     let id = formObj.customerId;
 
-    this.customerService.getCustomer(id).subscribe((result:any) => {
-        console.log(result);
-        if(result){
+    if (id !== ""){
+      if (id !== this.customerDni){
 
-          this.customerDni = result.dni;
-          this.customerName = result.customer_info.first_name + " " + result.customer_info.last_name;
-          this.customerPhone = result.phone;
-          this.customerAddress = result.customer_info.current_address;
+        this.tableIsFilled = false;
+
+        this.customerService.getCustomer(id).subscribe((result:any) => {
+            console.log(result);
+            if(result){
+
+              this.customerDni = result.dni;
+              this.customerName = result.customer_info.first_name + " " + result.customer_info.last_name;
+              this.customerPhone = result.phone;
+              this.customerAddress = result.customer_info.current_address;
 
 
-          this.fillTableWithMovements(result.accounts);
+              this.fillTableWithMovements(result.accounts);
 
-        }else{
-          this.findForm.reset();
-          this.customerDni = "";
-          this.customerName = "";
-          this.customerPhone = "";
-          this.customerAddress = "";
-          this.hasAccounts = false;
-        }
-      },
-      error => {
-        this.errors = error;
-      });
+            }else{
+              this.openSnackBar("Customer not found");
+              this.findForm.reset();
+              this.customerDni = "";
+              this.customerName = "";
+              this.customerPhone = "";
+              this.customerAddress = "";
+              this.hasAccounts = false;
+            }
+          },
+          error => {
+            this.errors = error;
+          });
+      }
+    }else{
+      this.openSnackBar("Introduce a valid DNI");
+    }
+
+
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, 'OK', {
+      duration: 1500,
+      verticalPosition: 'top',
+      panelClass: ['snackbar-style-home']
+    });
   }
 
 }

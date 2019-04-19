@@ -7,7 +7,7 @@
     <mat-form-field style="width: 100%;" class="example-full-width">
 
       <input matInput placeholder="Bank account number" [formControl]="ibanControl"
-             [errorStateMatcher]="matcher">
+      [errorStateMatcher]="matcher">
 
       <mat-error *ngIf="ibanControl.hasError('minlength') && !ibanControl.hasError('required')">
         Please enter a valid IBAN (24 characters)
@@ -20,28 +20,28 @@
 
 
     </mat-form-field>
-<br><br>
+    <br><br>
 
     <mat-form-field style="width: 100%;" class="example-full-width">
 
-    <input matInput placeholder="Description" [formControl]="descriptionControl"
-           [errorStateMatcher]="matcher">
+      <input matInput placeholder="Description" [formControl]="descriptionControl"
+      [errorStateMatcher]="matcher">
 
-    <mat-error *ngIf="descriptionControl.hasError('required')">
-      Description is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
+      <mat-error *ngIf="descriptionControl.hasError('required')">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    
+    <br><br>
 
-  <br><br>
+    <mat-form-field style="width: 100%;" class="example-full-width">
+      <input matInput placeholder="Amount (Euros)" [formControl]="amountControl"
+      [errorStateMatcher]="matcher">
 
-  <mat-form-field style="width: 100%;" class="example-full-width">
-  <input matInput placeholder="Amount (Euros)" [formControl]="amountControl"
-         [errorStateMatcher]="matcher">
-
-  <mat-error *ngIf="amountControl.hasError('required')">
-    Amount is <strong>required</strong>
-  </mat-error>
-</mat-form-field>
+      <mat-error *ngIf="amountControl.hasError('required')">
+        Amount is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
 
 
@@ -51,19 +51,19 @@
   <!--
   accounts: [{
   number: {
-    type: String
-  },
-  total_amount: {
-    type: String
-  },
-  movements: [{
-    description: {
-      type: String
-    },
-    amount: {
-      type: String
-    }
-  }]
+  type: String
+},
+total_amount: {
+type: String
+},
+movements: [{
+description: {
+type: String
+},
+amount: {
+type: String
+}
+}]
 }],-->
 
 </mat-dialog-content>
@@ -75,5 +75,5 @@
 
 
 <!-- Copyright 2019 Google Inc. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license -->
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license -->
