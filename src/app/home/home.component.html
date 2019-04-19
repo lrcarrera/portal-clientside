@@ -125,15 +125,43 @@
 
     <mat-card-content class="mat-elevation-z8 global-position-header-style">
   <!--<h2 class="example-h2">Material Grid List</h2>-->
-  <mat-grid-list cols="1" rowHeight="20px">
+  <mat-grid-list cols="1" rowHeight="30px">
     <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
-      Global position
+      <strong>Global position</strong>
       <!--<span *ngIf="!accounts">Search a customer...</span>
       <button *ngIf="customerDni" mat-raised-button class="button-add-account" (click)="openDialog()">Add</button>
       <span *ngIf="accounts === []">Any account found for this customer...</span>-->
     </mat-grid-tile>
+
+
+    <mat-grid-tile *ngIf="!tableIsFilled" [colspan]="1" [rowspan]="1" style="background-color: white;">
+
+      <span>Search a customer...</span>
+    </mat-grid-tile>
   </mat-grid-list>
 </mat-card-content>
+<div *ngIf="tableIsFilled">
+  <mat-card-content class="mat-elevation-z8 global-position-header-style">
+  <!--<h2 class="example-h2">Material Grid List</h2>-->
+    <mat-grid-list cols="2" rowHeight="30px">
+
+          <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: white;">
+
+
+            <span *ngIf="!hasAccounts">Any account found for this customer...</span>
+
+          </mat-grid-tile>
+
+          <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: white;">
+
+            <button mat-stroked-button class="button-add-account" (click)="openDialog()">Add</button>
+
+          </mat-grid-tile>
+
+
+    </mat-grid-list>
+  </mat-card-content>
+</div>
 
     <table *ngIf="tableIsFilled" mat-table
        [dataSource]="dataSourceAccounts" multiTemplateDataRows
@@ -152,7 +180,7 @@
           <div class="example-element-position"> {{element.position}} </div>
           <div class="example-element-symbol"> {{element.iban}} </div>
           <div class="example-element-name"> {{element.name}} </div>
-          <div class="example-element-weight"> {{element.amount}} </div>
+          <div class="example-element-weight"> {{element.amount}}(€)</div>
         </div>
         <div class="example-element-description">
           {{element.description}}

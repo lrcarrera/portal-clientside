@@ -70,7 +70,7 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button [disabled]="ibanControl.hasError('minlength') || ibanControl.hasError('required') || descriptionControl.hasError('required')"
-  mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="storeAccountToCustomerInContext()">Save</button>
+  mat-button cdkFocusInitial (click)="storeAccountToCustomerInContext()">Save</button>
 </mat-dialog-actions>
 
 

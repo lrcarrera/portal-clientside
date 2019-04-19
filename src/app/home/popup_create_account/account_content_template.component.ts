@@ -58,6 +58,7 @@ export class AccountContentTemplate {
 
       this.customerService.addAccountToCustomer(this.dni, data).subscribe(result => {
           console.log(result);
+          this.dialogRef.close({ refresh : true});
         },
         error => {
           this.errors = error;

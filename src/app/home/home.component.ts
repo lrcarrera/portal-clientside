@@ -89,6 +89,7 @@ export class HomeComponent implements OnInit {
 
   tableIsFilled: boolean = false;
   errors: string;
+  hasAccounts: boolean = false;
 
 
   constructor(public account: MatDialog, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
@@ -111,13 +112,36 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.account.open(AccountContentTemplate, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
+
       console.log(`Dialog result: ${result}`);
+      this.toggleAccountsTable(result);
     });
+  }
+
+  public toggleAccountsTable(result){
+    if(result.refresh){
+      this.tableIsFilled = false;
+      this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result:any) => {
+
+          this.fillTableWithMovements(result);
+
+        },
+        error => {
+          this.errors = error;
+        });
+    }else{
+    //  this.tableIsFilled = false;
+    }
   }
 
   public fillTableWithMovements(accounts){
 
+    this.dataSourceAccounts = [];
+
+      if (accounts.length === 0) this.hasAccounts = false;
+
       accounts.forEach((account, i) => {
+        this.hasAccounts = true;
         console.log(account);
 
         this.dataSourceAccounts.push({
@@ -131,6 +155,7 @@ export class HomeComponent implements OnInit {
               group in the periodic table. Its boiling point is the lowest among all the elements.`
         });
       });
+
       this.tableIsFilled = true;
 
   }
@@ -148,6 +173,7 @@ export class HomeComponent implements OnInit {
           this.customerPhone = result.phone;
           this.customerAddress = result.customer_info.current_address;
 
+
           this.fillTableWithMovements(result.accounts);
 
         }else{
@@ -156,15 +182,12 @@ export class HomeComponent implements OnInit {
           this.customerName = "";
           this.customerPhone = "";
           this.customerAddress = "";
+          this.hasAccounts = false;
         }
       },
       error => {
         this.errors = error;
-      },
-      () => {
-        // No errors, route to new page
-      }
-    );
+      });
   }
 
 }
