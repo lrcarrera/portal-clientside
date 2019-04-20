@@ -16,7 +16,7 @@
     <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: transparent;">
       <mat-card class="name-logo-style">
         <mat-card-header class="header-name-logo-style">
-          <form class="customer-find-label" [formGroup]="findForm" (ngSubmit)="findCustomerAndPopulateInfo()">
+          <form class="customer-find-label" [formGroup]="findForm" (ngSubmit)="findCustomer()">
             <input type="text" formControlName="customerId" placeholder="Search DNI:">
             <input type="submit" value="Find" class="customer-button-search">
           </form>
@@ -94,18 +94,20 @@
     <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class="mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: aliceblue;">
 
       <mat-list class="commercial-information-list-style">
-        <mat-list-item class="commercial-information-risk-money-font">Office: -</mat-list-item>
+        <mat-list-item class="commercial-information-risk-money-font">Office:
+          <span class="commercial-information-results-color-text">&emsp;{{ customerOffice }}</span>
+        </mat-list-item>
         <mat-divider style="margin-top: 10px;"></mat-divider>
         <mat-list-item  style="height: 40px;"         class="commercial-information-risk-money-font">
 
           Level of exposure to risk of money-laundering:
-          <span>-</span>
+          <span class="commercial-information-results-color-text">&emsp;{{ customerRiskLaundering }}</span>
 
         </mat-list-item>
 
-        <mat-list-item    style="height: 0px;"         class="commercial-information-risk-money-font">
+        <mat-list-item  style="height: 0px;" class="commercial-information-risk-money-font">
 
-          Revision date:  <span>-</span>
+          Revision date:  <span class="commercial-information-results-color-text">&emsp;{{ customerRevisionDate }}</span>
         </mat-list-item>
 
         <mat-divider style="margin-top: 30px;"></mat-divider>

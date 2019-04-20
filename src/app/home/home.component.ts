@@ -24,37 +24,6 @@ export interface Account {
   //Array<Movement>
 }
 
-//////////////////
-/*export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    name: 'Hydrogen',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen is a chemical element with symbol H and atomic number 1. With a standard
-        atomic weight of 1.008, hydrogen is the lightest element on the periodic table.`
-  }, {
-    position: 2,
-    name: 'Helium',
-    weight: 4.0026,
-    symbol: 'He',
-    description: `Helium is a chemical element with symbol He and atomic number 2. It is a
-        colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
-        group in the periodic table. Its boiling point is the lowest among all the elements.`
-  }
-];
-
-*/
-
-/////////////////////
 
 @Component({
   selector: 'app-home',
@@ -85,6 +54,9 @@ export class HomeComponent implements OnInit {
   customerName: string;
   customerPhone: string;
   customerAddress: string;
+  customerRevisionDate: string = '-';
+  customerRiskLaundering: string = '-';
+  customerOffice: string = '-';
 
   tableIsFilled: boolean = false;
   errors: string;
@@ -105,7 +77,7 @@ export class HomeComponent implements OnInit {
     dialogConfig.autoFocus = true;
 
     dialogConfig.data = {
-        dni: this.customerDni
+      dni: this.customerDni
     };
 
     const dialogRef = this.account.open(AccountContentTemplate, dialogConfig);
@@ -122,83 +94,91 @@ export class HomeComponent implements OnInit {
       this.tableIsFilled = false;
       this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result:any) => {
 
-          this.fillTableWithMovements(result);
+        this.fillTableWithAccounts(result);
 
-        },
-        error => {
-          this.errors = error;
-        });
+      },
+      error => {
+        this.errors = error;
+      });
     }else{
-    //  this.tableIsFilled = false;
+      //  this.tableIsFilled = false;
     }
   }
 
-  public fillTableWithMovements(accounts){
+  public fillTableWithAccounts(accounts){
 
     this.dataSourceAccounts = [];
 
-      if (accounts.length === 0) this.hasAccounts = false;
+    if (accounts.length === 0) this.hasAccounts = false;
 
-      accounts.forEach((account, i) => {
-        this.hasAccounts = true;
-        console.log(account);
+    accounts.forEach((account, i) => {
+      this.hasAccounts = true;
+      console.log(account);
 
-        this.dataSourceAccounts.push({
-          position: i+1,
-          bank: 'test',
-          iban: account.iban,
-          name: account.account_name,
-          amount: account.total_amount,
-          description: `Helium is a chemical element with symbol He and atomic number 2. It is a
-              colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
-              group in the periodic table. Its boiling point is the lowest among all the elements.`
-        });
+      this.dataSourceAccounts.push({
+        position: i+1,
+        bank: 'test',
+        iban: account.iban,
+        name: account.account_name,
+        amount: account.total_amount,
+        description: `Helium is a chemical element with symbol He and atomic number 2. It is a
+        colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
+        group in the periodic table. Its boiling point is the lowest among all the elements.`
       });
+    });
 
-      this.tableIsFilled = true;
+    this.tableIsFilled = true;
 
   }
 
-  public findCustomerAndPopulateInfo(){
+  public findCustomer(){
     let formObj = this.findForm.getRawValue();
     let id = formObj.customerId;
 
     if (id !== ""){
       if (id !== this.customerDni){
-
         this.tableIsFilled = false;
-
         this.customerService.getCustomer(id).subscribe((result:any) => {
-            console.log(result);
-            if(result){
-
-              this.customerDni = result.dni;
-              this.customerName = result.customer_info.first_name + " " + result.customer_info.last_name;
-              this.customerPhone = result.phone;
-              this.customerAddress = result.customer_info.current_address;
-
-
-              this.fillTableWithMovements(result.accounts);
-
-            }else{
-              this.openSnackBar("Customer not found");
-              this.findForm.reset();
-              this.customerDni = "";
-              this.customerName = "";
-              this.customerPhone = "";
-              this.customerAddress = "";
-              this.hasAccounts = false;
-            }
-          },
-          error => {
-            this.errors = error;
-          });
+          console.log(result);
+          this.populateInfo(result);
+        },
+        error => {
+          this.errors = error;
+        });
       }
     }else{
       this.openSnackBar("Introduce a valid DNI");
     }
+  }
 
+  private populateInfo(result){
+    if(result){
+      this.customerDni = result.dni;
+      this.customerName = result.customer_info.first_name + ' ' + result.customer_info.last_name;
+      this.customerPhone = result.phone;
+      this.customerAddress = result.customer_info.current_address;
+      this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
+      this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
+      this.customerOffice = result.assigned_office;
+      this.fillTableWithAccounts(result.accounts);
 
+    }else{
+      this.openSnackBar("Customer not found");
+      this.findForm.reset();
+      this.customerDni = '';
+      this.customerName = '';
+      this.customerPhone = '';
+      this.customerAddress = '';
+      this.customerRevisionDate = '-';
+      this.customerRiskLaundering = '-';
+      this.customerOffice = '-';
+
+      this.hasAccounts = false;
+    }
+  }
+
+  private processDateToFront(date){
+    return date.replace(/T/, ' ').replace(/\..+/, '');
   }
 
   private openSnackBar(message: string) {
