@@ -24,6 +24,13 @@ export interface Account {
   //Array<Movement>
 }
 
+enum DerivativeStatus {
+  NOT_STARTED = "NOT_STARTED",
+  NOT_COMPLETED = "NOT_COMPLETED",
+  COMPLETED = "COMPLETED"
+}
+
+const MAX_PRODUCTS: number = 5;
 
 @Component({
   selector: 'app-home',
@@ -57,6 +64,10 @@ export class HomeComponent implements OnInit {
   customerRevisionDate: string = '-';
   customerRiskLaundering: string = '-';
   customerOffice: string = '-';
+  customerDerivativeStatus: string = DerivativeStatus.NOT_STARTED;
+  customerProductsQty: string = '-';
+
+
 
   tableIsFilled: boolean = false;
   errors: string;
@@ -160,33 +171,54 @@ export class HomeComponent implements OnInit {
       this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
       this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
       this.customerOffice = result.assigned_office;
+      [this.customerDerivativeStatus, this.customerProductsQty] = this.getProductsInfo(result.derivative_products);
+
       this.fillTableWithAccounts(result.accounts);
 
     }else{
       this.openSnackBar("Customer not found");
-      this.findForm.reset();
-      this.customerDni = '';
-      this.customerName = '';
-      this.customerPhone = '';
-      this.customerAddress = '';
-      this.customerRevisionDate = '-';
-      this.customerRiskLaundering = '-';
-      this.customerOffice = '-';
-
-      this.hasAccounts = false;
+      this.resetCustomerInformation();
     }
   }
 
-  private processDateToFront(date){
-    return date.replace(/T/, ' ').replace(/\..+/, '');
+  private resetCustomerInformation(){
+    this.findForm.reset();
+    this.customerDni = '';
+    this.customerName = '';
+    this.customerPhone = '';
+    this.customerAddress = '';
+    this.customerRevisionDate = '-';
+    this.customerRiskLaundering = '-';
+    this.customerOffice = '-';
+    this.customerDerivativeStatus = DerivativeStatus.NOT_STARTED;
+    this.customerProductsQty = '-';
+
+    this.hasAccounts = false;
   }
 
-  private openSnackBar(message: string) {
-    this.snackBar.open(message, 'OK', {
-      duration: 1500,
-      verticalPosition: 'top',
-      panelClass: ['snackbar-style-home']
-    });
-  }
+  private getProductsInfo(products){
+    var qtyProductsProfiled = [
+      products.product1,
+      products.product2,
+      products.product3,
+      products.product4,
+      products.product5].filter(v => v).length;
 
-}
+      var derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
+
+      return [ derivativeProductsStatus, qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString() ];
+    }
+
+    private processDateToFront(date){
+      return date.replace(/T/, ' ').replace(/\..+/, '');
+    }
+
+    private openSnackBar(message: string) {
+      this.snackBar.open(message, 'OK', {
+        duration: 1500,
+        verticalPosition: 'top',
+        panelClass: ['snackbar-style-home']
+      });
+    }
+
+  }

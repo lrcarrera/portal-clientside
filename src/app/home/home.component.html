@@ -111,10 +111,16 @@
         </mat-list-item>
 
         <mat-divider style="margin-top: 30px;"></mat-divider>
-        <mat-list-item style="height: 30px;" class="commercial-information-risk-money-font">Profile of convenience:</mat-list-item>
+        <mat-list-item style="height: 30px;" class="commercial-information-risk-money-font">Profile of Convenience:</mat-list-item>
         <mat-list-item style="height: 0px;" class="commercial-information-risk-money-font">Knowledge and Experience</mat-list-item>
-        <mat-list-item style="margin-top: 10px; height: 30px;" class="commercial-information-products-font">Profile status: -</mat-list-item>
-        <mat-list-item style="height: 0px;" class="commercial-information-products-font">Products: -</mat-list-item>
+        <mat-list-item style="margin-top: 10px; height: 30px;" class="commercial-information-products-font">Profile status:
+          <span class="commercial-information-results-color-text">&emsp;{{ customerDerivativeStatus }}</span>
+
+        </mat-list-item>
+        <mat-list-item style="height: 0px;" class="commercial-information-products-font">Products:
+          <span class="commercial-information-results-color-text">&emsp;{{ customerProductsQty }}</span>
+
+        </mat-list-item>
 
       </mat-list>
 
