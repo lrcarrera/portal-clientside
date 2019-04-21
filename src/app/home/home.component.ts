@@ -132,10 +132,9 @@ export class HomeComponent implements OnInit {
         bank: 'test',
         iban: account.iban,
         name: account.account_name,
-        amount: account.total_amount,
-        description: `Helium is a chemical element with symbol He and atomic number 2. It is a
-        colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
-        group in the periodic table. Its boiling point is the lowest among all the elements.`
+        amount: account.total_amount + " €",
+        description: account.movements
+
       });
     });
 
