@@ -103,6 +103,13 @@ ul {
 .button-add-account {
   height: inherit;
   margin-left: auto;
+  background: #7700FF;
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Montserrat';
 }
 ///////////////ACCOUNTS TABLE STYLE//////////////////
 .global-position-header-style {
@@ -184,4 +191,10 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .commercial-information-results-color-text {
   color: #7700FF;
+}
+
+////////////// CUSTOMER NAME LOADING /////////////
+.customer-name-loading {
+  margin-left: auto;
+  margin-right: auto;
 }

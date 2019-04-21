@@ -67,7 +67,8 @@ export class HomeComponent implements OnInit {
   customerDerivativeStatus: string = DerivativeStatus.NOT_STARTED;
   customerProductsQty: string = '-';
 
-
+  showCommercialLoading: Boolean = false;
+  showCustomerNameLoading: Boolean = false;
 
   tableIsFilled: boolean = false;
   errors: string;
@@ -149,9 +150,12 @@ export class HomeComponent implements OnInit {
     if (id !== ""){
       if (id !== this.customerDni){
         this.tableIsFilled = false;
+        this.showCommercialLoading = true;
+        this.showCustomerNameLoading = true;
         this.customerService.getCustomer(id).subscribe((result:any) => {
-          console.log(result);
           this.populateInfo(result);
+          this.showCommercialLoading = false;
+          this.showCustomerNameLoading = false;
         },
         error => {
           this.errors = error;

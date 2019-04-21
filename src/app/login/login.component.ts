@@ -12,11 +12,15 @@ export class LoginComponent {
     email: '',
     password: ''
   };
+  loggingInProgress: Boolean = false;
 
   constructor(private auth: AuthenticationService, private router: Router) {}
 
+
   login() {
+    this.loggingInProgress = true;
     this.auth.login(this.credentials).subscribe(() => {
+      this.loggingInProgress = false;
       this.router.navigateByUrl('/');
     }, (err) => {
       console.error(err);

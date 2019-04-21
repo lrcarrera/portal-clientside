@@ -1,19 +1,18 @@
-<div class="elevator-container"
-    [class.mat-elevation-z8]=true>
 
+<mat-spinner *ngIf="loggingInProgress" class="login-loading-spinner"></mat-spinner>
 
-<form (submit)="login()">
-  <div class="form-group">
-    <label class="text-control" for="email">BankApp address</label>
-    <input type="email" class="form-control" name="email" placeholder="Enter BankApp address" [(ngModel)]="credentials.email">
-  </div>
-  <div class="form-group">
-    <label class="text-control" for="password">Password</label>
-    <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
-  </div>
-  <!--<button type="submit" class="btn btn-default">Sign in!</button>-->
-  <input type="submit" value="Sign in!" class="cta">
-</form>
+<div class="elevator-container" [class.mat-elevation-z4]=true *ngIf="!loggingInProgress">
 
+  <form (submit)="login()">
+    <div class="form-group">
+      <label class="text-control" for="email">BankApp address</label>
+      <input type="email" class="form-control" name="email" placeholder="Enter BankApp address" [(ngModel)]="credentials.email">
+    </div>
+    <div class="form-group">
+      <label class="text-control" for="password">Password</label>
+      <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
+    </div>
+    <input type="submit" value="Sign in!" class="cta">
+  </form>
 
 </div>
