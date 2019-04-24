@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '../services/customer/customer.service';
+import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-customer',
@@ -16,9 +17,6 @@ export class CustomerComponent implements OnInit {
   submittedGet: boolean;
   submittedUpdate: boolean;
 
-
-  success: boolean;
-  messageForm: any;
   errors: string;
 
   form: FormGroup;
@@ -32,8 +30,10 @@ export class CustomerComponent implements OnInit {
 
   messageFormDeleteCustomer: any;
 
+  details: UserDetails;
 
-  constructor(private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
+
+  constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -60,6 +60,12 @@ export class CustomerComponent implements OnInit {
     });
 
     this.updateCustomerForm = false;
+
+    this.authenticationService.profile().subscribe(user => {
+      this.details = user.authorizedData;
+    }, (err) => {
+      console.error(err);
+    });
   }
 
   private buildRequestDataAddCustomer() {

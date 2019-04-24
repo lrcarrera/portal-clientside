@@ -4,6 +4,7 @@ import { CustomerService } from '../services/customer/customer.service';
 import {FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import {AccountContentTemplate} from './popup_create_account/account_content_template.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
 
 
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog , MatDialogConfig , MatDialogModule , MatSnackBar, MatSnackBarConfig } from "@angular/material";
@@ -74,12 +75,23 @@ export class HomeComponent implements OnInit {
   errors: string;
   hasAccounts: boolean = false;
 
+  details: UserDetails;
 
-  constructor(private snackBar: MatSnackBar, public account: MatDialog, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
+  constructor(private authenticationService: AuthenticationService,
+              private snackBar: MatSnackBar,
+              public account: MatDialog,
+              private formBuilderFind: FormBuilder,
+              private customerService: CustomerService) { }
 
   ngOnInit(){
     this.findForm = this.formBuilderFind.group({
       customerId: ['', Validators.required],
+    });
+
+    this.authenticationService.profile().subscribe(user => {
+      this.details = user.authorizedData;
+    }, (err) => {
+      console.error(err);
     });
   }
 
@@ -200,14 +212,14 @@ export class HomeComponent implements OnInit {
   }
 
   private getProductsInfo(products){
-    var qtyProductsProfiled = [
+    let qtyProductsProfiled = [
       products.product1,
       products.product2,
       products.product3,
       products.product4,
       products.product5].filter(v => v).length;
 
-      var derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
+      let derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
 
       return [ derivativeProductsStatus, qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString() ];
     }

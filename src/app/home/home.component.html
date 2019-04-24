@@ -66,17 +66,17 @@
 
 <mat-card-content class=" mat-elevation-z4 global-position-header-style">
   <mat-grid-list cols="3" rowHeight="30px">
-    <mat-grid-tile  [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
 
       <strong >Graphic movements</strong>
 
     </mat-grid-tile>
 
-    <mat-grid-tile  [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
       <strong >Relations with Bank</strong>
     </mat-grid-tile>
 
-    <mat-grid-tile  [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
       <strong >Commercial Information</strong>
     </mat-grid-tile>
 
@@ -140,7 +140,7 @@
     </mat-grid-tile>
 
     <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
-      <mat-spinner <!--*ngIf="isGlobalPositionLoading" -->style="margin-left: auto;" [diameter]="20"></mat-spinner>
+      <mat-spinner *ngIf="isGlobalPositionLoading" style="margin-left: auto;" [diameter]="20"></mat-spinner>
 
     </mat-grid-tile>
     <mat-grid-tile *ngIf="!tableIsFilled" [colspan]="4" [rowspan]="1" style="background-color: white;">

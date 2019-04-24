@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   credentials: TokenPayload = {
+    name:'',
     email: '',
     password: ''
   };
@@ -19,7 +20,10 @@ export class LoginComponent {
 
   login() {
     this.loggingInProgress = true;
-    this.auth.login(this.credentials).subscribe(() => {
+    this.auth.login(this.credentials).subscribe(result => {
+
+      let test: any = result;
+
       this.loggingInProgress = false;
       this.router.navigateByUrl('/');
     }, (err) => {
