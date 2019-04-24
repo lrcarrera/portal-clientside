@@ -1,13 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from '../services/customer/customer.service';
-import {FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import {AccountContentTemplate} from './popup_create_account/account_content_template.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
-
-
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog , MatDialogConfig , MatDialogModule , MatSnackBar, MatSnackBarConfig } from "@angular/material";
+import { MatDialog , MatDialogConfig , MatSnackBar } from "@angular/material";
 
 
 export interface Movement {
@@ -52,10 +49,6 @@ export class HomeComponent implements OnInit {
   dataSourceAccounts: Array<Account> = [];
   expandedAccount: Account | null;
 
-
-  users: Object;
-  customers: Object;
-  h1Style: boolean;
   findForm: FormGroup;
 
   customerDni: string;
@@ -178,21 +171,21 @@ export class HomeComponent implements OnInit {
   }
 
   private populateInfo(result){
-    if(result){
+    if (!result) {
+      this.openSnackBar('Customer not found');
+      this.resetCustomerInformation();
+    } else {
       this.customerDni = result.dni;
       this.customerName = result.customer_info.first_name + ' ' + result.customer_info.last_name;
       this.customerPhone = result.phone;
       this.customerAddress = result.customer_info.current_address;
-      this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
+      this.customerRevisionDate = HomeComponent.processDateToFront(result.customer_info.last_modification_date);
       this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
       this.customerOffice = result.assigned_office;
-      [this.customerDerivativeStatus, this.customerProductsQty] = this.getProductsInfo(result.derivative_products);
+      [this.customerDerivativeStatus, this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
 
       this.fillTableWithAccounts(result.accounts);
 
-    }else{
-      this.openSnackBar("Customer not found");
-      this.resetCustomerInformation();
     }
   }
 
@@ -211,7 +204,7 @@ export class HomeComponent implements OnInit {
     this.hasAccounts = false;
   }
 
-  private getProductsInfo(products){
+  private static getProductsInfo(products){
     let qtyProductsProfiled = [
       products.product1,
       products.product2,
@@ -224,7 +217,7 @@ export class HomeComponent implements OnInit {
       return [ derivativeProductsStatus, qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString() ];
     }
 
-    private processDateToFront(date){
+    private static processDateToFront(date){
       return date.replace(/T/, ' ').replace(/\..+/, '');
     }
 

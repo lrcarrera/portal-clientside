@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators/map';
+import {Router} from '@angular/router';
 
 export interface UserDetails {
   _id: string;
@@ -45,6 +45,7 @@ export class AuthenticationService {
   public logout(): void {
     this.token = '';
     window.localStorage.removeItem('mean-token');
+    // noinspection JSIgnoredPromiseFromCall
     this.router.navigateByUrl('/login');
   }
 
@@ -93,7 +94,7 @@ export class AuthenticationService {
       //base = this.http.post(`/api/${type}`, user);
       base = this.http.post(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, user);
       //base = this.http.post(`/api/${type}`, user);
-      const request = base.pipe(
+    return base.pipe(
         map((data: TokenResponse) => {
           console.log(data);
           if (data.token) {
@@ -102,8 +103,6 @@ export class AuthenticationService {
           return data;
         })
       );
-
-      return request;
   /*  } else {
       base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
   }*/

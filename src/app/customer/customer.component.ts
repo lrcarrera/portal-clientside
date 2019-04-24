@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../services/customer/customer.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CustomerService} from '../services/customer/customer.service';
 import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
 
 @Component({
@@ -11,11 +11,6 @@ import {AuthenticationService, UserDetails} from '../authentication/authenticati
 export class CustomerComponent implements OnInit {
   mode: string;
   message: string;
-
-  submittedAdd: boolean;
-  submittedDelete: boolean;
-  submittedGet: boolean;
-  submittedUpdate: boolean;
 
   errors: string;
 
@@ -33,7 +28,11 @@ export class CustomerComponent implements OnInit {
   details: UserDetails;
 
 
-  constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) { }
+  private authenticationService: AuthenticationService;
+
+  constructor(authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
+    this.authenticationService = authenticationService;
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -69,35 +68,33 @@ export class CustomerComponent implements OnInit {
   }
 
   private buildRequestDataAddCustomer() {
-    var formObj = this.form.getRawValue();
-    var requestData = {
-      customer_info : {
-        first_name : formObj.firstName,
-        last_name : formObj.lastName,
-        current_address : formObj.address
+    let formObj = this.form.getRawValue();
+    //  requestData.customer_info = {};
+    return {
+      customer_info: {
+        first_name: formObj.firstName,
+        last_name: formObj.lastName,
+        current_address: formObj.address
         //email_address = formObj.emailAddress;
       },
-      dni : formObj.dni,
-      phone :formObj.phone
+      dni: formObj.dni,
+      phone: formObj.phone
     };
-  //  requestData.customer_info = {};
-    return requestData;
   }
 
   private buildRequestDataUpdateCustomer() {
-    var formObjUpdate = this.updateForm.getRawValue();
-    var requestData = {
-      customer_info : {
-        first_name : formObjUpdate.firstNameUpdate,
-        last_name : formObjUpdate.lastNameUpdate,
-        current_address : formObjUpdate.addressUpdate
+    let formObjUpdate = this.updateForm.getRawValue();
+    //  requestData.customer_info = {};
+    return {
+      customer_info: {
+        first_name: formObjUpdate.firstNameUpdate,
+        last_name: formObjUpdate.lastNameUpdate,
+        current_address: formObjUpdate.addressUpdate
         //email_address = formObj.emailAddress;
       },
-      dni : formObjUpdate.dniUpdate,
-      phone :formObjUpdate.phoneUpdate
+      dni: formObjUpdate.dniUpdate,
+      phone: formObjUpdate.phoneUpdate
     };
-  //  requestData.customer_info = {};
-    return requestData;
   }
 
   private findCustomer(){

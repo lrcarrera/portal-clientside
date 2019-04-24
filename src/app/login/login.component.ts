@@ -20,10 +20,7 @@ export class LoginComponent {
 
   login() {
     this.loggingInProgress = true;
-    this.auth.login(this.credentials).subscribe(result => {
-
-      let test: any = result;
-
+    this.auth.login(this.credentials).subscribe(() => {
       this.loggingInProgress = false;
       this.router.navigateByUrl('/');
     }, (err) => {

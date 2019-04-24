@@ -1,10 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../../services/customer/customer.service';
-import {FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import {Component, Inject} from '@angular/core';
+import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {CustomerService} from '../../services/customer/customer.service';
 import {ErrorStateMatcher} from '@angular/material/core';
 
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog , MatDialogConfig , MatDialogModule } from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -66,11 +65,10 @@ export class AccountContentTemplate {
       );
   }
   private buildRequestDataAddAccount() {
-    var requestData = {
-        iban : this.ibanControl.value,
-        total_amount : this.amountControl.value,
-        account_name : this.descriptionControl.value
-      };
-    return requestData;
+    return {
+      iban: this.ibanControl.value,
+      total_amount: this.amountControl.value,
+      account_name: this.descriptionControl.value
+    };
   }
 }
