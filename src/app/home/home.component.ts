@@ -5,7 +5,14 @@ import {AccountContentTemplate} from './popup_create_account/account_content_tem
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
 import { MatDialog , MatDialogConfig , MatSnackBar } from "@angular/material";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
+
+export interface DataModel {
+  letter: string;
+  frequency: number;
+}
 
 export interface Movement {
   name: string;
@@ -44,6 +51,7 @@ const MAX_PRODUCTS: number = 5;
 })
 export class HomeComponent implements OnInit {
 
+  data: Observable<DataModel>;
 
   columnsToDisplay = ['bank', 'iban', 'name', 'amount'];
   dataSourceAccounts: Array<Account> = [];
@@ -74,7 +82,13 @@ export class HomeComponent implements OnInit {
               private snackBar: MatSnackBar,
               public account: MatDialog,
               private formBuilderFind: FormBuilder,
-              private customerService: CustomerService) { }
+              private customerService: CustomerService,
+              private http: HttpClient) {
+
+    this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
+
+
+  }
 
   ngOnInit(){
     this.findForm = this.formBuilderFind.group({

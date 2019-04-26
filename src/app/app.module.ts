@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app.material.module';
+import { BarChartComponent } from './barchart/bar-chart.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AppMaterialModule } from './app.material.module';
     CustomerComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    BarChartComponent
   ],
   imports: [
     BrowserModule,
