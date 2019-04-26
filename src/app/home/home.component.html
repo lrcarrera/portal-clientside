@@ -140,7 +140,8 @@
     </mat-grid-tile>
 
     <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
-      <mat-spinner *ngIf="isGlobalPositionLoading" style="margin-left: auto;" [diameter]="20"></mat-spinner>
+      <!--*ngIf="isGlobalPositionLoading" -->
+      <mat-spinner style="margin-left: auto;" [diameter]="20"></mat-spinner>
 
     </mat-grid-tile>
     <mat-grid-tile *ngIf="!tableIsFilled" [colspan]="4" [rowspan]="1" style="background-color: white;">
