@@ -146,9 +146,10 @@ export class HomeComponent implements OnInit {
 
     if (accounts.length === 0) this.hasAccounts = false;
 
+    this.createBarChartFromMovements(accounts);
+
     accounts.forEach((account, i) => {
       this.hasAccounts = true;
-      console.log(account);
 
       this.dataSourceAccounts.push({
         position: i+1,
@@ -162,6 +163,12 @@ export class HomeComponent implements OnInit {
     });
 
     this.tableIsFilled = true;
+
+  }
+
+  private createBarChartFromMovements(accounts) {
+
+    //this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
 
   }
 
