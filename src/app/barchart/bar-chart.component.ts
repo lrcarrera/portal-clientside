@@ -18,6 +18,7 @@ export class BarChartComponent implements OnChanges {
 
   @Input()
   data: DataModel[];
+  date: String;
 
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
@@ -26,6 +27,7 @@ export class BarChartComponent implements OnChanges {
   ngOnChanges(): void {
     if (!this.data) { return; }
 
+    this.date = new Date().toLocaleString()
     this.createChart();
   }
 

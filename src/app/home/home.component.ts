@@ -70,6 +70,10 @@ export class HomeComponent implements OnInit {
   customerProductsQty: string = '-';
 
   showCommercialLoading: Boolean = false;
+  showRelationsLoading: Boolean = false;
+  showGraphicLoading: Boolean = false;
+  showTableLoading: Boolean = false;
+
   showCustomerNameLoading: Boolean = false;
 
   tableIsFilled: boolean = false;
@@ -168,12 +172,10 @@ export class HomeComponent implements OnInit {
     if (id !== ""){
       if (id !== this.customerDni){
         this.tableIsFilled = false;
-        this.showCommercialLoading = true;
-        this.showCustomerNameLoading = true;
+        this.showLoadingInWidgets(true);
         this.customerService.getCustomer(id).subscribe((result:any) => {
           this.populateInfo(result);
-          this.showCommercialLoading = false;
-          this.showCustomerNameLoading = false;
+          this.showLoadingInWidgets(false);
         },
         error => {
           this.errors = error;
@@ -184,6 +186,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  private showLoadingInWidgets(toggle){
+    this.showCommercialLoading = toggle;
+    this.showRelationsLoading = toggle;
+    this.showGraphicLoading = toggle;
+    this.showCustomerNameLoading = toggle;
+    this.showTableLoading = toggle;
+
+  }
   private populateInfo(result){
     if (!result) {
       this.openSnackBar('Customer not found');
