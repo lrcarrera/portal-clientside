@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation }
 import * as d3 from 'd3';
 
 export interface DataModel {
-  letter: string;
-  frequency: number;
+  account_name: string;
+  total_movements: number;
 }
 
 @Component({
@@ -18,7 +18,8 @@ export class BarChartComponent implements OnChanges {
 
   @Input()
   data: DataModel[];
-  date: String;
+  dateNow: String;
+  datePreviousMonth: String;
 
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
@@ -27,7 +28,7 @@ export class BarChartComponent implements OnChanges {
   ngOnChanges(): void {
     if (!this.data) { return; }
 
-    this.date = new Date().toLocaleString()
+    this.getDates();
     this.createChart();
   }
 
@@ -35,6 +36,12 @@ export class BarChartComponent implements OnChanges {
     this.createChart();
   }
 
+  private getDates(): void {
+    this.dateNow = new Date().toLocaleString().split(',')[0];
+    let datePreviousMonth = new Date();
+    datePreviousMonth.setMonth(datePreviousMonth.getMonth() - 1);
+    this.datePreviousMonth = datePreviousMonth.toLocaleString().split(',')[0];
+  }
   private createChart(): void {
     d3.select('svg').remove();
 
@@ -52,12 +59,12 @@ export class BarChartComponent implements OnChanges {
       .scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain(data.map(d => d.letter));
+      .domain(data.map(d => d.account_name));
 
     const y = d3
       .scaleLinear()
       .rangeRound([contentHeight, 0])
-      .domain([0, d3.max(data, d => d.frequency)]);
+      .domain([0, d3.max(data, d => d.total_movements)]);
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -75,15 +82,15 @@ export class BarChartComponent implements OnChanges {
       .attr('y', 6)
       .attr('dy', '0.71em')
       .attr('text-anchor', 'end')
-      .text('Frequency');
+      .text('Total');
 
     g.selectAll('.bar')
       .data(data)
       .enter().append('rect')
       .attr('class', 'bar')
-      .attr('x', d => x(d.letter))
-      .attr('y', d => y(d.frequency))
+      .attr('x', d => x(d.account_name))
+      .attr('y', d => y(d.total_movements))
       .attr('width', x.bandwidth())
-      .attr('height', d => contentHeight - y(d.frequency));
+      .attr('height', d => contentHeight - y(d.total_movements));
   }
 }

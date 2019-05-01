@@ -4,11 +4,11 @@ app-bar-chart {
     width: inherit;
 
     .bar {
-      fill: #7700FF;
+      fill: mediumpurple;
     }
 
     .bar:hover {
-      fill: aliceblue;
+      fill: #7700FF;
     }
 
     .axis--x path {

@@ -10,8 +10,8 @@ import { Observable, of } from 'rxjs';
 
 
 export interface DataModel {
-  letter: string;
-  frequency: number;
+  account_name: string;
+  total_movements: number;
 }
 
 export interface Movement {
@@ -21,7 +21,7 @@ export interface Movement {
 
 export interface Account {
   position: number;
-  bank: any;
+  id: any;
   iban: string;
   name: string;
   amount: string;
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
 
   data: Observable<DataModel> = null;
 
-  columnsToDisplay = ['bank', 'iban', 'name', 'amount'];
+  columnsToDisplay = ['id', 'iban', 'name', 'amount'];
   dataSourceAccounts: Array<Account> = [];
   expandedAccount: Account | null;
 
@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
               private customerService: CustomerService,
               private http: HttpClient) {
 
-    this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
+   // this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
 
 
 
@@ -154,9 +154,9 @@ export class HomeComponent implements OnInit {
 
       this.dataSourceAccounts.push({
         position: i+1,
-        bank: 'test',
+        id: i+1,
         iban: account.iban,
-        name: account.account_name,
+        name: account.account_name.toUpperCase(),
         amount: account.total_amount + " €",
         description: account.movements
 
@@ -169,19 +169,9 @@ export class HomeComponent implements OnInit {
 
   private createBarChartFromMovements(accounts) {
 
-    //var dataToChart: Observable<DataModel>;
+    // this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
 
-   /* accounts.forEach((account, i) => {
-      this.hasAccounts = true;
-
-        var accountName = account.account_name;
-
-      });*/
-
-   // this.data = this.customerService.getMovementsByAccount(this.customerDni);
-
-      /* = this.http.get<DataModel>('./assets/home_assets/data.json');
-      */
+    this.data = this.customerService.getMovementsByAccount(this.customerDni);
 
   }
 

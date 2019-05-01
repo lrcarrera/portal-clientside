@@ -94,7 +94,12 @@
       <!-- <mat-spinner [diameter]="50"></mat-spinner>-->
       <!--graphic-->
       <mat-spinner *ngIf="showGraphicLoading" [diameter]="50"></mat-spinner>
-      <app-bar-chart *ngIf="!showGraphicLoading" [data]="data | async"></app-bar-chart>
+
+      <span *ngIf="!showGraphicLoading && !data">  Search a customer...</span>
+
+      <app-bar-chart *ngIf="!showGraphicLoading && data " [data]="data | async"></app-bar-chart>
+
+
 
     </mat-grid-tile>
     <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">

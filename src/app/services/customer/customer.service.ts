@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {DataModel} from '../../home/home.component';
+
+
+export interface DataModel {
+  account_name: string;
+  total_movements: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +48,7 @@ export class CustomerService {
   /**************************************MOVEMENTS ROUTES**************************************/
 
   getMovementsByAccount(id){
-    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/movement/" + id);
+    return this.http.get<DataModel>("https://enigmatic-mountain-27495.herokuapp.com/movement/" + id);
   }
 
 }
