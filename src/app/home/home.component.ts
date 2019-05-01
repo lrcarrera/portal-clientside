@@ -6,7 +6,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
 import { MatDialog , MatDialogConfig , MatSnackBar } from "@angular/material";
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 
 export interface DataModel {
@@ -51,7 +51,7 @@ const MAX_PRODUCTS: number = 5;
 })
 export class HomeComponent implements OnInit {
 
-  data: Observable<DataModel>;
+  data: Observable<DataModel> = null;
 
   columnsToDisplay = ['bank', 'iban', 'name', 'amount'];
   dataSourceAccounts: Array<Account> = [];
@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit {
     this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
 
 
+
   }
 
   ngOnInit(){
@@ -129,7 +130,7 @@ export class HomeComponent implements OnInit {
       this.tableIsFilled = false;
       this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result:any) => {
 
-        this.fillTableWithAccounts(result);
+        this.fillTableAndChartWithAccounts(result);
 
       },
       error => {
@@ -140,7 +141,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  public fillTableWithAccounts(accounts){
+  public fillTableAndChartWithAccounts(accounts){
 
     this.dataSourceAccounts = [];
 
@@ -168,7 +169,19 @@ export class HomeComponent implements OnInit {
 
   private createBarChartFromMovements(accounts) {
 
-    //this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
+    //var dataToChart: Observable<DataModel>;
+
+   /* accounts.forEach((account, i) => {
+      this.hasAccounts = true;
+
+        var accountName = account.account_name;
+
+      });*/
+
+   // this.data = this.customerService.getMovementsByAccount(this.customerDni);
+
+      /* = this.http.get<DataModel>('./assets/home_assets/data.json');
+      */
 
   }
 
@@ -215,7 +228,7 @@ export class HomeComponent implements OnInit {
       this.customerOffice = result.assigned_office;
       [this.customerDerivativeStatus, this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
 
-      this.fillTableWithAccounts(result.accounts);
+      this.fillTableAndChartWithAccounts(result.accounts);
 
     }
   }

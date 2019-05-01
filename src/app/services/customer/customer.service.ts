@@ -7,6 +7,8 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
+  /**************************************CUSTOMER ROUTES**************************************/
+
   getAllCustomers(){
     return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/customer');
   }
@@ -33,6 +35,12 @@ export class CustomerService {
   }
   getAccountsFromCustomer(id){
     return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/account/" + id);
+  }
+
+  /**************************************MOVEMENTS ROUTES**************************************/
+
+  getMovementsByAccount(id){
+    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/movement/" + id);
   }
 
 }
