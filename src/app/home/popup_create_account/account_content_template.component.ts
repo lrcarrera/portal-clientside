@@ -64,6 +64,8 @@ export class AccountContentTemplate {
         }
       );
   }
+
+
   private buildRequestDataAddAccount() {
     return {
       iban: this.ibanControl.value,
