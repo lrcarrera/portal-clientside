@@ -6,6 +6,10 @@ export interface DataModel {
   total_movements: number;
 }
 
+const MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+  "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+];
+
 @Component({
   selector: 'app-bar-chart',
   encapsulation: ViewEncapsulation.None,
@@ -19,34 +23,46 @@ export class BarChartComponent implements OnChanges {
   @Input()
   data: DataModel[];
   dateNow: String;
-  datePreviousMonth: String;
+  month: String;
+  showBarChart: Boolean = true;
 
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
   constructor() { }
 
   ngOnChanges(): void {
-    if (!this.data) { return; }
+    if (!this.data) {
+      this.showBarChart = false;
+      return; }
 
     this.getDates();
     this.createChart();
   }
 
   onResize() {
+    if (!this.data) {
+      this.showBarChart = false;
+      return; }
     this.createChart();
   }
 
   private getDates(): void {
-    this.dateNow = new Date().toLocaleString().split(',')[0];
-    let datePreviousMonth = new Date();
+    this.dateNow = new Date().toLocaleString();
+    /*let datePreviousMonth = new Date();
     datePreviousMonth.setMonth(datePreviousMonth.getMonth() - 1);
     this.datePreviousMonth = datePreviousMonth.toLocaleString().split(',')[0];
+*/
+    const d = new Date();
+    this.month = MONTHS[d.getMonth()];
   }
   private createChart(): void {
     d3.select('svg').remove();
 
-    const element = this.chartContainer.nativeElement;
     const data = this.data;
+
+    if (this.chartContainer){
+      this.showBarChart = true;
+      const element = this.chartContainer.nativeElement;
 
     const svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
@@ -91,6 +107,37 @@ export class BarChartComponent implements OnChanges {
       .attr('x', d => x(d.account_name))
       .attr('y', d => y(d.total_movements))
       .attr('width', x.bandwidth())
-      .attr('height', d => contentHeight - y(d.total_movements));
+      .attr('height', d => contentHeight - y(d.total_movements))
+      .on("mouseover", function(d){return tooltip.style('visibility', 'visible').text(d.total_movements + '€');})
+      .on("mousemove", function(d){return tooltip.style('top',
+        (d3.event.pageY-10)+"px").style("left",`${d3.event.pageX + 10}px`).text(d.total_movements+ '€');})
+      .on("mouseout", function(){return tooltip.style('visibility', 'hidden');});
+
+    let tooltip = d3.select('body')
+      .append('div')
+      .style('position','absolute')
+      .style('z-index','10')
+      .style('visibility','hidden')
+      .style('padding','2px')
+      .style('background-color','black')
+      .style('color','white');
+
+    }
+    /*function mouseover(){
+      div.style('display', 'inline');
+    }
+    function mousemove(){
+      let d = d3.select(this).data()[0];
+      div
+        .html("hola" + '<hr/>' + "loko")
+        .style('left', (d3.event.pageX - 34) + 'px')
+        .style('top', (d3.event.pageY - 12) + 'px');
+    }
+    function mouseout(){
+      div.style('display', 'none');
+    }*/
   }
+
+
+
 }

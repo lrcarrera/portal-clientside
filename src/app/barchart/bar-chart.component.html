@@ -1,7 +1,21 @@
-<div #chart id="chart"(window:resize)="onResize()"></div>
 
-<div style="font-size:10px;">
-  <strong >Movements from: {{ datePreviousMonth }} to {{ dateNow }} </strong>
 
+<div (show)="showBarChart">
+  <div style="font-size:10px;">
+    <span>Month: <strong>{{month}}</strong></span>
+  </div>
+  <div #chart id="chart"(window:resize)="onResize()"></div>
+  <div style="text-align: center; font-size:10px;">
+    <span> Transactions at <strong>{{ dateNow }}</strong> </span>
+  </div>
 </div>
+
+<div [hidden]="showBarChart">
+  <div style="text-align: center; font-size:10px;">
+    <strong>Not transactions found this month.</strong>
+  </div>
+</div>
+
+
+
 
