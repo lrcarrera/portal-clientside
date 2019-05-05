@@ -8,9 +8,17 @@ export interface DataModel {
   total_movements: number;
 }
 
+export interface RelationsModel {
+  advisor_name: string;
+  familiar_group: object;
+  economical_group: object;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class CustomerService {
 
   constructor(private http: HttpClient) { }
@@ -49,6 +57,13 @@ export class CustomerService {
 
   getMovementsByAccount(id){
     return this.http.get<DataModel>("https://enigmatic-mountain-27495.herokuapp.com/movement/" + id);
+  }
+
+  /**************************************RELATIONS WITH BANK ROUTES**************************************/
+
+  getRelationsByCustomer(id){
+    return this.http.get<RelationsModel>("https://enigmatic-mountain-27495.herokuapp.com/relations/" + id);
+
   }
 
 }

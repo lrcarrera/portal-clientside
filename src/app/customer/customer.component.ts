@@ -28,10 +28,8 @@ export class CustomerComponent implements OnInit {
   details: UserDetails;
 
 
-  private authenticationService: AuthenticationService;
 
-  constructor(authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
-    this.authenticationService = authenticationService;
+  constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
   }
 
   ngOnInit() {
@@ -71,14 +69,17 @@ export class CustomerComponent implements OnInit {
     let formObj = this.form.getRawValue();
     //  requestData.customer_info = {};
     return {
-      customer_info: {
-        first_name: formObj.firstName,
-        last_name: formObj.lastName,
-        current_address: formObj.address
-        //email_address = formObj.emailAddress;
+      customer: {
+        customer_info: {
+          first_name: formObj.firstName,
+          last_name: formObj.lastName,
+          current_address: formObj.address
+          //email_address = formObj.emailAddress;
+        },
+        dni: formObj.dni,
+        phone: formObj.phone
       },
-      dni: formObj.dni,
-      phone: formObj.phone
+      advisor: this.details._id//GETEMAIL IN CONTEXT
     };
   }
 

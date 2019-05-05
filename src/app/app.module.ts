@@ -27,6 +27,7 @@ import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app.material.module';
 import { BarChartComponent } from './barchart/bar-chart.component';
+import { RelationsComponent } from './relations/relations.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BarChartComponent } from './barchart/bar-chart.component';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    BarChartComponent
+    BarChartComponent,
+    RelationsComponent
   ],
   imports: [
     BrowserModule,

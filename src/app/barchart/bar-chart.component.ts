@@ -123,19 +123,6 @@ export class BarChartComponent implements OnChanges {
       .style('color','white');
 
     }
-    /*function mouseover(){
-      div.style('display', 'inline');
-    }
-    function mousemove(){
-      let d = d3.select(this).data()[0];
-      div
-        .html("hola" + '<hr/>' + "loko")
-        .style('left', (d3.event.pageX - 34) + 'px')
-        .style('top', (d3.event.pageY - 12) + 'px');
-    }
-    function mouseout(){
-      div.style('display', 'none');
-    }*/
   }
 
 

@@ -1,0 +1,42 @@
+<mat-list *ngIf="showRelationsWidget" class="commercial-information-list-style">
+  <mat-list-item class="commercial-information-risk-money-font">Advisor: {{dataRelations.advisor_name}}
+    <span class="commercial-information-results-color-text">&emsp;-</span>
+  </mat-list-item>
+  <mat-divider style="margin-top: 10px;"></mat-divider>
+  <mat-grid-list style="height: 100%;" cols="2" rowHeight="2:1">
+    <mat-grid-tile style="height: 100%; background-color: white;">
+
+
+      <mat-list class="relations-groups-list-style">
+
+        <mat-list-item class="commercial-information-risk-money-font">Familiar Group:
+        </mat-list-item>
+        <mat-divider style="margin-top: 0;"></mat-divider>
+        <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
+        </mat-list-item>
+        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Campaigns:
+        </mat-list-item>
+        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
+        </mat-list-item>
+      </mat-list>
+    </mat-grid-tile>
+    <mat-grid-tile style="height: 100%; background-color: white;">
+
+      <mat-list class="relations-groups-list-style">
+
+        <mat-list-item class="commercial-information-risk-money-font">Economical Group:
+        </mat-list-item>
+        <mat-divider style="margin-top: 0;"></mat-divider>
+        <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
+        </mat-list-item>
+        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Campaigns:
+        </mat-list-item>
+        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
+        </mat-list-item>
+
+      </mat-list>
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-list>
+
+<div #relations id="relations"(window:resize)="onResize()"></div>

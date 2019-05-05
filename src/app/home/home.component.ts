@@ -14,6 +14,12 @@ export interface DataModel {
   total_movements: number;
 }
 
+export interface RelationsModel {
+  advisor_name: string;
+  familiar_group: object;
+  economical_group: object;
+}
+
 export interface Movement {
   name: string;
   amount: string;
@@ -52,6 +58,8 @@ const MAX_PRODUCTS: number = 5;
 export class HomeComponent implements OnInit {
 
   data: Observable<DataModel> = null;
+  dataRelations: Observable<RelationsModel> = null;
+
 
   columnsToDisplay = ['id', 'iban', 'name', 'amount'];
   dataSourceAccounts: Array<Account> = [];
@@ -70,7 +78,7 @@ export class HomeComponent implements OnInit {
   customerProductsQty: string = '-';
 
   showCommercialLoading: Boolean = false;
-  showRelationsLoading: Boolean = false;
+  //showRelationsLoading: Boolean = false;
   showGraphicLoading: Boolean = false;
   showTableLoading: Boolean = false;
 
@@ -89,9 +97,15 @@ export class HomeComponent implements OnInit {
               private customerService: CustomerService,
               private http: HttpClient) {
 
-   // this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
-
-
+    //this.dataRelations = this.customerService.getRelationsByCustomer(this.customerDni);
+    /*this.dataRelations = new Observable(observer => {
+      observer.next({
+        advisor_name: 'hola',
+        familiar_group : {},
+        economical_group : {}
+      });
+      observer.complete();
+    });*/
 
   }
 
@@ -149,6 +163,7 @@ export class HomeComponent implements OnInit {
 
     this.createBarChartFromMovements(accounts);
 
+
     accounts.forEach((account, i) => {
       this.hasAccounts = true;
 
@@ -175,6 +190,18 @@ export class HomeComponent implements OnInit {
 
   }
 
+  private renderRelationsWidget(data) {
+
+    this.dataRelations = new Observable(observer => {
+      observer.next({
+        advisor_name: 'PEDRO PEREZ SCOTT',
+        familiar_group : {tasks: 3, campaigns: 19, documents: 12},
+        economical_group : {tasks: 13, campaigns: 9, documents: 22}
+      });
+      observer.complete();
+    });
+  }
+
   public findCustomer(){
     let formObj = this.findForm.getRawValue();
     let id = formObj.customerId;
@@ -185,6 +212,8 @@ export class HomeComponent implements OnInit {
         this.showLoadingInWidgets(true);
         this.customerService.getCustomer(id).subscribe((result:any) => {
           this.populateInfo(result);
+          this.renderRelationsWidget(result);
+
           this.showLoadingInWidgets(false);
         },
         error => {
@@ -198,7 +227,7 @@ export class HomeComponent implements OnInit {
 
   private showLoadingInWidgets(toggle){
     this.showCommercialLoading = toggle;
-    this.showRelationsLoading = toggle;
+    //this.showRelationsLoading = toggle;
     this.showGraphicLoading = toggle;
     this.showCustomerNameLoading = toggle;
     this.showTableLoading = toggle;
@@ -219,7 +248,6 @@ export class HomeComponent implements OnInit {
       [this.customerDerivativeStatus, this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
 
       this.fillTableAndChartWithAccounts(result.accounts);
-
     }
   }
 

@@ -2,7 +2,7 @@
 
 <div (show)="showBarChart">
   <div style="font-size:10px;">
-    <span>Month: <strong>{{month}}</strong></span>
+    <span>Expenses in <strong>{{month}}</strong></span>
   </div>
   <div #chart id="chart"(window:resize)="onResize()"></div>
   <div style="text-align: center; font-size:10px;">
@@ -12,7 +12,7 @@
 
 <div [hidden]="showBarChart">
   <div style="text-align: center; font-size:10px;">
-    <strong>Not transactions found this month.</strong>
+    <strong>Not Expenses found this month.</strong>
   </div>
 </div>
 

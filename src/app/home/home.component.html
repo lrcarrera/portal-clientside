@@ -68,7 +68,7 @@
   <mat-grid-list cols="3" rowHeight="30px">
     <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
 
-      <strong >Graphic Movements</strong>
+      <strong >Expenses</strong>
 
     </mat-grid-tile>
 
@@ -91,96 +91,18 @@
 <mat-card-content>
   <mat-grid-list cols="3" rowHeight="120px">
     <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px) !important ; top: 0px; height: calc(241px);" class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
-      <!-- <mat-spinner [diameter]="50"></mat-spinner>-->
       <!--graphic-->
       <mat-spinner *ngIf="showGraphicLoading" [diameter]="50"></mat-spinner>
-
       <span *ngIf="!showGraphicLoading && !data">  Search a customer...</span>
-
-      <app-bar-chart *ngIf="!showGraphicLoading && data " [data]="data | async"></app-bar-chart>
-
-
-
+      <app-bar-chart *ngIf="!showGraphicLoading && data" [data]="data | async"></app-bar-chart>
     </mat-grid-tile>
+
     <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
 
-      <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
+     <!-- <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
+--> <!--!showRelationsLoading &&-->
+      <app-relations class="relations_style" *ngIf="dataRelations" [dataRelations]="dataRelations | async"> </app-relations>
 
-      <mat-list *ngIf="!showRelationsLoading" class="commercial-information-list-style">
-
-        <mat-list-item class="commercial-information-risk-money-font">Advisor:
-          <span class="commercial-information-results-color-text">&emsp;{{ customerOffice }}</span>
-        </mat-list-item>
-
-        <mat-divider style="margin-top: 10px;"></mat-divider>
-
-
-        <mat-grid-list style="height: 100%;" cols="2" rowHeight="2:1">
-          <mat-grid-tile style="height: 100%; background-color: white;">
-
-
-            <mat-list class="relations-groups-list-style">
-
-              <mat-list-item class="commercial-information-risk-money-font">Familiar Group:
-              </mat-list-item>
-              <mat-divider style="margin-top: 0;"></mat-divider>
-              <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
-              </mat-list-item>
-              <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Campaigns:
-              </mat-list-item>
-              <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
-              </mat-list-item>
-              </mat-list>
-
-
-
-
-
-          </mat-grid-tile>
-          <mat-grid-tile style="height: 100%; background-color: white;">
-
-            <mat-list class="relations-groups-list-style">
-
-              <mat-list-item class="commercial-information-risk-money-font">Economical Group:
-              </mat-list-item>
-              <mat-divider style="margin-top: 0;"></mat-divider>
-              <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
-              </mat-list-item>
-              <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Campaigns:
-              </mat-list-item>
-              <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
-              </mat-list-item>
-
-
-
-
-            </mat-list>
-
-
-          </mat-grid-tile>
-        </mat-grid-list>
-
-
-
-
-
-        <!--<mat-list-item  style="height: 40px;"         class="commercial-information-risk-money-font">
-           Level of exposure to risk of money-laundering:
-           <span class="commercial-information-results-color-text">&emsp;{{ customerRiskLaundering }}</span>
-         </mat-list-item>
-         <mat-list-item  style="height: 0px;" class="commercial-information-risk-money-font">
-           Revision date:  <span class="commercial-information-results-color-text">&emsp;{{ customerRevisionDate }}</span>
-         </mat-list-item>
-         <mat-divider style="margin-top: 30px;"></mat-divider>
-         <mat-list-item style="height: 30px;" class="commercial-information-risk-money-font">Profile of Convenience:</mat-list-item>
-         <mat-list-item style="height: 0px;" class="commercial-information-risk-money-font">Knowledge and Experience</mat-list-item>
-         <mat-list-item style="margin-top: 10px; height: 30px;" class="commercial-information-products-font">Profile status:
-           <span class="commercial-information-results-color-text">&emsp;{{ customerDerivativeStatus }}</span>
-         </mat-list-item>
-         <mat-list-item style="height: 0px;" class="commercial-information-products-font">Products:
-           <span class="commercial-information-results-color-text">&emsp;{{ customerProductsQty }}</span>
-         </mat-list-item>-->
-      </mat-list>
 
       <!--relations-->
     </mat-grid-tile>
