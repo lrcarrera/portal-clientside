@@ -1,11 +1,12 @@
 import {Component,ElementRef,Input,OnChanges,SimpleChanges,ViewChild,ViewEncapsulation} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../services/customer/customer.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
-import { MatDialog , MatDialogConfig , MatSnackBar } from "@angular/material";
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import {FormBuilder,FormGroup,Validators} from '@angular/forms';
+import {CustomerService} from '../services/customer/customer.service';
+import {animate,state,style,transition,trigger} from '@angular/animations';
+import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
+import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
+import {HttpClient} from '@angular/common/http';
+import {Observable,of} from 'rxjs';
+import {sum} from 'd3-array';
 
 
 export interface RelationsModel {
@@ -27,17 +28,20 @@ export class RelationsComponent implements OnChanges {
 
 
   @Input()
-  dataRelations: RelationsModel[];
+  dataRelations: RelationsModel;
   showRelationsWidget: Boolean = true;
+  familiarTotal: Number = 0;
+  economicalTotal: Number = 0;
 
-
-  constructor() { }
+  constructor() {
+  }
 
 
   ngOnChanges(): void {
     if (!this.dataRelations) {
       this.showRelationsWidget = false;
-      return; }
+      return;
+    }
 
     this.showWidget();
   }
@@ -45,12 +49,18 @@ export class RelationsComponent implements OnChanges {
   onResize() {
     if (!this.dataRelations) {
       this.showRelationsWidget = false;
-      return; }
+      return;
+    }
 
     this.showWidget();
   }
-  private showWidget(): void {
 
+  private showWidget(): void {
+    this.familiarTotal = Object.keys(this.dataRelations.familiar_group)
+      .reduce((sum,key) => sum + parseFloat(this.dataRelations.familiar_group[key] || 0),0);
+
+    this.economicalTotal = Object.keys(this.dataRelations.economical_group)
+      .reduce((sum,key) => sum + parseFloat(this.dataRelations.economical_group[key] || 0),0);
 
   }
 }

@@ -1,6 +1,6 @@
 <mat-list *ngIf="showRelationsWidget" class="commercial-information-list-style">
-  <mat-list-item class="commercial-information-risk-money-font">Advisor: {{dataRelations.advisor_name}}
-    <span class="commercial-information-results-color-text">&emsp;-</span>
+  <mat-list-item class="commercial-information-risk-money-font">Advisor:
+    <span class="commercial-information-results-color-text">&emsp;{{dataRelations.advisor_name}}</span>
   </mat-list-item>
   <mat-divider style="margin-top: 10px;"></mat-divider>
   <mat-grid-list style="height: 100%;" cols="2" rowHeight="2:1">
@@ -10,13 +10,21 @@
       <mat-list class="relations-groups-list-style">
 
         <mat-list-item class="commercial-information-risk-money-font">Familiar Group:
+          <span class="commercial-information-results-color-text">&emsp;{{familiarTotal}}</span>
+
         </mat-list-item>
         <mat-divider style="margin-top: 0;"></mat-divider>
         <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
+          <span class="commercial-information-results-color-text">&emsp;{{dataRelations.familiar_group.tasks}}</span>
+
         </mat-list-item>
         <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Campaigns:
+          <span class="commercial-information-results-color-text">&emsp;{{dataRelations.familiar_group.campaigns}}</span>
+
         </mat-list-item>
         <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
+          <span class="commercial-information-results-color-text">&emsp;{{dataRelations.familiar_group.documents}}</span>
+
         </mat-list-item>
       </mat-list>
     </mat-grid-tile>
@@ -25,13 +33,19 @@
       <mat-list class="relations-groups-list-style">
 
         <mat-list-item class="commercial-information-risk-money-font">Economical Group:
+          <span class="commercial-information-results-color-text">&emsp;{{economicalTotal}}</span>
         </mat-list-item>
         <mat-divider style="margin-top: 0;"></mat-divider>
         <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
+          <span class="commercial-information-results-color-text">&emsp;{{dataRelations.economical_group.tasks}}</span>
         </mat-list-item>
         <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Campaigns:
+          <span class="commercial-information-results-color-text">&emsp;{{dataRelations.economical_group.campaigns}}</span>
+
         </mat-list-item>
         <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
+          <span class="commercial-information-results-color-text">&emsp;{{dataRelations.economical_group.documents}}</span>
+
         </mat-list-item>
 
       </mat-list>
@@ -39,4 +53,4 @@
   </mat-grid-list>
 </mat-list>
 
-<div #relations id="relations"(window:resize)="onResize()"></div>
+<div #relations id="relations" (window:resize)="onResize()"></div>

@@ -94,6 +94,7 @@
       <!--graphic-->
       <mat-spinner *ngIf="showGraphicLoading" [diameter]="50"></mat-spinner>
       <span *ngIf="!showGraphicLoading && !data">  Search a customer...</span>
+
       <app-bar-chart *ngIf="!showGraphicLoading && data" [data]="data | async"></app-bar-chart>
     </mat-grid-tile>
 
@@ -101,7 +102,9 @@
 
      <!-- <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
 --> <!--!showRelationsLoading &&-->
-      <app-relations class="relations_style" *ngIf="dataRelations" [dataRelations]="dataRelations | async"> </app-relations>
+      <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
+      <span *ngIf="!showRelationsLoading && !dataRelations">  Search a customer...</span>
+      <app-relations class="relations_style" *ngIf="!showRelationsLoading && dataRelations" [dataRelations]="dataRelations | async"> </app-relations>
 
 
       <!--relations-->

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../services/customer/customer.service';
+import {Component,OnInit} from '@angular/core';
+import {FormBuilder,FormGroup,Validators} from '@angular/forms';
+import {CustomerService} from '../services/customer/customer.service';
 import {AccountContentTemplate} from './popup_create_account/account_content_template.component';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
-import { MatDialog , MatDialogConfig , MatSnackBar } from "@angular/material";
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import {animate,state,style,transition,trigger} from '@angular/animations';
+import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
+import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
+import {HttpClient} from '@angular/common/http';
+import {Observable,of} from 'rxjs';
 
 
 export interface DataModel {
@@ -36,9 +36,9 @@ export interface Account {
 }
 
 enum DerivativeStatus {
-  NOT_STARTED = "NOT_STARTED",
-  NOT_COMPLETED = "NOT_COMPLETED",
-  COMPLETED = "COMPLETED"
+  NOT_STARTED = 'NOT_STARTED',
+  NOT_COMPLETED = 'NOT_COMPLETED',
+  COMPLETED = 'COMPLETED'
 }
 
 const MAX_PRODUCTS: number = 5;
@@ -48,10 +48,10 @@ const MAX_PRODUCTS: number = 5;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    trigger('detailExpand',[
+      state('collapsed',style({height: '0px',minHeight: '0',display: 'none'})),
+      state('expanded',style({height: '*'})),
+      transition('expanded <=> collapsed',animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
 })
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
   dataRelations: Observable<RelationsModel> = null;
 
 
-  columnsToDisplay = ['id', 'iban', 'name', 'amount'];
+  columnsToDisplay = ['id','iban','name','amount'];
   dataSourceAccounts: Array<Account> = [];
   expandedAccount: Account | null;
 
@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
   customerProductsQty: string = '-';
 
   showCommercialLoading: Boolean = false;
-  //showRelationsLoading: Boolean = false;
+  showRelationsLoading: Boolean = false;
   showGraphicLoading: Boolean = false;
   showTableLoading: Boolean = false;
 
@@ -109,19 +109,19 @@ export class HomeComponent implements OnInit {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.findForm = this.formBuilderFind.group({
-      customerId: ['', Validators.required],
+      customerId: ['',Validators.required],
     });
 
     this.authenticationService.profile().subscribe(user => {
       this.details = user.authorizedData;
-    }, (err) => {
+    },(err) => {
       console.error(err);
     });
   }
 
-  public openDialog(){
+  public openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
       dni: this.customerDni
     };
 
-    const dialogRef = this.account.open(AccountContentTemplate, dialogConfig);
+    const dialogRef = this.account.open(AccountContentTemplate,dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
 
@@ -139,40 +139,42 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public toggleAccountsTable(result){
-    if(result.refresh){
+  public toggleAccountsTable(result) {
+    if (result.refresh) {
       this.tableIsFilled = false;
-      this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result:any) => {
+      this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result: any) => {
 
-        this.fillTableAndChartWithAccounts(result);
+          this.fillTableAndChartWithAccounts(result);
 
-      },
-      error => {
-        this.errors = error;
-      });
-    }else{
+        },
+        error => {
+          this.errors = error;
+        });
+    } else {
       //  this.tableIsFilled = false;
     }
   }
 
-  public fillTableAndChartWithAccounts(accounts){
+  public fillTableAndChartWithAccounts(accounts) {
 
     this.dataSourceAccounts = [];
 
-    if (accounts.length === 0) this.hasAccounts = false;
+    if (accounts.length === 0) {
+      this.hasAccounts = false;
+    }
 
     this.createBarChartFromMovements(accounts);
 
 
-    accounts.forEach((account, i) => {
+    accounts.forEach((account,i) => {
       this.hasAccounts = true;
 
       this.dataSourceAccounts.push({
-        position: i+1,
-        id: i+1,
+        position: i + 1,
+        id: i + 1,
         iban: account.iban,
         name: account.account_name.toUpperCase(),
-        amount: account.total_amount + " €",
+        amount: account.total_amount + ' €',
         description: account.movements
 
       });
@@ -190,50 +192,51 @@ export class HomeComponent implements OnInit {
 
   }
 
-  private renderRelationsWidget(data) {
+  private renderRelationsWidget(groups) {
 
     this.dataRelations = new Observable(observer => {
       observer.next({
-        advisor_name: 'PEDRO PEREZ SCOTT',
-        familiar_group : {tasks: 3, campaigns: 19, documents: 12},
-        economical_group : {tasks: 13, campaigns: 9, documents: 22}
+        advisor_name: this.details.name,
+        familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
+        economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
       });
       observer.complete();
     });
   }
 
-  public findCustomer(){
+  public findCustomer() {
     let formObj = this.findForm.getRawValue();
     let id = formObj.customerId;
 
-    if (id !== ""){
-      if (id !== this.customerDni){
+    if (id !== '') {
+      if (id !== this.customerDni) {
         this.tableIsFilled = false;
         this.showLoadingInWidgets(true);
-        this.customerService.getCustomer(id).subscribe((result:any) => {
-          this.populateInfo(result);
-          this.renderRelationsWidget(result);
+        this.customerService.getCustomer(id).subscribe((result: any) => {
+            this.populateInfo(result);
+            this.renderRelationsWidget([result.investment_products.familiar_group,result.investment_products.economical_group]);
 
-          this.showLoadingInWidgets(false);
-        },
-        error => {
-          this.errors = error;
-        });
+            this.showLoadingInWidgets(false);
+          },
+          error => {
+            this.errors = error;
+          });
       }
-    }else{
-      this.openSnackBar("Introduce a valid DNI");
+    } else {
+      this.openSnackBar('Introduce a valid DNI');
     }
   }
 
-  private showLoadingInWidgets(toggle){
+  private showLoadingInWidgets(toggle) {
     this.showCommercialLoading = toggle;
-    //this.showRelationsLoading = toggle;
+    this.showRelationsLoading = toggle;
     this.showGraphicLoading = toggle;
     this.showCustomerNameLoading = toggle;
     this.showTableLoading = toggle;
 
   }
-  private populateInfo(result){
+
+  private populateInfo(result) {
     if (!result) {
       this.openSnackBar('Customer not found');
       this.resetCustomerInformation();
@@ -245,13 +248,13 @@ export class HomeComponent implements OnInit {
       this.customerRevisionDate = HomeComponent.processDateToFront(result.customer_info.last_modification_date);
       this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
       this.customerOffice = result.assigned_office;
-      [this.customerDerivativeStatus, this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
+      [this.customerDerivativeStatus,this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
 
       this.fillTableAndChartWithAccounts(result.accounts);
     }
   }
 
-  private resetCustomerInformation(){
+  private resetCustomerInformation() {
     this.findForm.reset();
     this.customerDni = '';
     this.customerName = '';
@@ -266,7 +269,7 @@ export class HomeComponent implements OnInit {
     this.hasAccounts = false;
   }
 
-  private static getProductsInfo(products){
+  private static getProductsInfo(products) {
     let qtyProductsProfiled = [
       products.product1,
       products.product2,
@@ -274,21 +277,21 @@ export class HomeComponent implements OnInit {
       products.product4,
       products.product5].filter(v => v).length;
 
-      let derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
+    let derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
 
-      return [ derivativeProductsStatus, qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString() ];
-    }
-
-    private static processDateToFront(date){
-      return date.replace(/T/, ' ').replace(/\..+/, '');
-    }
-
-    private openSnackBar(message: string) {
-      this.snackBar.open(message, 'OK', {
-        duration: 1500,
-        verticalPosition: 'top',
-        panelClass: ['snackbar-style-home']
-      });
-    }
-
+    return [derivativeProductsStatus,qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString()];
   }
+
+  private static processDateToFront(date) {
+    return date.replace(/T/,' ').replace(/\..+/,'');
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message,'OK',{
+      duration: 1500,
+      verticalPosition: 'top',
+      panelClass: ['snackbar-style-home']
+    });
+  }
+
+}
