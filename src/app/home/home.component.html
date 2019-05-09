@@ -111,36 +111,13 @@
     </mat-grid-tile>
 
 
-
-
-
-
     <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class="mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
 
       <mat-spinner *ngIf="showCommercialLoading" [diameter]="50"></mat-spinner>
+      <span *ngIf="!showCommercialLoading && !dataCommercialInformation">  Search a customer...</span>
+      <app-commercial-information class="relations_style" *ngIf="!showCommercialLoading && dataCommercialInformation" [dataCommercialInformation]="dataCommercialInformation | async"> </app-commercial-information>
 
-      <mat-list *ngIf="!showCommercialLoading" class="commercial-information-list-style">
-        <mat-list-item class="commercial-information-risk-money-font">Office:
-          <span class="commercial-information-results-color-text">&emsp;{{ customerOffice }}</span>
-        </mat-list-item>
-        <mat-divider style="margin-top: 10px;"></mat-divider>
-        <mat-list-item  style="height: 40px;"         class="commercial-information-risk-money-font">
-          Level of exposure to risk of money-laundering:
-          <span class="commercial-information-results-color-text">&emsp;{{ customerRiskLaundering }}</span>
-        </mat-list-item>
-        <mat-list-item  style="height: 0px;" class="commercial-information-risk-money-font">
-          Revision date:  <span class="commercial-information-results-color-text">&emsp;{{ customerRevisionDate }}</span>
-        </mat-list-item>
-        <mat-divider style="margin-top: 30px;"></mat-divider>
-        <mat-list-item style="height: 30px;" class="commercial-information-risk-money-font">Profile of Convenience:</mat-list-item>
-        <mat-list-item style="height: 0px;" class="commercial-information-risk-money-font">Knowledge and Experience</mat-list-item>
-        <mat-list-item style="margin-top: 10px; height: 30px;" class="commercial-information-products-font">Profile status:
-          <span class="commercial-information-results-color-text">&emsp;{{ customerDerivativeStatus }}</span>
-        </mat-list-item>
-        <mat-list-item style="height: 0px;" class="commercial-information-products-font">Products:
-          <span class="commercial-information-results-color-text">&emsp;{{ customerProductsQty }}</span>
-        </mat-list-item>
-      </mat-list>
+
 
     </mat-grid-tile>
   </mat-grid-list>

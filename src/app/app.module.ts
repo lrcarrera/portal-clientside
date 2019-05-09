@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app.material.module';
 import { BarChartComponent } from './barchart/bar-chart.component';
 import { RelationsComponent } from './relations/relations.component';
+import { CommercialDataComponent } from './commercial-data/commercial-data.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RelationsComponent } from './relations/relations.component';
     LoginComponent,
     ProfileComponent,
     BarChartComponent,
-    RelationsComponent
+    RelationsComponent,
+    CommercialDataComponent
   ],
   imports: [
     BrowserModule,

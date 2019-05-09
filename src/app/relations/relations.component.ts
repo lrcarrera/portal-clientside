@@ -1,12 +1,4 @@
-import {Component,ElementRef,Input,OnChanges,SimpleChanges,ViewChild,ViewEncapsulation} from '@angular/core';
-import {FormBuilder,FormGroup,Validators} from '@angular/forms';
-import {CustomerService} from '../services/customer/customer.service';
-import {animate,state,style,transition,trigger} from '@angular/animations';
-import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
-import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
-import {HttpClient} from '@angular/common/http';
-import {Observable,of} from 'rxjs';
-import {sum} from 'd3-array';
+import {Component,Input,OnChanges,ViewChild,ViewEncapsulation} from '@angular/core';
 
 
 export interface RelationsModel {

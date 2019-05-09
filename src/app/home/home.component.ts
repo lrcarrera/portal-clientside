@@ -20,6 +20,13 @@ export interface RelationsModel {
   economical_group: object;
 }
 
+export interface CommercialInformationModel {
+  customerRevisionDate: string;
+  customerRiskLaundering: string;
+  customerOffice: string;
+  derivatives: any;
+}
+
 export interface Movement {
   name: string;
   amount: string;
@@ -59,7 +66,7 @@ export class HomeComponent implements OnInit {
 
   data: Observable<DataModel> = null;
   dataRelations: Observable<RelationsModel> = null;
-
+  dataCommercialInformation: Observable<CommercialInformationModel> = null;
 
   columnsToDisplay = ['id','iban','account','balance'];
   dataSourceAccounts: Array<Account> = [];
@@ -162,10 +169,6 @@ export class HomeComponent implements OnInit {
     if (accounts.length === 0) {
       this.hasAccounts = false;
     }
-
-    this.createBarChartFromMovements(accounts);
-
-
     accounts.forEach((account,i) => {
       this.hasAccounts = true;
 
@@ -215,10 +218,18 @@ export class HomeComponent implements OnInit {
         this.tableIsFilled = false;
         this.showLoadingInWidgets(true);
         this.customerService.getCustomer(id).subscribe((result: any) => {
-            this.populateInfo(result);
-            this.renderRelationsWidget([result.investment_products.familiar_group,result.investment_products.economical_group]);
+            if(result){
+              this.populateInfo(result);
+              this.createBarChartFromMovements(result.accounts);
+              this.renderRelationsWidget([result.investment_products.familiar_group,result.investment_products.economical_group]);
+              this.renderCommercialDataWidget(result);
+              this.showLoadingInWidgets(false);
+            }else{
+              this.openSnackBar('Customer not found');
+              this.resetCustomerInformation();
+              this.showLoadingInWidgets(false);
+            }
 
-            this.showLoadingInWidgets(false);
           },
           error => {
             this.errors = error;
@@ -243,24 +254,12 @@ export class HomeComponent implements OnInit {
   }
 
   private populateInfo(result) {
-    if (!result) {
-      this.openSnackBar('Customer not found');
-      this.resetCustomerInformation();
-      this.showLoadingInWidgets(false);
-
-
-    } else {
       this.customerDni = result.dni;
       this.customerName = result.customer_info.first_name + ' ' + result.customer_info.last_name;
       this.customerPhone = result.phone;
       this.customerAddress = result.customer_info.current_address;
-      this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
-      this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
-      this.customerOffice = result.assigned_office;
-      [this.customerDerivativeStatus,this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
 
       this.fillTableAndChartWithAccounts(result.accounts);
-    }
   }
 
   private resetCustomerInformation() {
@@ -309,4 +308,22 @@ export class HomeComponent implements OnInit {
 
     return date + ' ' + dateTime;
   }*/
+  private renderCommercialDataWidget(result: any) {
+
+    //this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
+    //this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
+    //this.customerOffice = result.assigned_office;
+    //[this.customerDerivativeStatus,this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
+
+      this.dataCommercialInformation = new Observable(observer => {
+        observer.next({
+          customerRevisionDate: this.processDateToFront(result.customer_info.last_modification_date),
+          customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
+          customerOffice: result.assigned_office,
+          derivatives: HomeComponent.getProductsInfo(result.derivative_products)
+        });
+        observer.complete();
+      });
+
+  }
 }
