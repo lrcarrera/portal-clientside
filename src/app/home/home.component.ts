@@ -29,8 +29,8 @@ export interface Account {
   position: number;
   id: any;
   iban: string;
-  name: string;
-  amount: string;
+  account: string;
+  balance: string;
   description: string;
   //Array<Movement>
 }
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
   dataRelations: Observable<RelationsModel> = null;
 
 
-  columnsToDisplay = ['id','iban','name','amount'];
+  columnsToDisplay = ['id','iban','account','balance'];
   dataSourceAccounts: Array<Account> = [];
   expandedAccount: Account | null;
 
@@ -173,8 +173,8 @@ export class HomeComponent implements OnInit {
         position: i + 1,
         id: i + 1,
         iban: account.iban,
-        name: account.account_name.toUpperCase(),
-        amount: account.total_amount + ' €',
+        account: account.account_name.toUpperCase(),
+        balance: account.total_amount + ' €',
         description: account.movements
 
       });
@@ -194,14 +194,16 @@ export class HomeComponent implements OnInit {
 
   private renderRelationsWidget(groups) {
 
-    this.dataRelations = new Observable(observer => {
-      observer.next({
-        advisor_name: this.details.name,
-        familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
-        economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
+    if (groups) {
+      this.dataRelations = new Observable(observer => {
+        observer.next({
+          advisor_name: this.details.name,
+          familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
+          economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
+        });
+        observer.complete();
       });
-      observer.complete();
-    });
+    }
   }
 
   public findCustomer() {
@@ -220,6 +222,10 @@ export class HomeComponent implements OnInit {
           },
           error => {
             this.errors = error;
+            this.openSnackBar('Customer not found');
+            this.resetCustomerInformation();
+            this.showLoadingInWidgets(false);
+
           });
       }
     } else {
@@ -240,12 +246,15 @@ export class HomeComponent implements OnInit {
     if (!result) {
       this.openSnackBar('Customer not found');
       this.resetCustomerInformation();
+      this.showLoadingInWidgets(false);
+
+
     } else {
       this.customerDni = result.dni;
       this.customerName = result.customer_info.first_name + ' ' + result.customer_info.last_name;
       this.customerPhone = result.phone;
       this.customerAddress = result.customer_info.current_address;
-      this.customerRevisionDate = HomeComponent.processDateToFront(result.customer_info.last_modification_date);
+      this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
       this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
       this.customerOffice = result.assigned_office;
       [this.customerDerivativeStatus,this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
@@ -282,7 +291,7 @@ export class HomeComponent implements OnInit {
     return [derivativeProductsStatus,qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString()];
   }
 
-  private static processDateToFront(date) {
+  public processDateToFront(date : any) {
     return date.replace(/T/,' ').replace(/\..+/,'');
   }
 
@@ -294,4 +303,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /*public getDateToMovement(movement_date: any) {
+    let date = movement_date.split('T')[0];
+    let dateTime = movement_date.split('T')[1].split('.')[0];
+
+    return date + ' ' + dateTime;
+  }*/
 }
