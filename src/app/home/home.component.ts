@@ -5,7 +5,6 @@ import {AccountContentTemplate} from './popup_create_account/account_content_tem
 import {animate,state,style,transition,trigger} from '@angular/animations';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
 import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
-import {HttpClient} from '@angular/common/http';
 import {Observable,of} from 'rxjs';
 
 
@@ -78,11 +77,6 @@ export class HomeComponent implements OnInit {
   customerName: string;
   customerPhone: string;
   customerAddress: string;
-  customerRevisionDate: string = '-';
-  customerRiskLaundering: string = '-';
-  customerOffice: string = '-';
-  customerDerivativeStatus: string = DerivativeStatus.NOT_STARTED;
-  customerProductsQty: string = '-';
 
   showCommercialLoading: Boolean = false;
   showRelationsLoading: Boolean = false;
@@ -101,19 +95,7 @@ export class HomeComponent implements OnInit {
               private snackBar: MatSnackBar,
               public account: MatDialog,
               private formBuilderFind: FormBuilder,
-              private customerService: CustomerService,
-              private http: HttpClient) {
-
-    //this.dataRelations = this.customerService.getRelationsByCustomer(this.customerDni);
-    /*this.dataRelations = new Observable(observer => {
-      observer.next({
-        advisor_name: 'hola',
-        familiar_group : {},
-        economical_group : {}
-      });
-      observer.complete();
-    });*/
-
+              private customerService: CustomerService) {
   }
 
   ngOnInit() {
@@ -166,6 +148,7 @@ export class HomeComponent implements OnInit {
 
     this.dataSourceAccounts = [];
 
+    this.tableIsFilled = false;
     if (accounts.length === 0) {
       this.hasAccounts = false;
     }
@@ -187,12 +170,8 @@ export class HomeComponent implements OnInit {
 
   }
 
-  private createBarChartFromMovements(accounts) {
-
-    // this.data = this.http.get<DataModel>('./assets/home_assets/data.json');
-
+  private renderExpensesWidget() {
     this.data = this.customerService.getMovementsByAccount(this.customerDni);
-
   }
 
   private renderRelationsWidget(groups) {
@@ -215,26 +194,22 @@ export class HomeComponent implements OnInit {
 
     if (id !== '') {
       if (id !== this.customerDni) {
-        this.tableIsFilled = false;
         this.showLoadingInWidgets(true);
         this.customerService.getCustomer(id).subscribe((result: any) => {
-            if(result){
+            if (result) {
               this.populateInfo(result);
-              this.createBarChartFromMovements(result.accounts);
+              this.renderExpensesWidget();
               this.renderRelationsWidget([result.investment_products.familiar_group,result.investment_products.economical_group]);
-              this.renderCommercialDataWidget(result);
-              this.showLoadingInWidgets(false);
-            }else{
+              this.renderCommercialInformationWidget(result);
+            } else {
               this.openSnackBar('Customer not found');
-              this.resetCustomerInformation();
-              this.showLoadingInWidgets(false);
             }
+            this.showLoadingInWidgets(false);
 
           },
           error => {
             this.errors = error;
             this.openSnackBar('Customer not found');
-            this.resetCustomerInformation();
             this.showLoadingInWidgets(false);
 
           });
@@ -254,27 +229,12 @@ export class HomeComponent implements OnInit {
   }
 
   private populateInfo(result) {
-      this.customerDni = result.dni;
-      this.customerName = result.customer_info.first_name + ' ' + result.customer_info.last_name;
-      this.customerPhone = result.phone;
-      this.customerAddress = result.customer_info.current_address;
+    this.customerDni = result.dni;
+    this.customerName = result.customer_info.first_name + ' ' + result.customer_info.last_name;
+    this.customerPhone = result.phone;
+    this.customerAddress = result.customer_info.current_address;
 
-      this.fillTableAndChartWithAccounts(result.accounts);
-  }
-
-  private resetCustomerInformation() {
-    this.findForm.reset();
-    this.customerDni = '';
-    this.customerName = '';
-    this.customerPhone = '';
-    this.customerAddress = '';
-    this.customerRevisionDate = '-';
-    this.customerRiskLaundering = '-';
-    this.customerOffice = '-';
-    this.customerDerivativeStatus = DerivativeStatus.NOT_STARTED;
-    this.customerProductsQty = '-';
-
-    this.hasAccounts = false;
+    this.fillTableAndChartWithAccounts(result.accounts);
   }
 
   private static getProductsInfo(products) {
@@ -290,7 +250,7 @@ export class HomeComponent implements OnInit {
     return [derivativeProductsStatus,qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString()];
   }
 
-  public processDateToFront(date : any) {
+  public processDateToFront(date: any) {
     return date.replace(/T/,' ').replace(/\..+/,'');
   }
 
@@ -302,28 +262,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  /*public getDateToMovement(movement_date: any) {
-    let date = movement_date.split('T')[0];
-    let dateTime = movement_date.split('T')[1].split('.')[0];
-
-    return date + ' ' + dateTime;
-  }*/
-  private renderCommercialDataWidget(result: any) {
-
-    //this.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
-    //this.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
-    //this.customerOffice = result.assigned_office;
-    //[this.customerDerivativeStatus,this.customerProductsQty] = HomeComponent.getProductsInfo(result.derivative_products);
-
-      this.dataCommercialInformation = new Observable(observer => {
-        observer.next({
-          customerRevisionDate: this.processDateToFront(result.customer_info.last_modification_date),
-          customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
-          customerOffice: result.assigned_office,
-          derivatives: HomeComponent.getProductsInfo(result.derivative_products)
-        });
-        observer.complete();
+  private renderCommercialInformationWidget(result: any) {
+    this.dataCommercialInformation = new Observable(observer => {
+      observer.next({
+        customerRevisionDate: this.processDateToFront(result.customer_info.last_modification_date),
+        customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
+        customerOffice: result.assigned_office,
+        derivatives: HomeComponent.getProductsInfo(result.derivative_products)
       });
+      observer.complete();
+    });
 
   }
 }
