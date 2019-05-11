@@ -3,8 +3,8 @@ import {Component,Input,OnChanges,ViewChild,ViewEncapsulation} from '@angular/co
 
 export interface RelationsModel {
   advisor_name: string;
-  familiar_group: object;
-  economical_group: object;
+  familiar_group: any;
+  economical_group: any;
 }
 
 

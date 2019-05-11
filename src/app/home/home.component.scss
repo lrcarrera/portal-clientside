@@ -72,14 +72,105 @@ ul {
   max-width: 400px;
 }
 
+.home-input-dni {
+  width: 120px;
+}
 .example-header-image {
-  background-image: url(../../assets/home_assets/customer_icon.png);
+  background-image: url(../../assets/home_assets/png/signing-the-contract.png);
   background-size: cover;
-  margin-top: 8px;
+  margin-top: 19px;
   height: 25px;
   width: 25px;
-  margin-top: 16px;
+  border-radius: 0 !important;
 }
+
+.home-dni-icon {
+  background-image: url(../../assets/home_assets/png/identity-card.png);
+  background-size: cover;
+  height: 25px;
+  width: 29px;
+  margin-top: 14px;
+}
+
+.home-dni-icon-before {
+  background-image: url(../../assets/home_assets/png/identity-card.png);
+  background-size: cover;
+  height: 29px;
+  width: 29px;
+  margin-top: 10px;
+}
+
+.home-telephone-icon {
+  background-image: url(../../assets/home_assets/png/cellphone-with-speech-boxes.png);
+  background-size: cover;
+  height: 25px;
+  width: 29px;
+  margin-top: 14px;
+}
+
+.home-address-icon {
+  background-image: url(../../assets/home_assets/png/office-block.png);
+  background-size: cover;
+  height: 25px;
+  width: 30px;
+  margin-top: 14px;
+}
+
+.home-search-icon {
+  background-image: url(../../assets/home_assets/png/graph-analysis.png);
+  background-size: cover;
+  height: 29px;
+  width: 30px;
+  margin-right: 9px;
+  float: left !important;
+}
+
+.home-expenses-icon {
+  background-image: url(../../assets/home_assets/png/bar-graph-with-dollar-sign.png);
+  background-size: cover;
+  height: 20px;
+  width: 20px;
+  margin-right: 9px;
+  float: left !important;
+}
+
+.home-commercial-icon {
+  background-image: url(../../assets/home_assets/png/bank-building.png);
+  background-size: cover;
+  height: 20px;
+  width: 20px;
+  margin-right: 9px;
+  float: left !important;
+}
+
+.home-relations-icon {
+  background-image: url(../../assets/home_assets/png/handshake.png);
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin-right: 9px;
+  float: left !important;
+}
+
+.home-global-icon {
+  background-image: url(../../assets/home_assets/png/credit-cards.png);
+  background-size: cover;
+  height: 20px;
+  width: 20px;
+  margin-right: 9px;
+  float: left !important;
+}
+
+.home-payments-icon {
+  background-image: url(../../assets/home_assets/png/bar-chart-reload.png);
+  background-size: cover;
+  height: 20px;
+  width: 20px;
+  margin-right: 9px;
+  float: left !important;
+  border-radius: 0 !important;
+}
+
 .name-logo-style {
   width: 270px;
   background-color: aliceblue;

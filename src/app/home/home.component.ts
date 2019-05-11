@@ -203,6 +203,7 @@ export class HomeComponent implements OnInit {
               this.renderCommercialInformationWidget(result);
             } else {
               this.openSnackBar('Customer not found');
+              this.findForm.reset();
             }
             this.showLoadingInWidgets(false);
 
@@ -210,6 +211,7 @@ export class HomeComponent implements OnInit {
           error => {
             this.errors = error;
             this.openSnackBar('Customer not found');
+            this.findForm.reset();
             this.showLoadingInWidgets(false);
 
           });
