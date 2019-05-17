@@ -1,20 +1,64 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component,Inject,OnInit} from '@angular/core';
+import {FormBuilder,FormControl,FormGroup,FormGroupDirective,NgForm,Validators} from '@angular/forms';
 import {CustomerService} from '../services/customer/customer.service';
-import {AuthenticationService, UserDetails} from '../authentication/authentication.service';
+import {ErrorStateMatcher} from '@angular/material/core';
 
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+export interface Level {
+  level: string;
+}
+
+export interface Office {
+  name: string;
+}
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
+
+  phoneControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(9)
+  ]);
+  homeControl = new FormControl('', [
+    Validators.required,
+  ]);
+  dniControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(9)
+  ]);
+  firstNameControl = new FormControl('', [
+    Validators.required,
+  ]);
+  lastNameControl = new FormControl('', [
+    Validators.required,
+  ]);
+
+  exposureControl = new FormControl('', [
+    Validators.required,
+  ]);
+
+  officeControl = new FormControl('', [
+    Validators.required,
+  ]);
+
+  matcher = new MyErrorStateMatcher();
+
   mode: string;
   message: string;
 
   errors: string;
-
-  form: FormGroup;
   deleteForm: FormGroup;
   findForm: FormGroup;
   updateForm: FormGroup;
@@ -27,20 +71,29 @@ export class CustomerComponent implements OnInit {
 
   details: UserDetails;
 
+  exposureLevels: Level[] = [
+    {level: 'low'},
+    {level: 'medium'},
+    {level: 'high'}
+  ];
+
+  offices: Office[] = [
+    {name: 'B. PRIVADA BARCELONA CENTRO'},
+    {name: 'B. PRIVADA MADRID CENTRO'},
+    {name: 'B. PRIVADA MADRID NORTE'},
+    {name: 'B. PRIVADA VALENCIA'},
+    {name: 'B. PRIVADA ZARAGOZA'},
+    {name: 'B. PUBLICA BARCELONA CENTRO'},
+    {name: 'B. PUBLICA MADRID CENTRO'},
+    {name: 'B. PUBLICA VALENCIA'},
+    {name: 'B. PUBLICA ZARAGOZA'},
+  ];
 
 
   constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      address: ['', Validators.required],
-      //emailAddress: ['', Validators.required],
-      dni: ['', Validators.required],
-      phone: ['', Validators.required]
-    });
     this.deleteForm = this.formBuilderDelete.group({
       customerId: ['', Validators.required],
     });
@@ -66,20 +119,23 @@ export class CustomerComponent implements OnInit {
   }
 
   private buildRequestDataAddCustomer() {
-    let formObj = this.form.getRawValue();
+
+    //let formObj = this.form.getRawValue();
     //  requestData.customer_info = {};
     return {
       customer: {
         customer_info: {
-          first_name: formObj.firstName,
-          last_name: formObj.lastName,
-          current_address: formObj.address
+          first_name: this.firstNameControl.value,
+          last_name: this.lastNameControl.value,
+          current_address: this.homeControl.value,
+          risk_money_laundering: this.exposureControl.value.level
           //email_address = formObj.emailAddress;
         },
-        dni: formObj.dni,
-        phone: formObj.phone
+        dni: this.dniControl.value,
+        phone: this.phoneControl.value,
       },
-      advisor: this.details._id//GETEMAIL IN CONTEXT
+      advisor: this.details._id,
+      assigned_office: this.officeControl.value.name
     };
   }
 
@@ -177,7 +233,7 @@ export class CustomerComponent implements OnInit {
 
     this.customerService.createCustomer(data).subscribe(result => {
         console.log(result);
-        this.form.reset();
+        //this.form.reset();
         this.mode = null;
         this.message = 'addcustomer';
       },
@@ -189,5 +245,4 @@ export class CustomerComponent implements OnInit {
       }
     );
   }
-
 }

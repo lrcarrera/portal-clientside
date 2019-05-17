@@ -39,8 +39,6 @@ export class AccountContentTemplate {
   matcher = new MyErrorStateMatcher();
 
   dni:string;
-
-
   errors: string;
 
   constructor(
