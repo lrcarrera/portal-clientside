@@ -133,9 +133,9 @@ export class CustomerComponent implements OnInit {
         },
         dni: this.dniControl.value,
         phone: this.phoneControl.value,
+        assigned_office: this.officeControl.value.name
       },
-      advisor: this.details._id,
-      assigned_office: this.officeControl.value.name
+      advisor: this.details._id
     };
   }
 
