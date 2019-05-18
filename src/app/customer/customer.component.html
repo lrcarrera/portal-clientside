@@ -140,7 +140,8 @@
                                exposureControl.hasError('required')"
 
                   mat-button cdkFocusInitial (click)="createCustomer()" class="customer-button-add-2">Store Customer
-          </button>
+          </button><!---->
+
         </mat-dialog-actions>
       </mat-grid-tile>
     </mat-grid-list>
@@ -151,22 +152,39 @@
   <mat-card-content>
     <mat-grid-list cols="1" rowHeight="200px">
       <mat-grid-tile class="mat-elevation-z4 " [colspan]="1" [rowspan]="1"
-                     style="background-color: lightgray;">
-        <form class="customer-form-width" [formGroup]="deleteForm" (ngSubmit)="deleteCustomer()">
+                     style="background-color: white;">
+
+        <form class="customer-form-width">
 
 
-          <label>
+          <mat-form-field style="width: 80%; padding-left: 20px;" class="example-full-width">
+            <input matInput placeholder="DNI" [formControl]="findControl"
+                   [errorStateMatcher]="matcher">
+            <mat-error *ngIf="findControl.hasError('required')">
+              DNI is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+
+          <!--<label>
             Put a valid DNI to delete the customer:
             <input type="text" formControlName="customerId">
             <div *ngIf="submitted && messageFormDeleteCustomer.controls.customerId.errors" class="error">
               <div *ngIf="messageFormDeleteCustomer.controls.customerId.errors.required">The ID was not found</div>
             </div>
-          </label>
+          </label>-->
 
 
-          <input type="submit" value="Remove customer" class="customer-button-add">
+          <!--<input type="submit" value="Remove customer" customer-button-add-2>
+-->
 
         </form>
+        <mat-dialog-actions align="end">
+          <button mat-button cdkFocusInitial (click)="deleteCustomer()" class="customer-button-add-2">
+            Remove Customer
+          </button>
+        </mat-dialog-actions>
+
 
       </mat-grid-tile>
     </mat-grid-list>
@@ -232,26 +250,3 @@
   </mat-card-content>
 
 </div>
-
-<div class="customer-content-container" *ngIf="!mode">
-  <mat-card-content>
-    <mat-grid-list cols="1" rowHeight="500px">
-      <mat-grid-tile *ngIf="!message" [colspan]="1" [rowspan]="1"
-                     style="background-color: white;">
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="message === 'addcustomer'" class="mat-elevation-z4 " [colspan]="1"
-                     [rowspan]="1" style="background-color: lightgray;">
-        The customer was added successfully.
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="message === 'deletecustomer'" class="mat-elevation-z4 " [colspan]="1"
-                     [rowspan]="1" style="background-color: lightgray;">
-        The customer was removed successfully.
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="message === 'updatecustomer'" class="mat-elevation-z4 " [colspan]="1"
-                     [rowspan]="1" style="background-color: lightgray;">
-        The customer was updated successfully.
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card-content>
-</div>
-

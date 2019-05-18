@@ -2,6 +2,7 @@ import {Component,Inject,OnInit} from '@angular/core';
 import {FormBuilder,FormControl,FormGroup,FormGroupDirective,NgForm,Validators} from '@angular/forms';
 import {CustomerService} from '../services/customer/customer.service';
 import {ErrorStateMatcher} from '@angular/material/core';
+import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
@@ -53,13 +54,17 @@ export class CustomerComponent implements OnInit {
     Validators.required,
   ]);
 
+  findControl = new FormControl('', [
+    Validators.required,
+  ]);
+
   matcher = new MyErrorStateMatcher();
 
   mode: string;
   message: string;
 
   errors: string;
-  deleteForm: FormGroup;
+  //deleteForm: FormGroup;
   findForm: FormGroup;
   updateForm: FormGroup;
 
@@ -90,13 +95,13 @@ export class CustomerComponent implements OnInit {
   ];
 
 
-  constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
+  constructor(private snackBar: MatSnackBar, private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
   }
 
   ngOnInit() {
-    this.deleteForm = this.formBuilderDelete.group({
+    /*this.deleteForm = this.formBuilderDelete.group({
       customerId: ['', Validators.required],
-    });
+    });*/
     this.findForm = this.formBuilderFind.group({
       customerId: ['', Validators.required],
     });
@@ -182,7 +187,8 @@ export class CustomerComponent implements OnInit {
         }
       },
       error => {
-        this.errors = error;
+        this.openSnackBar('The service is unavailable');
+        console.log(error);
       },
       () => {
         // No errors, route to new page
@@ -198,9 +204,12 @@ export class CustomerComponent implements OnInit {
         /*this.form.reset();
         this.mode = null;
         this.message = 'addcustomer';*/
+        this.openSnackBar('The customer was updated successfully');
+
       },
       error => {
-        this.errors = error;
+        this.openSnackBar('The service is unavailable');
+        console.log(error);
       },
       () => {
         // No errors, route to new page
@@ -209,18 +218,19 @@ export class CustomerComponent implements OnInit {
   }
 
   private deleteCustomer(){
-    let formObj = this.deleteForm.getRawValue();
-    let id = formObj.customerId;
+    let id = this.findControl.value;
 
     this.customerService.removeCustomer(id).subscribe(result => {
         console.log(result);
-        this.deleteForm.reset();
+       //this.deleteForm.reset();
         this.mode = null;
+        this.openSnackBar('The customer was deleted successfully');
+
         this.message = 'deletecustomer';
-        window.alert(result);
       },
       error => {
-        this.errors = error;
+        this.openSnackBar('The service is unavailable');
+        console.log(error);
       },
       () => {
         // No errors, route to new page
@@ -232,17 +242,29 @@ export class CustomerComponent implements OnInit {
     let data = this.buildRequestDataAddCustomer();
 
     this.customerService.createCustomer(data).subscribe(result => {
-        console.log(result);
+        //console.log(result);
         //this.form.reset();
+        this.openSnackBar('The customer was added successfully');
+
         this.mode = null;
         this.message = 'addcustomer';
       },
       error => {
-        this.errors = error;
+
+        this.openSnackBar('The service is unavailable');
+        console.log(error);
       },
       () => {
         // No errors, route to new page
       }
     );
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message,'OK',{
+      duration: 1500,
+      verticalPosition: 'top',
+      panelClass: ['snackbar-style-home']
+    });
   }
 }

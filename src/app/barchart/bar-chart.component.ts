@@ -31,7 +31,7 @@ export class BarChartComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(): void {
-    if (!this.data) {
+    if (!this.data || this.data.length === 0) {
       this.showBarChart = false;
       return; }
 
@@ -40,7 +40,7 @@ export class BarChartComponent implements OnChanges {
   }
 
   onResize() {
-    if (!this.data) {
+    if (!this.data || this.data.length === 0) {
       this.showBarChart = false;
       return; }
     this.createChart();
