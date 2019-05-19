@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
-import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 
 
 @Component({

@@ -1,4 +1,4 @@
-<form (submit)="register()">
+<form #registerForm="ngForm" (submit)="register(); registerForm.reset()">
   <div class="form-group">
     <label for="name">Full name</label>
     <input type="text" class="form-control" name="name" placeholder="Enter your name" [(ngModel)]="credentials.name">
@@ -21,7 +21,7 @@
 
   <div class="form-group button-style">
   <!--<button type="submit" class="btn btn-default">Register!</button>-->
-  <input type="submit" value="Register!" class="cta">
+  <input type="submit" value="Create account!" class="cta">
   </div>
 </form>
 

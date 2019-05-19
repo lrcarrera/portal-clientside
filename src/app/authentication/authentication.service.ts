@@ -34,14 +34,15 @@ export class AuthenticationService {
 
   private token: string;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient,private router: Router) {
+  }
 
   public register(user: TokenPayload): Observable<any> {
-    return this.request('register', user);
+    return this.request('register',user);
   }
 
   public login(user: TokenPayload): Observable<any> {
-    return this.request('login', user);
+    return this.request('login',user);
   }
 
   public logout(): void {
@@ -52,11 +53,11 @@ export class AuthenticationService {
   }
 
   public profile(): Observable<any> {
-    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/profile', { headers: { Authorization: `Bearer ${this.getToken()}`}});
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/profile',{headers: {Authorization: `Bearer ${this.getToken()}`}});
   }
 
   private saveToken(token: string): void {
-    localStorage.setItem('mean-token', token);
+    localStorage.setItem('mean-token',token);
     this.token = token;
   }
 
@@ -78,6 +79,7 @@ export class AuthenticationService {
       return null;
     }
   }
+
   //Check if user is logged and the token does not expired yet
   public isLoggedIn(): boolean {
     const user = this.getUserDetails();
@@ -91,9 +93,9 @@ export class AuthenticationService {
   public isAdmin(): boolean {
     const user = this.getUserDetails();
     if (user) {
-      if (user.exp > Date.now() / 1000){
+      if (user.exp > Date.now() / 1000) {
         return user.role === 'Admin';
-      }else{
+      } else {
         return false;
       }
     } else {
@@ -102,25 +104,38 @@ export class AuthenticationService {
   }
 
   //Manage our requests to endpoint authentication routes
-  private request(type: 'login'|'register', user?: TokenPayload): Observable<any> {
+  private request(type: 'login' | 'register',user?: TokenPayload): Observable<any> {
     let base;
 
-  //  if (method === 'post') {
-      //base = this.http.post(`/api/${type}`, user);
-      base = this.http.post(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, user);
-      //base = this.http.post(`/api/${type}`, user);
+    //  if (method === 'post') {
+    //base = this.http.post(`/api/${type}`, user);
+    base = this.http.post(`https://enigmatic-mountain-27495.herokuapp.com/${type}`,user);
+    //base = this.http.post(`/api/${type}`, user);
+
+    /*if(type === 'register'){
+      return new Observable(observer => {
+        observer.next({
+          result: 'OK'
+        });
+        observer.complete();
+      });
+    }else{*/
     return base.pipe(
-        map((data: TokenResponse) => {
-          console.log(data);
-          if (data.token) {
+      map((data: TokenResponse) => {
+        console.log(data);
+        if (data.token) {
+          if (type === 'login'){
             this.saveToken(data.token);
           }
-          return data;
-        })
-      );
-  /*  } else {
-      base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
-  }*/
+        }
+        return data;
+      })
+    );
+
+   // }
+    /*  } else {
+        base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
+    }*/
 
 
   }

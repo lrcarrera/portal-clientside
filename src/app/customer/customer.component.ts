@@ -2,13 +2,10 @@ import {Component,Inject,OnInit} from '@angular/core';
 import {FormBuilder,FormControl,FormGroup,FormGroupDirective,NgForm,Validators} from '@angular/forms';
 import {CustomerService} from '../services/customer/customer.service';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
-
-import {MAT_DIALOG_DATA,MatDialogRef} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
 import {AboutComponent} from '../about/about.component';
 import {Observable} from 'rxjs';
-import {RelationsModel} from '../home/home.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null,form: FormGroupDirective | NgForm | null): boolean {
@@ -74,7 +71,7 @@ export class CustomerComponent implements OnInit {
   ];
 
 
-  constructor(private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderDelete: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
+  constructor(private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
   }
 
   ngOnInit() {
@@ -90,14 +87,6 @@ export class CustomerComponent implements OnInit {
     this.findForm = this.formBuilderFind.group({
       customerId: ['',Validators.required],
     });
-    /*this.updateForm = this.formBuilderUpdate.group({
-      firstNameUpdate: ['', Validators.required],
-      lastNameUpdate: ['', Validators.required],
-      addressUpdate: ['', Validators.required],
-      //emailAddress: ['', Validators.required],
-      dniUpdate: ['', Validators.required],
-      phoneUpdate: ['', Validators.required]
-    });*/
 
     this.updateCustomerForm = false;
 
@@ -129,29 +118,12 @@ export class CustomerComponent implements OnInit {
     };
   }
 
-  /*private buildRequestDataUpdateCustomer() {
-    return {
-      customer_info: {
-        first_name: formObjUpdate.firstNameUpdate,
-        last_name: formObjUpdate.lastNameUpdate,
-        current_address: formObjUpdate.addressUpdate
-        //email_address = formObj.emailAddress;
-      },
-      dni: formObjUpdate.dniUpdate,
-      phone: formObjUpdate.phoneUpdate
-    };
-  }*/
-
   private findCustomer() {
     let id = this.findToUpdateControl.value;
 
     this.customerService.getCustomer(id).subscribe((result: any) => {
         console.log(result);
         if (result) {
-          /*this.firstNameUpdateValue = ;
-          this.lastNameUpdateValue = ;
-          this.addressUpdateValue = result.customer_info.current_address;
-          this.phoneUpdateValue = result.phone;*/
 
           this.dniUpdateInContext = result.dni;
           this.firstNameControlUpdate.setValue(result.customer_info.first_name);
@@ -159,11 +131,6 @@ export class CustomerComponent implements OnInit {
           this.dniControlUpdate.setValue(result.dni);
           this.homeControlUpdate.setValue(result.customer_info.current_address);
           this.phoneControlUpdate.setValue(result.phone);
-
-          /*{name: result.assigned_office}*/
-          //this.exposureControlUpdate.controls['category'].setValue(this.product.category.id);
-
-          //this.exposureControlUpdate.controls['level'].setValue(this.product.category.id);
 
           const toSelectLevel = this.exposureLevels.find(c => c.level == result.customer_info.risk_money_laundering[0]);
           this.updateCustomerFb.get('updateCustomerLevel').setValue(toSelectLevel);
