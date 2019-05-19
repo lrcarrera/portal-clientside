@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
+import {count} from 'rxjs-compat/operator/count';
 
 export interface DataModel {
   account_name: string;
@@ -9,6 +10,7 @@ export interface DataModel {
 const MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
   "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
 ];
+
 
 @Component({
   selector: 'app-bar-chart',
@@ -31,21 +33,28 @@ export class BarChartComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(): void {
-    if (!this.data || this.data.length === 0) {
+    if (!this.data || this.data.length === 0 || !this.hasMovements(this.data)) {
       this.showBarChart = false;
-      return; }
+      return;
+    }
 
     this.getDates();
     this.createChart();
   }
 
   onResize() {
-    if (!this.data || this.data.length === 0) {
+    if (!this.data || this.data.length === 0 || !this.hasMovements(this.data)) {
       this.showBarChart = false;
       return; }
     this.createChart();
   }
 
+  private hasMovements(data: DataModel[]) {
+
+    return data.reduce((a, {total_movements}) => a + total_movements, 0) !== 0;
+
+
+  }
   private getDates(): void {
     this.dateNow = new Date().toLocaleString();
     /*let datePreviousMonth = new Date();
