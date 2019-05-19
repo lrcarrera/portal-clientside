@@ -11,7 +11,8 @@ export class LoginComponent {
   credentials: TokenPayload = {
     name:'',
     email: '',
-    password: ''
+    password: '',
+    role: ''
   };
   loggingInProgress: Boolean = false;
 

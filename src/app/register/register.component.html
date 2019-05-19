@@ -9,13 +9,21 @@
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
+    <input type="password" class="form-control" name="password" placeholder="Password"
+           [(ngModel)]="credentials.password">
   </div>
+  <div class="form-group">
+    <mat-radio-group [ngModelOptions]="{standalone: true}" [(ngModel)]="selectRankExport" (ngModelChange)="setValue()" aria-label="Select a role">
+      <mat-radio-button value="Admin">Administrator</mat-radio-button>
+      <mat-radio-button  [checked]="true" style="margin-left:20px;" value="Advisor">Advisor</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="form-group button-style">
   <!--<button type="submit" class="btn btn-default">Register!</button>-->
-    <input type="submit" value="Register!" class="cta">
+  <input type="submit" value="Register!" class="cta">
+  </div>
 </form>
-
-
 
 
 <!--
