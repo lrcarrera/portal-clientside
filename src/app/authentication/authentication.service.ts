@@ -10,6 +10,7 @@ export interface UserDetails {
   name: string;
   exp: number;
   iat: number;
+  role: string;
 }
 
 interface TokenResponse {
@@ -82,6 +83,19 @@ export class AuthenticationService {
     const user = this.getUserDetails();
     if (user) {
       return user.exp > Date.now() / 1000;
+    } else {
+      return false;
+    }
+  }
+
+  public isAdmin(): boolean {
+    const user = this.getUserDetails();
+    if (user) {
+      if (user.exp > Date.now() / 1000){
+        return user.role === 'Admin';
+      }else{
+        return false;
+      }
     } else {
       return false;
     }

@@ -53,25 +53,31 @@ export class AboutComponent implements OnInit, OnChanges {
      this.authenticationService.profile().subscribe(user => {
        this.advisorDetails = user.authorizedData;
 
-       this.customerService.getAllCustomersByAdvisorId(this.advisorDetails._id).subscribe((result:any) => {
-           console.log(result);
-           if(result){
-             var customers = cleanResponseToUI(result);
-             this.dataSource = new MatTableDataSource(customers);
-             this.dataSource.paginator = this.paginator;
-             this.dataSource.sort = this.sort;
-           }else{
-             //  this.findForm.reset();
-           }
-         },
-         error => {
-           //  this.errors = error;
-         }
-       );
+       if(this.advisorDetails.role === 'Admin'){
+         this.customerService.getAllCustomers().subscribe((result:any) => {
+           //console.log(result);
+           this.checkResponse(result);
+         });
+       }else{
+         this.customerService.getAllCustomersByAdvisorId(this.advisorDetails._id).subscribe((result:any) => {
+            // console.log(result);
+           this.checkResponse(result);
+           });
+       }
 
      },(err) => {
        console.error(err);
      });
+   }
+
+   private checkResponse(result: any) {
+     if(result){
+       var customers = cleanResponseToUI(result);
+       this.dataSource = new MatTableDataSource(customers);
+       this.dataSource.paginator = this.paginator;
+       this.dataSource.sort = this.sort;
+     }
+
    }
  }
 
@@ -91,10 +97,10 @@ export class AboutComponent implements OnInit, OnChanges {
 
 function cleanResponseToUI(response:any){
 
-  var cleanResponse = [];
-  for(var i in response){
-      var cleanCustomer:any = {};
-      cleanCustomer.customerId = response[i].dni;
+  const cleanResponse = [];
+  for(let i in response){
+    let cleanCustomer: any = {};
+    cleanCustomer.customerId = response[i].dni;
       cleanCustomer.name = response[i].customer_info.first_name + " " + response[i].customer_info.last_name;
       cleanCustomer.address = response[i].customer_info.current_address;
       cleanCustomer.phone = response[i].phone;

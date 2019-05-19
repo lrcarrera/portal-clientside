@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
+import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
+
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,7 @@ export class LoginComponent {
   };
   loggingInProgress: Boolean = false;
 
-  constructor(private auth: AuthenticationService, private router: Router) {}
+  constructor(private snackBar: MatSnackBar, private auth: AuthenticationService, private router: Router) {}
 
 
   login() {
@@ -25,7 +27,19 @@ export class LoginComponent {
       this.loggingInProgress = false;
       this.router.navigateByUrl('/');
     }, (err) => {
+      this.loggingInProgress = false;
+      this.openSnackBar('Sorry, account not found');
+      this.router.navigateByUrl('/login');
       console.error(err);
     });
   }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message,'OK',{
+      duration: 1500,
+      verticalPosition: 'top',
+      panelClass: ['snackbar-style-home']
+    });
+  }
 }
+
