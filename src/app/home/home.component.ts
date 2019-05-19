@@ -1,6 +1,8 @@
 import {Component,OnInit} from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from '@angular/forms';
 import {CustomerService} from '../services/customer/customer.service';
+import {AdvisorService} from '../services/advisor/advisor.service';
+
 import {AccountContentTemplate} from './popup_create_account/account_content_template.component';
 import {animate,state,style,transition,trigger} from '@angular/animations';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
@@ -95,7 +97,8 @@ export class HomeComponent implements OnInit {
               private snackBar: MatSnackBar,
               public account: MatDialog,
               private formBuilderFind: FormBuilder,
-              private customerService: CustomerService) {
+              private customerService: CustomerService,
+              private advisorService: AdvisorService) {
   }
 
   ngOnInit() {
@@ -174,18 +177,32 @@ export class HomeComponent implements OnInit {
     this.data = this.customerService.getMovementsByAccount(this.customerDni);
   }
 
-  private renderRelationsWidget(groups) {
+  private renderRelationsWidget(advisorId,groups) {
 
     if (groups) {
-      this.dataRelations = new Observable(observer => {
-        observer.next({
-          advisor_name: this.details.name,
-          familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
-          economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
-        });
-        observer.complete();
-      });
+      if (advisorId) {
+        this.advisorService.getAdvisor(advisorId).subscribe((result: any) => {
+            this.parceInformationToRelationsWidget(result.email,groups);
+          },
+          error => {
+            this.errors = error;
+          });
+      } else {
+        this.parceInformationToRelationsWidget('NOT INFORMED',groups);
+      }
     }
+  }
+
+  private parceInformationToRelationsWidget(advisor,groups) {
+
+    this.dataRelations = new Observable(observer => {
+      observer.next({
+        advisor_name: advisor,
+        familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
+        economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
+      });
+      observer.complete();
+    });
   }
 
   public findCustomer() {
@@ -199,7 +216,7 @@ export class HomeComponent implements OnInit {
             if (result) {
               this.populateInfo(result);
               this.renderExpensesWidget();
-              this.renderRelationsWidget([result.investment_products.familiar_group,result.investment_products.economical_group]);
+              this.renderRelationsWidget(result.advisor,[result.investment_products.familiar_group,result.investment_products.economical_group]);
               this.renderCommercialInformationWidget(result);
             } else {
               this.openSnackBar('Customer not found');

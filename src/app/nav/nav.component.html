@@ -9,7 +9,7 @@
         <li *ngIf="!getAuth().isLoggedIn()"><a routerLink="/login">Login</a></li>
 
 
-        <li *ngIf="getAuth().isAdmin()"><a routerLink="/register">Register</a></li>
+        <li *ngIf="getAuth().isAdmin()"><a routerLink="/register">Users</a></li>
 
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/profile">Profile</a></li>
        <!-- <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/about">About</a></li>

@@ -138,12 +138,13 @@ export class CustomerComponent implements OnInit {
           const toSelectOffice = this.offices.find(c => c.name == result.assigned_office[0]);
           this.updateCustomerFb.get('updateCustomerOffice').setValue(toSelectOffice);
 
-          this.findToUpdateControl.value('');
           this.message = 'updateCustomer';
           this.updateCustomerForm = true;
         } else {
-          this.findForm.reset();
+          this.openSnackBar('Customer not found');
         }
+        this.findToUpdateControl.value('');
+
       },
       error => {
         this.openSnackBar('The service is unavailable');
@@ -184,17 +185,24 @@ export class CustomerComponent implements OnInit {
   private deleteCustomer() {
     let id = this.findControl.value;
 
-    this.customerService.removeCustomer(id).subscribe(result => {
-        console.log(result);
-        //this.deleteForm.reset();
-        this.mode = null;
-        this.openSnackBar('The customer was deleted successfully');
-        this.dataCustomerTable = new Observable(observer => {
-          observer.next();
-          observer.complete();
-        });
-        this.findControl.setValue('');
-        this.message = 'deletecustomer';
+    this.customerService.removeCustomer(id).subscribe((result: any) => {
+
+        if (result && result.n === 1) {
+          console.log(result);
+          //this.deleteForm.reset();
+          this.mode = null;
+          this.openSnackBar('The customer was deleted successfully');
+          this.dataCustomerTable = new Observable(observer => {
+            observer.next();
+            observer.complete();
+          });
+          this.findControl.setValue('');
+          this.message = 'deletecustomer';
+        } else {
+          this.findControl.setValue('');
+
+          this.openSnackBar('Customer not found');
+        }
       },
       error => {
         this.openSnackBar('The service is unavailable');

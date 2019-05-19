@@ -39,8 +39,8 @@
           <mat-card-title class="title-info-style" *ngIf="customerName">{{customerName}}</mat-card-title>
           <mat-card-subtitle>Customer</mat-card-subtitle>
 -->
-          <div *ngIf="!customerDni || !customerPhone || !customerAddress">
-            <div class="home-dni-icon-before" style="margin-left: 10px;"> </div>
+          <div style="margin-left: auto; margin-right: auto;" *ngIf="!customerDni || !customerPhone || !customerAddress">
+            <div class="home-dni-icon-before"> </div>
             <span *ngIf="!showCustomerNameLoading"> Search a customer...</span>
             <mat-spinner *ngIf="showCustomerNameLoading"  class="customer-name-loading" [diameter]="20"></mat-spinner>
 
