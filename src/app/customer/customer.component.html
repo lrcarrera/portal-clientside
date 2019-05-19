@@ -359,6 +359,6 @@
     </mat-grid-tile>
   </section>
 </mat-grid-list>-->
-<div>
-  <table-with-customers style="margin-top:15px; margin-bottom: 65px;"></table-with-customers>
+<div style="margin-top:15px; margin-bottom: 240px;" >
+  <table-with-customers [dataCustomerTable]="dataCustomerTable | async"></table-with-customers>
 </div>

@@ -4,11 +4,14 @@ import {CustomerService} from '../services/customer/customer.service';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
 
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA,MatDialogRef} from '@angular/material';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
+import {AboutComponent} from '../about/about.component';
+import {Observable} from 'rxjs';
+import {RelationsModel} from '../home/home.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(control: FormControl | null,form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
@@ -25,9 +28,12 @@ export interface Office {
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.scss']
+  styleUrls: ['./customer.component.scss'],
+  providers: [AboutComponent]
 })
 export class CustomerComponent implements OnInit {
+
+  dataCustomerTable: Observable<boolean>;
 
   matcher = new MyErrorStateMatcher();
 
@@ -68,7 +74,7 @@ export class CustomerComponent implements OnInit {
   ];
 
 
-  constructor(private snackBar: MatSnackBar, private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private formBuilderUpdate: FormBuilder, private formBuilderDelete: FormBuilder, private formBuilderFind: FormBuilder, private customerService: CustomerService) {
+  constructor(private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderDelete: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
   }
 
   ngOnInit() {
@@ -76,13 +82,13 @@ export class CustomerComponent implements OnInit {
       customerId: ['', Validators.required],
     });*/
     this.updateCustomerFb = this.formBuilder.group({
-      updateCustomerLevel: [null, Validators.required],
-      updateCustomerOffice: [null, Validators.required]
+      updateCustomerLevel: [null,Validators.required],
+      updateCustomerOffice: [null,Validators.required]
 
     });
 
     this.findForm = this.formBuilderFind.group({
-      customerId: ['', Validators.required],
+      customerId: ['',Validators.required],
     });
     /*this.updateForm = this.formBuilderUpdate.group({
       firstNameUpdate: ['', Validators.required],
@@ -97,7 +103,7 @@ export class CustomerComponent implements OnInit {
 
     this.authenticationService.profile().subscribe(user => {
       this.details = user.authorizedData;
-    }, (err) => {
+    },(err) => {
       console.error(err);
     });
   }
@@ -136,12 +142,12 @@ export class CustomerComponent implements OnInit {
     };
   }*/
 
-  private findCustomer(){
+  private findCustomer() {
     let id = this.findToUpdateControl.value;
 
-    this.customerService.getCustomer(id).subscribe((result:any) => {
+    this.customerService.getCustomer(id).subscribe((result: any) => {
         console.log(result);
-        if(result){
+        if (result) {
           /*this.firstNameUpdateValue = ;
           this.lastNameUpdateValue = ;
           this.addressUpdateValue = result.customer_info.current_address;
@@ -165,48 +171,10 @@ export class CustomerComponent implements OnInit {
           const toSelectOffice = this.offices.find(c => c.name == result.assigned_office[0]);
           this.updateCustomerFb.get('updateCustomerOffice').setValue(toSelectOffice);
 
-          //this.stageValue = result.customer_info.risk_money_laundering[0];
-
-         // this.exposureControlUpdate.setValue(result.customer_info.risk_money_laundering[0]);
-         // this.exposureControlUpdate.patchValue(result.customer_info.risk_money_laundering[0])
-          //this.officeControlUpdate.setValue(this.offices[0].name);
-
-          /*phoneControlUpdate = new FormControl('', [
-            Validators.required,
-            Validators.minLength(9)
-          ]);
-          homeControlUpdate = new FormControl('', [
-            Validators.required,
-          ]);
-          dniControlUpdate = new FormControl('', [
-            Validators.required,
-            Validators.minLength(9)
-          ]);
-          firstNameControlUpdate = new FormControl('', [
-            Validators.required,
-          ]);
-          lastNameControlUpdate = new FormControl('', [
-            Validators.required,
-          ]);
-
-          exposureControlUpdate = new FormControl('', [
-            Validators.required,
-          ]);
-
-          officeControlUpdate = new FormControl('', [
-            Validators.required,
-          ]);
-
-         /* this.updateForm.controls['firstNameUpdate'].setValue(result.customer_info.first_name);
-          this.updateForm.controls['lastNameUpdate'].setValue(result.customer_info.last_name);
-          this.updateForm.controls['dniUpdate'].setValue(result.dni);
-          this.updateForm.controls['addressUpdate'].setValue(result.customer_info.current_address);
-          this.updateForm.controls['phoneUpdate'].setValue(result.phone);*/
-
-
+          this.findToUpdateControl.value('');
           this.message = 'updateCustomer';
           this.updateCustomerForm = true;
-        }else{
+        } else {
           this.findForm.reset();
         }
       },
@@ -220,16 +188,21 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  private updateCustomer(){
+  private updateCustomer() {
     let data = this.buildRequestDataAddCustomer();
 
-    this.customerService.updateCustomer(this.dniUpdateInContext, data).subscribe(result => {
+    this.customerService.updateCustomer(this.dniUpdateInContext,data).subscribe(result => {
         console.log(result);
         /*this.form.reset();
         this.mode = null;
         this.message = 'addcustomer';*/
         this.openSnackBar('The customer was updated successfully');
+        this.customerTable.ngOnInit();
 
+        this.dataCustomerTable = new Observable(observer => {
+          observer.next();
+          observer.complete();
+        });
       },
       error => {
         this.openSnackBar('The service is unavailable');
@@ -241,15 +214,19 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  private deleteCustomer(){
+  private deleteCustomer() {
     let id = this.findControl.value;
 
     this.customerService.removeCustomer(id).subscribe(result => {
         console.log(result);
-       //this.deleteForm.reset();
+        //this.deleteForm.reset();
         this.mode = null;
         this.openSnackBar('The customer was deleted successfully');
-
+        this.dataCustomerTable = new Observable(observer => {
+          observer.next();
+          observer.complete();
+        });
+        this.findControl.setValue('');
         this.message = 'deletecustomer';
       },
       error => {
@@ -262,14 +239,17 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  private createCustomer(){
+  private createCustomer() {
     let data = this.buildRequestDataAddCustomer();
 
     this.customerService.createCustomer(data).subscribe(result => {
         //console.log(result);
         //this.form.reset();
         this.openSnackBar('The customer was added successfully');
-
+        this.dataCustomerTable = new Observable(observer => {
+          observer.next();
+          observer.complete();
+        });
         this.mode = null;
         this.message = 'addcustomer';
       },
@@ -293,54 +273,54 @@ export class CustomerComponent implements OnInit {
   }
 
 
-  phoneControlUpdate = new FormControl('', [
+  phoneControlUpdate = new FormControl('',[
     Validators.required,
     Validators.minLength(9)
   ]);
-  homeControlUpdate = new FormControl('', [
+  homeControlUpdate = new FormControl('',[
     Validators.required,
   ]);
-  dniControlUpdate = new FormControl('', [
-    Validators.required,
-    Validators.minLength(9)
-  ]);
-  firstNameControlUpdate = new FormControl('', [
-    Validators.required,
-  ]);
-  lastNameControlUpdate = new FormControl('', [
-    Validators.required,
-  ]);
-  phoneControl = new FormControl('', [
+  dniControlUpdate = new FormControl('',[
     Validators.required,
     Validators.minLength(9)
   ]);
-  homeControl = new FormControl('', [
+  firstNameControlUpdate = new FormControl('',[
     Validators.required,
   ]);
-  dniControl = new FormControl('', [
+  lastNameControlUpdate = new FormControl('',[
+    Validators.required,
+  ]);
+  phoneControl = new FormControl('',[
     Validators.required,
     Validators.minLength(9)
   ]);
-  firstNameControl = new FormControl('', [
+  homeControl = new FormControl('',[
     Validators.required,
   ]);
-  lastNameControl = new FormControl('', [
+  dniControl = new FormControl('',[
+    Validators.required,
+    Validators.minLength(9)
+  ]);
+  firstNameControl = new FormControl('',[
     Validators.required,
   ]);
-
-  exposureControl = new FormControl('', [
-    Validators.required,
-  ]);
-
-  officeControl = new FormControl('', [
-    Validators.required,
-  ]);
-
-  findControl = new FormControl('', [
+  lastNameControl = new FormControl('',[
     Validators.required,
   ]);
 
-  findToUpdateControl = new FormControl('', [
+  exposureControl = new FormControl('',[
+    Validators.required,
+  ]);
+
+  officeControl = new FormControl('',[
+    Validators.required,
+  ]);
+
+  findControl = new FormControl('',[
+    Validators.required,
+  ]);
+
+  findToUpdateControl = new FormControl('',[
     Validators.required,
   ]);
   levelExposure: any;

@@ -1,6 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component,Input,OnChanges,OnInit,SimpleChanges,ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { CustomerService } from '../services/customer/customer.service';
+import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
+import {DataModel} from '../barchart/bar-chart.component';
 
 export interface CustomerData {
   customerId: string;
@@ -14,37 +16,24 @@ export interface CustomerData {
    templateUrl: './about.component.html',
    styleUrls: ['./about.component.scss']
  })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['customerId', 'name', 'address', 'phone'];
   dataSource: MatTableDataSource<CustomerData>;
+  advisorDetails: UserDetails;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private customerService: CustomerService) {
+   @Input()
+   dataCustomerTable: boolean = false;
+
+  constructor(private authenticationService: AuthenticationService, private customerService: CustomerService) {
 
   //this.dataSource = new MatTableDataSource(users);
   }
 
   ngOnInit() {
-
-    this.customerService.getAllCustomers().subscribe((result:any) => {
-        console.log(result);
-        if(result){
-          var customers = cleanResponseToUI(result);
-          this.dataSource = new MatTableDataSource(customers);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }else{
-        //  this.findForm.reset();
-        }
-      },
-      error => {
-      //  this.errors = error;
-      }
-    );
-
-
+    this.fillTable();
   }
 
   applyFilter(filterValue: string) {
@@ -55,8 +44,36 @@ export class AboutComponent implements OnInit {
     }
   }
 
+   ngOnChanges(changes: SimpleChanges): void {
+    this.fillTable();
+   }
 
-}
+
+   private fillTable() {
+     this.authenticationService.profile().subscribe(user => {
+       this.advisorDetails = user.authorizedData;
+
+       this.customerService.getAllCustomersByAdvisorId(this.advisorDetails._id).subscribe((result:any) => {
+           console.log(result);
+           if(result){
+             var customers = cleanResponseToUI(result);
+             this.dataSource = new MatTableDataSource(customers);
+             this.dataSource.paginator = this.paginator;
+             this.dataSource.sort = this.sort;
+           }else{
+             //  this.findForm.reset();
+           }
+         },
+         error => {
+           //  this.errors = error;
+         }
+       );
+
+     },(err) => {
+       console.error(err);
+     });
+   }
+ }
 
 /** Builds and returns a new User. */
 /*function createNewUser(id: number): UserData {

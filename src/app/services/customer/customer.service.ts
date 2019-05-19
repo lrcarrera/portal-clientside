@@ -66,4 +66,9 @@ export class CustomerService {
 
   }
 
+  /****************************************ADVISOR ROUTES***********************************************/
+
+  getAllCustomersByAdvisorId(id){
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/customerbyadvisor/' + id);
+  }
 }
