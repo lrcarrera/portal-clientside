@@ -99,25 +99,45 @@
             </mat-form-field>
 
             <mat-form-field style="width: 100%; padding-left: 20px;" class="example-full-width">
-              <mat-label>Office:
-              </mat-label>
-              <mat-select [formControl]="officeControl" required>
-                <mat-option>Select an Office</mat-option>
-                <mat-option *ngFor="let office of offices" [value]="office">
-                  {{office.name.toUpperCase()}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="officeControl.hasError('required')">Please choose an Office</mat-error>
-              <mat-hint>{{officeControl.value?.sound}}</mat-hint>
-            </mat-form-field>
+            <mat-label>Office:
+            </mat-label>
+            <mat-select [formControl]="officeControl" required>
+              <mat-option>Select an Office</mat-option>
+              <mat-option *ngFor="let office of offices" [value]="office">
+                {{office.name.toUpperCase()}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="officeControl.hasError('required')">Please choose an Office</mat-error>
+            <mat-hint>{{officeControl.value?.sound}}</mat-hint>
+          </mat-form-field>
+
+
 
           <!--TODO: Add investment and derivative products-->
 
           </form>
 
         </mat-dialog-content>
-        <mat-dialog-actions align="end">
+        <mat-dialog-actions class="customer-admin-actions" align="end">
          <!-- <button class="customer-button-search" mat-button mat-dialog-close>Cancel</button>-->
+
+          <div  *ngIf="isAdmin">
+
+            <mat-form-field class="customer-advisor-combo-list example-full-width">
+              <mat-label>Advisor:
+              </mat-label>
+              <mat-select [formControl]="advisorControl" required>
+                <mat-option>Select an Advisor for customer</mat-option>
+                <mat-option *ngFor="let advisor of advisors" [value]="advisor">
+                  {{advisor.email}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="advisorControl.hasError('required')">Please choose an Advisor</mat-error>
+              <mat-hint>{{advisorControl.value?.sound}}</mat-hint>
+            </mat-form-field>
+
+          </div>
+
           <button [disabled]=" phoneControl.hasError('required') ||
                                homeControl.hasError('required') ||
                                dniControl.hasError('required') ||
@@ -327,7 +347,39 @@
           </form>
 
         </mat-dialog-content>
-        <mat-dialog-actions align="end">
+        <mat-dialog-actions class="customer-admin-actions" align="end">
+
+          <div  *ngIf="isAdmin">
+            <form [formGroup]="updateCustomerFb">
+            <mat-form-field  class="customer-advisor-combo-list example-full-width">
+              <mat-label>Advisor:
+              </mat-label>
+              <mat-select placeholder="Advisor" required formControlName="updateCustomerAdvisor">
+                <mat-option>Select an Advisor</mat-option>
+                <mat-option *ngFor="let advisor of advisors" [value]="advisor">
+                  {{advisor.email}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            </form>
+
+
+            <!--
+            <mat-form-field class="customer-advisor-combo-list example-full-width">
+              <mat-label>Advisor:
+              </mat-label>
+              <mat-select [formControl]="advisorControl" required>
+                <mat-option>Select an Advisor for customer</mat-option>
+                <mat-option *ngFor="let advisor of advisors" [value]="advisor">
+                  {{advisor.email}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="advisorControl.hasError('required')">Please choose an Advisor</mat-error>
+              <mat-hint>{{advisorControl.value?.sound}}</mat-hint>
+            </mat-form-field>-->
+
+          </div>
+
           <!-- <button class="customer-button-search" mat-button mat-dialog-close>Cancel</button>-->
           <button [disabled]=" phoneControlUpdate.hasError('required') ||
                                homeControlUpdate.hasError('required') ||

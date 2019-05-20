@@ -28,4 +28,8 @@ export class AdvisorService {
   getAdvisor(id){
     return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/advisor/" + id);
   }
+
+  getAllAdvisors(){
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/advisor');
+  }
 }

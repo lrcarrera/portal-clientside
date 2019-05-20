@@ -6,6 +6,7 @@ import {MatSnackBar} from '@angular/material';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
 import {AboutComponent} from '../about/about.component';
 import {Observable} from 'rxjs';
+import {AdvisorService} from '../services/advisor/advisor.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null,form: FormGroupDirective | NgForm | null): boolean {
@@ -16,6 +17,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export interface Level {
   level: string;
+}
+
+export interface Advisor {
+  role: string;
+  _id: string;
+  name: string;
+  email: string;
 }
 
 export interface Office {
@@ -70,8 +78,12 @@ export class CustomerComponent implements OnInit {
     {name: 'B. PUBLICA ZARAGOZA'},
   ];
 
+  advisors: Advisor[] = [];
 
-  constructor(private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
+  isAdmin: boolean = false;
+
+
+  constructor(private advisorService: AdvisorService,private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
   }
 
   ngOnInit() {
@@ -80,7 +92,8 @@ export class CustomerComponent implements OnInit {
     });*/
     this.updateCustomerFb = this.formBuilder.group({
       updateCustomerLevel: [null,Validators.required],
-      updateCustomerOffice: [null,Validators.required]
+      updateCustomerOffice: [null,Validators.required],
+      updateCustomerAdvisor: [null,Validators.required]
 
     });
 
@@ -95,12 +108,31 @@ export class CustomerComponent implements OnInit {
     },(err) => {
       console.error(err);
     });
+
+    this.isAdmin = this.authenticationService.isAdmin();
+
+
+    if (this.isAdmin) {
+      this.advisorService.getAllAdvisors().subscribe((result: any) => {
+        result.forEach((advisor: Advisor) => {
+          this.advisors.push(advisor);
+        });
+      },(err) => {
+        console.error(err);
+      });
+    }
   }
 
-  private buildRequestDataAddCustomer() {
+  private buildRequestDataCustomer() {
 
     //let formObj = this.form.getRawValue();
     //  requestData.customer_info = {};
+    let advisorInContext;
+    if (this.isAdmin) {
+      advisorInContext = this.advisorControl.value;
+    } else {
+      advisorInContext = this.details._id;
+    }
     return {
       customer: {
         customer_info: {
@@ -114,7 +146,7 @@ export class CustomerComponent implements OnInit {
         phone: this.phoneControl.value,
         assigned_office: this.officeControl.value.name
       },
-      advisor: this.details._id
+      advisor: advisorInContext
     };
   }
 
@@ -138,12 +170,16 @@ export class CustomerComponent implements OnInit {
           const toSelectOffice = this.offices.find(c => c.name == result.assigned_office[0]);
           this.updateCustomerFb.get('updateCustomerOffice').setValue(toSelectOffice);
 
+          if(this.isAdmin) {//TODO: Revisar porque no updatea en la BD
+            const toSelectAdvisor = this.advisors.find(advisor => advisor.email == this.getAdvisorEmailToFillCombo(result.advisor));
+            this.updateCustomerFb.get('updateCustomerAdvisor').setValue(toSelectAdvisor);
+          }
+
           this.message = 'updateCustomer';
           this.updateCustomerForm = true;
         } else {
           this.openSnackBar('Customer not found');
         }
-        this.findToUpdateControl.value('');
 
       },
       error => {
@@ -156,14 +192,15 @@ export class CustomerComponent implements OnInit {
     );
   }
 
+  private getAdvisorEmailToFillCombo(advisorId) {
+    return this.advisors.find(advisor => advisor._id === advisorId).email;
+  }
+
   private updateCustomer() {
-    let data = this.buildRequestDataAddCustomer();
+    let data = this.buildRequestDataCustomer();
 
     this.customerService.updateCustomer(this.dniUpdateInContext,data).subscribe(result => {
         console.log(result);
-        /*this.form.reset();
-        this.mode = null;
-        this.message = 'addcustomer';*/
         this.openSnackBar('The customer was updated successfully');
         this.customerTable.ngOnInit();
 
@@ -215,7 +252,7 @@ export class CustomerComponent implements OnInit {
   }
 
   private createCustomer() {
-    let data = this.buildRequestDataAddCustomer();
+    let data = this.buildRequestDataCustomer();
 
     this.customerService.createCustomer(data).subscribe(result => {
         //console.log(result);
@@ -296,6 +333,10 @@ export class CustomerComponent implements OnInit {
   ]);
 
   findToUpdateControl = new FormControl('',[
+    Validators.required,
+  ]);
+
+  advisorControl = new FormControl('',[
     Validators.required,
   ]);
   levelExposure: any;
