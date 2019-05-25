@@ -34,6 +34,10 @@ export class NavComponent implements OnInit {
     return this.auth;
   }
 
+  getEmailLogged(){
+    return this.auth.getUserDetails().email;
+  }
+
   /*isAdmin() {
     if (this.auth.getUserDetails()) {
       return this.auth.getUserDetails().role === 'Admin';

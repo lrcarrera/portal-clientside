@@ -15,6 +15,11 @@ header {
             li {
                 float: left;
 
+                span {
+                  margin-right: 30px;
+                  color: white;
+                }
+
                 a {
                     padding: 1.5em;
                     text-transform: uppercase;
@@ -28,3 +33,21 @@ header {
         }
     }
 }
+
+.nav-email-tittle {
+  margin-left: 40px;
+  color: white;
+
+}
+/*.nav-email-tittle {
+  color: white;
+  font-weight: lighter;
+}
+
+.user-logger-icon {
+  background-image: url(../../assets/home_assets/png/bank-building.png);
+  background-size: cover;
+  height: 20px;
+  width: 20px;
+}
+*/
