@@ -91,7 +91,9 @@ export class HomeComponent implements OnInit {
   errors: string;
   hasAccounts: boolean = false;
 
+  isAdmin: boolean = false;
   details: UserDetails;
+  advisorIdFromCustomerinContext: string;
 
   constructor(private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar,
@@ -111,6 +113,9 @@ export class HomeComponent implements OnInit {
     },(err) => {
       console.error(err);
     });
+
+
+    this.isAdmin = this.authenticationService.isAdmin();
   }
 
   public openDialog() {
@@ -128,17 +133,18 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       console.log(`Dialog result: ${result}`);
-      this.toggleAccountsTable(result);
+      this.refreshView(result);
+
     });
   }
 
-  public toggleAccountsTable(result) {
+  public refreshView(result) {
     if (result.refresh) {
       this.tableIsFilled = false;
       this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result: any) => {
 
           this.fillTableAndChartWithAccounts(result);
-
+          this.renderExpensesWidget();
         },
         error => {
           this.errors = error;
@@ -215,10 +221,12 @@ export class HomeComponent implements OnInit {
         this.showLoadingInWidgets(true);
         this.customerService.getCustomer(id).subscribe((result: any) => {
             if (result) {
+              this.advisorIdFromCustomerinContext = result.advisor;
               this.populateInfo(result);
               this.renderExpensesWidget();
               this.renderRelationsWidget(result.advisor,[result.investment_products.familiar_group,result.investment_products.economical_group]);
               this.renderCommercialInformationWidget(result);
+
             } else {
               this.openSnackBar('Customer not found');
               this.findForm.reset();
@@ -293,5 +301,9 @@ export class HomeComponent implements OnInit {
       observer.complete();
     });
 
+  }
+
+  isButtonVisible() {
+    return this.isAdmin || (this.details._id === this.advisorIdFromCustomerinContext);
   }
 }
