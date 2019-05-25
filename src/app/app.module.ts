@@ -29,6 +29,7 @@ import { AppMaterialModule } from './app.material.module';
 import { BarChartComponent } from './barchart/bar-chart.component';
 import { RelationsComponent } from './relations/relations.component';
 import { CommercialDataComponent } from './commercial-data/commercial-data.component';
+import { MovementContentTemplateComponent } from './home/movement-content-template/movement-content-template.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CommercialDataComponent } from './commercial-data/commercial-data.compo
     ProfileComponent,
     BarChartComponent,
     RelationsComponent,
-    CommercialDataComponent
+    CommercialDataComponent,
+    MovementContentTemplateComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,7 @@ import { CommercialDataComponent } from './commercial-data/commercial-data.compo
     BrowserAnimationsModule
   ],
   providers: [],
-  entryComponents: [AboutComponent, AccountContentTemplate],
+  entryComponents: [AboutComponent, AccountContentTemplate, MovementContentTemplateComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -169,11 +169,11 @@
       </mat-grid-tile>
       <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: white;">
         <div style="margin-left: auto;" *ngIf="hasAccounts">
-          <button  mat-stroked-button class="button-add-movement" (click)="openDialog()">Add Movement</button>
-          <button mat-stroked-button class="button-add-account" (click)="openDialog()">Add Account</button>
+          <button  mat-stroked-button class="button-add-movement" (click)="openDialogMovements()">Add Movement</button>
+          <button mat-stroked-button class="button-add-account" (click)="openDialogAccounts()">Add Account</button>
         </div>
         <div style="margin-left: auto;" *ngIf="!hasAccounts">
-          <button mat-stroked-button class="button-add-account-not-movement" (click)="openDialog()">Add Account</button>
+          <button mat-stroked-button class="button-add-account-not-movement" (click)="openDialogAccounts()">Add Account</button>
         </div>
       </mat-grid-tile>
     </mat-grid-list>

@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Add transaction to account</h2>
+<mat-dialog-content>
+
+  <form class="example-form">
+
+    <mat-form-field class="fields-form-movements">
+      <mat-label>Account:
+      </mat-label>
+      <mat-select [formControl]="accountControl" required>
+        <mat-option>Select an Office</mat-option>
+        <mat-option *ngFor="let account of accountsToComboBox" [value]="account">
+          {{account.account_name.toUpperCase()}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="accountControl.hasError('required')">Please choose an Account</mat-error>
+      <mat-hint>{{accountControl.value?.sound}}</mat-hint>
+    </mat-form-field>
+
+    <br><br>
+
+    <div class="fields-form-movements">
+      <mat-radio-group aria-label="Type:">
+        <mat-radio-button value="1">Deposit</mat-radio-button>
+        <mat-radio-button [checked]="true" style="padding-left: 20px;" class="fields-form-movements-second-radio"
+                          value="2">Payment
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <br><br>
+
+    <mat-form-field style="width: 100%;" class="example-full-width">
+
+      <input matInput placeholder="Description" [formControl]="descriptionControl"
+             [errorStateMatcher]="matcher">
+
+      <mat-error *ngIf="descriptionControl.hasError('required')">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <br><br>
+
+    <mat-form-field style="width: 100%;" class="example-full-width">
+      <input matInput placeholder="Amount (Euros)" [formControl]="amountControl"
+             [errorStateMatcher]="matcher">
+
+      <mat-error *ngIf="amountControl.hasError('required')">
+        Amount is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    [disabled]="accountControl.hasError('required') || descriptionControl.hasError('required') || amountControl.hasError('required')"
+    mat-button cdkFocusInitial (click)="storeMovementInAccount()">Save
+  </button>
+</mat-dialog-actions>
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license -->

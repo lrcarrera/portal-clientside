@@ -4,10 +4,12 @@ import {CustomerService} from '../services/customer/customer.service';
 import {AdvisorService} from '../services/advisor/advisor.service';
 
 import {AccountContentTemplate} from './popup_create_account/account_content_template.component';
+
 import {animate,state,style,transition,trigger} from '@angular/animations';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
 import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
 import {Observable,of} from 'rxjs';
+import {MovementContentTemplateComponent} from './movement-content-template/movement-content-template.component';
 
 
 export interface DataModel {
@@ -98,6 +100,7 @@ export class HomeComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar,
               public account: MatDialog,
+              public movementDialog: MatDialog,
               private formBuilderFind: FormBuilder,
               private customerService: CustomerService,
               private advisorService: AdvisorService) {
@@ -118,7 +121,40 @@ export class HomeComponent implements OnInit {
     this.isAdmin = this.authenticationService.isAdmin();
   }
 
-  public openDialog() {
+  public openDialogMovements() {
+
+    this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result: any) => {
+
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = '600px';
+        //this.fillTableAndChartWithAccounts(result);
+        //this.renderExpensesWidget();
+        dialogConfig.data = {
+          dni: this.customerDni,
+          accounts: result
+        };
+
+
+        const dialogRef = this.movementDialog.open(MovementContentTemplateComponent,dialogConfig);
+
+        dialogRef.afterClosed().subscribe(result => {
+
+          console.log(`Dialog result: ${result}`);
+          this.refreshView(result);
+
+        });
+
+
+      },
+      error => {
+        this.errors = error;
+      });
+
+  }
+
+  public openDialogAccounts() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -127,6 +163,7 @@ export class HomeComponent implements OnInit {
     dialogConfig.data = {
       dni: this.customerDni
     };
+
 
     const dialogRef = this.account.open(AccountContentTemplate,dialogConfig);
 

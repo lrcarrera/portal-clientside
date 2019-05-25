@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {DataModel} from '../../home/home.component';
 
 
@@ -21,54 +21,63 @@ export interface RelationsModel {
 
 export class CustomerService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   /**************************************CUSTOMER ROUTES**************************************/
 
-  getAllCustomers(){
+  getAllCustomers() {
     return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/customer');
   }
 
-  createCustomer(customer){
-    return this.http.post('https://enigmatic-mountain-27495.herokuapp.com/customer', customer);
+  createCustomer(customer) {
+    return this.http.post('https://enigmatic-mountain-27495.herokuapp.com/customer',customer);
   }
 
-  removeCustomer(id){
-    return this.http.delete("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id);
+  removeCustomer(id) {
+    return this.http.delete('https://enigmatic-mountain-27495.herokuapp.com/customer/' + id);
   }
 
-  getCustomer(id){
-    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id);
+  getCustomer(id) {
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/customer/' + id);
   }
-  updateCustomer(id, customer){
-    return this.http.put("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id, customer);
+
+  updateCustomer(id,customer) {
+    return this.http.put('https://enigmatic-mountain-27495.herokuapp.com/customer/' + id,customer);
   }
 
   /**************************************ACCOUNT ROUTES**************************************/
 
-  addAccountToCustomer(id, accountData){
-    return this.http.put("https://enigmatic-mountain-27495.herokuapp.com/account/" + id, accountData);
+  addAccountToCustomer(id,accountData) {
+    return this.http.put('https://enigmatic-mountain-27495.herokuapp.com/account/' + id,accountData);
   }
-  getAccountsFromCustomer(id){
-    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/account/" + id);
+
+  getAccountsFromCustomer(id) {
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/account/' + id);
   }
 
   /**************************************MOVEMENTS ROUTES**************************************/
 
-  getMovementsByAccount(id){
-    return this.http.get<DataModel>("https://enigmatic-mountain-27495.herokuapp.com/movement/" + id);
+  getMovementsByAccount(id) {
+    return this.http.get<DataModel>('https://enigmatic-mountain-27495.herokuapp.com/movement/' + id);
+  }
+
+  addMovementToAccount(id,movementData) {
+    return this.http.put('https://enigmatic-mountain-27495.herokuapp.com/movement/' + id, movementData);
   }
 
   /**************************************RELATIONS WITH BANK ROUTES**************************************/
 
-  getRelationsByCustomer(id){
-    return this.http.get<RelationsModel>("https://enigmatic-mountain-27495.herokuapp.com/relations/" + id);
+  getRelationsByCustomer(id) {
+    return this.http.get<RelationsModel>('https://enigmatic-mountain-27495.herokuapp.com/relations/' + id);
 
   }
 
   /****************************************ADVISOR ROUTES***********************************************/
 
-  getAllCustomersByAdvisorId(id){
+  getAllCustomersByAdvisorId(id) {
     return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/customerbyadvisor/' + id);
   }
+
+
 }
