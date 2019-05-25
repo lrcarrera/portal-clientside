@@ -45,18 +45,11 @@ export class CustomerComponent implements OnInit {
   updateCustomerFb: FormGroup;
 
   mode: string;
-  message: string;
-
-  errors: string;
-  //deleteForm: FormGroup;
   findForm: FormGroup;
-  updateForm: FormGroup;
 
   updateCustomerForm: boolean;
 
   dniUpdateInContext: string;
-
-  messageFormDeleteCustomer: any;
 
   details: UserDetails;
 
@@ -81,6 +74,8 @@ export class CustomerComponent implements OnInit {
   advisors: Advisor[] = [];
 
   isAdmin: boolean = false;
+
+  triggerTable: boolean = false;
 
 
   constructor(private advisorService: AdvisorService,private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
@@ -150,6 +145,53 @@ export class CustomerComponent implements OnInit {
     };
   }
 
+  /*
+
+    phoneControlUpdate = new FormControl('',[
+      Validators.required,
+      Validators.minLength(9)
+    ]);
+    homeControlUpdate = new FormControl('',[
+      Validators.required,
+    ]);
+    dniControlUpdate = new FormControl('',[
+      Validators.required,
+      Validators.minLength(9)
+    ]);
+    firstNameControlUpdate = new FormControl('',[
+      Validators.required,
+    ]);
+    lastNameControlUpdate = new FormControl('',[
+      Validators.required,
+    ]);*/
+
+  private buildRequestDataCustomerToUpdate() {
+
+    //let formObj = this.form.getRawValue();
+    //  requestData.customer_info = {};
+    let advisorInContext;
+    if (this.isAdmin) {
+      advisorInContext = this.updateCustomerFb.controls['updateCustomerAdvisor'].value._id;
+    } else {
+      advisorInContext = this.details._id;
+    }
+    return {
+      customer: {
+        customer_info: {
+          first_name: this.firstNameControlUpdate.value,
+          last_name: this.lastNameControlUpdate.value,
+          current_address: this.homeControlUpdate.value,
+          risk_money_laundering: this.updateCustomerFb.controls['updateCustomerLevel'].value.level
+          //email_address = formObj.emailAddress;
+        },
+        dni: this.dniControlUpdate.value,
+        phone: this.phoneControlUpdate.value,
+        assigned_office: this.updateCustomerFb.controls['updateCustomerOffice'].value.name,
+        advisor: advisorInContext
+      },
+    };
+  }
+
   private findCustomer() {
     let id = this.findToUpdateControl.value;
 
@@ -170,12 +212,10 @@ export class CustomerComponent implements OnInit {
           const toSelectOffice = this.offices.find(c => c.name == result.assigned_office[0]);
           this.updateCustomerFb.get('updateCustomerOffice').setValue(toSelectOffice);
 
-          if(this.isAdmin) {//TODO: Revisar porque no updatea en la BD
-            const toSelectAdvisor = this.advisors.find(advisor => advisor.email == this.getAdvisorEmailToFillCombo(result.advisor));
+          if (this.isAdmin) {//TODO: Revisar porque no updatea en la BD
+            const toSelectAdvisor = this.advisors.find(advisor => advisor.email === this.getAdvisorEmailToFillCombo(result.advisor));
             this.updateCustomerFb.get('updateCustomerAdvisor').setValue(toSelectAdvisor);
           }
-
-          this.message = 'updateCustomer';
           this.updateCustomerForm = true;
         } else {
           this.openSnackBar('Customer not found');
@@ -197,26 +237,36 @@ export class CustomerComponent implements OnInit {
   }
 
   private updateCustomer() {
-    let data = this.buildRequestDataCustomer();
+    let data = this.buildRequestDataCustomerToUpdate();
+    let dni = this.dniUpdateInContext;
 
-    this.customerService.updateCustomer(this.dniUpdateInContext,data).subscribe(result => {
+    this.customerService.updateCustomer(dni,data).subscribe(result => {
         console.log(result);
         this.openSnackBar('The customer was updated successfully');
-        this.customerTable.ngOnInit();
 
-        this.dataCustomerTable = new Observable(observer => {
-          observer.next();
-          observer.complete();
-        });
+
+        this.triggerCustomerTable();
+
+        this.updateCustomerForm = false;
+
       },
       error => {
         this.openSnackBar('The service is unavailable');
+        this.updateCustomerForm = false;
+
         console.log(error);
       },
       () => {
         // No errors, route to new page
       }
     );
+  }
+
+  private triggerCustomerTable() {
+    this.dataCustomerTable = new Observable(observer => {
+      observer.next(!this.triggerTable);
+      observer.complete();
+    });
   }
 
   private deleteCustomer() {
@@ -229,12 +279,11 @@ export class CustomerComponent implements OnInit {
           //this.deleteForm.reset();
           this.mode = null;
           this.openSnackBar('The customer was deleted successfully');
-          this.dataCustomerTable = new Observable(observer => {
-            observer.next();
-            observer.complete();
-          });
+
+
+          this.triggerCustomerTable();
+
           this.findControl.setValue('');
-          this.message = 'deletecustomer';
         } else {
           this.findControl.setValue('');
 
@@ -258,12 +307,11 @@ export class CustomerComponent implements OnInit {
         //console.log(result);
         //this.form.reset();
         this.openSnackBar('The customer was added successfully');
-        this.dataCustomerTable = new Observable(observer => {
-          observer.next();
-          observer.complete();
-        });
+
+
+        this.triggerCustomerTable();
+
         this.mode = null;
-        this.message = 'addcustomer';
       },
       error => {
 

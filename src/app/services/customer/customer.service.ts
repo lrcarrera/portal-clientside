@@ -41,7 +41,7 @@ export class CustomerService {
     return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id);
   }
   updateCustomer(id, customer){
-    return this.http.put("https://enigmatic-mountain-27495.herokuapp.com/customer/" + id, customer);
+    return this.http.put("http://localhost:5000/customer/" + id, customer);
   }
 
   /**************************************ACCOUNT ROUTES**************************************/
