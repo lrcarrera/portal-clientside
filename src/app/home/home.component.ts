@@ -117,6 +117,7 @@ export class HomeComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.width = '600px';
 
     dialogConfig.data = {
       dni: this.customerDni

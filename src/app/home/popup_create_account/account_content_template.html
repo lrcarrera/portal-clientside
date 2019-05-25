@@ -1,9 +1,10 @@
+
 <h2 mat-dialog-title>Create a new bank account</h2>
-<mat-dialog-content>
+<mat-dialog-content >
 
-  <form class="example-form">
+  <form  class="example-form">
 
-    <mat-form-field style="width: 100%;" class="example-full-width">
+    <mat-form-field style="width: 100%;">
 
       <input matInput placeholder="Bank account number" [formControl]="ibanControl"
       [errorStateMatcher]="matcher">
@@ -71,7 +72,6 @@ type: String
   <button [disabled]="ibanControl.hasError('minlength') || ibanControl.hasError('required') || descriptionControl.hasError('required')"
   mat-button cdkFocusInitial (click)="storeAccountToCustomerInContext()">Save</button>
 </mat-dialog-actions>
-
 
 <!-- Copyright 2019 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
