@@ -48,6 +48,7 @@ export class CustomerComponent implements OnInit {
   findForm: FormGroup;
 
   updateCustomerForm: boolean;
+  addCustomerForm: boolean;
 
   dniUpdateInContext: string;
 
@@ -78,13 +79,22 @@ export class CustomerComponent implements OnInit {
   triggerTable: boolean = false;
 
 
-  constructor(private advisorService: AdvisorService,private customerTable: AboutComponent,private snackBar: MatSnackBar,private authenticationService: AuthenticationService,private formBuilder: FormBuilder,private formBuilderUpdate: FormBuilder,private formBuilderFind: FormBuilder,private customerService: CustomerService) {
+  constructor(private advisorService: AdvisorService,
+              private customerTable: AboutComponent,
+              private snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService,
+              private formBuilder: FormBuilder,
+              private formBuilderUpdate: FormBuilder,
+              private formBuilderFind: FormBuilder,
+              private customerService: CustomerService) {
   }
 
   ngOnInit() {
     /*this.deleteForm = this.formBuilderDelete.group({
       customerId: ['', Validators.required],
     });*/
+
+
     this.updateCustomerFb = this.formBuilder.group({
       updateCustomerLevel: [null,Validators.required],
       updateCustomerOffice: [null,Validators.required],
@@ -97,6 +107,7 @@ export class CustomerComponent implements OnInit {
     });
 
     this.updateCustomerForm = false;
+    this.addCustomerForm = false;
 
     this.authenticationService.profile().subscribe(user => {
       this.details = user.authorizedData;
@@ -116,6 +127,19 @@ export class CustomerComponent implements OnInit {
         console.error(err);
       });
     }
+  }
+
+  private cleanAddForm(){
+    if (this.isAdmin) {
+      this.advisorControl.reset();
+    }
+    this.firstNameControl.reset();
+    this.lastNameControl.reset();
+    this.homeControl.reset();
+    this.exposureControl.reset();
+    this.dniControl.reset();
+    this.phoneControl.reset();
+    this.officeControl.reset();
   }
 
   private buildRequestDataCustomer() {
@@ -243,10 +267,7 @@ export class CustomerComponent implements OnInit {
     this.customerService.updateCustomer(dni,data).subscribe(result => {
         console.log(result);
         this.openSnackBar('The customer was updated successfully');
-
-
         this.triggerCustomerTable();
-
         this.updateCustomerForm = false;
 
       },
@@ -263,8 +284,9 @@ export class CustomerComponent implements OnInit {
   }
 
   private triggerCustomerTable() {
+    this.triggerTable = !this.triggerTable;
     this.dataCustomerTable = new Observable(observer => {
-      observer.next(!this.triggerTable);
+      observer.next(this.triggerTable);
       observer.complete();
     });
   }
@@ -303,19 +325,23 @@ export class CustomerComponent implements OnInit {
   private createCustomer() {
     let data = this.buildRequestDataCustomer();
 
-    this.customerService.createCustomer(data).subscribe(result => {
+    this.customerService.createCustomer(data).subscribe((result: any) => {
         //console.log(result);
         //this.form.reset();
-        this.openSnackBar('The customer was added successfully');
-
-
-        this.triggerCustomerTable();
-
+        if (result.code === 11000) {
+          this.openSnackBar('Another customer with the same ID was found');
+        } else {
+          this.openSnackBar('The customer was added successfully');
+          this.triggerCustomerTable();
+        }
         this.mode = null;
+        this.addCustomerForm = false;
+        this.cleanAddForm();
       },
       error => {
 
         this.openSnackBar('The service is unavailable');
+        this.mode = null;
         console.log(error);
       },
       () => {
