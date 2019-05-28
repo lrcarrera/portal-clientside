@@ -92,6 +92,7 @@
 
     </mat-grid-tile>
 
+
     <!--  <mat-grid-tile  [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
         <mat-spinner *ngIf="isCommercialInformationLoading" class="center_three_central_widget_header" [diameter]="20"></mat-spinner>
       </mat-grid-tile>-->
@@ -180,7 +181,7 @@
 
   </mat-card-content>
 
-  <mat-card-content *ngIf="isAdmin" class="mat-elevation-z4 global-position-header-style">
+  <mat-card-content *ngIf="!isAdmin" class="mat-elevation-z4 global-position-header-style">
 
 
     <mat-grid-list *ngIf="tableIsFilled" cols="1" rowHeight="40px">

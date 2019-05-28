@@ -1,7 +1,11 @@
 <mat-list *ngIf="showCommercialInformationWidget" class="commercial-information-list-style">
   <mat-list-item class="commercial-information-risk-money-font">Office:
     <span class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerOffice }}</span>
+    <button  mat-stroked-button class="button-profile" (click)="openProfile()">Profile</button>
+
   </mat-list-item>
+
+
   <mat-divider style="margin-top: 10px;"></mat-divider>
   <mat-list-item style="height: 40px;" class="commercial-information-risk-money-font">
     Level of exposure to risk of money-laundering:

@@ -1,5 +1,8 @@
 import {Component,Input,OnChanges,ViewChild,ViewEncapsulation} from '@angular/core';
 import {RelationsModel} from '../relations/relations.component';
+import {MatDialog,MatDialogConfig} from '@angular/material';
+import {AccountContentTemplate} from '../home/popup_create_account/account_content_template.component';
+import {ProfileCustomerComponent} from './profile-customer/profile-customer.component';
 
 export interface CommercialInformationModel {
   customerRevisionDate: string;
@@ -23,7 +26,8 @@ export class CommercialDataComponent implements OnChanges {
   dataCommercialInformation: CommercialInformationModel;
   showCommercialInformationWidget: Boolean = true;
 
-  constructor() {
+  constructor(
+    public profile: MatDialog) {
   }
 
 
@@ -52,5 +56,27 @@ export class CommercialDataComponent implements OnChanges {
     this.economicalTotal = Object.keys(this.dataRelations.economical_group)
       .reduce((sum,key) => sum + parseFloat(this.dataRelations.economical_group[key] || 0),0);
 */
+  }
+
+  openProfile() {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '600px';
+
+    dialogConfig.data = {
+    //  dni: this.customerDni
+    };
+
+
+    const dialogRef = this.profile.open(ProfileCustomerComponent,dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      console.log(`Dialog result: ${result}`);
+      //this.refreshView(result);
+
+    });
   }
 }
