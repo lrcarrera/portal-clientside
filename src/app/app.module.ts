@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {RootComponent} from './root/root.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS,HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavComponent} from './nav/nav.component';
@@ -31,6 +31,7 @@ import {CommercialDataComponent} from './commercial-data/commercial-data.compone
 import {MovementContentTemplateComponent} from './home/movement-content-template/movement-content-template.component';
 import {ProfileCustomerComponent} from './commercial-data/profile-customer/profile-customer.component';
 import {TaskCreatorComponent} from './relations/task-creator/task-creator.component';
+import {AuthInterceptorServiceService} from './auth-interceptor-service.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,12 @@ import {TaskCreatorComponent} from './relations/task-creator/task-creator.compon
     AppMaterialModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorServiceService,
+    multi: true
+  }],
+
   entryComponents: [AboutComponent,
     AccountContentTemplate,
     MovementContentTemplateComponent,

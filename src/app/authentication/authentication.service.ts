@@ -53,7 +53,7 @@ export class AuthenticationService {
   }
 
   public profile(): Observable<any> {
-    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/profile',{headers: {Authorization: `Bearer ${this.getToken()}`}});
+    return this.http.get('http://localhost:5000/profile');
   }
 
   private saveToken(token: string): void {
@@ -61,7 +61,7 @@ export class AuthenticationService {
     this.token = token;
   }
 
-  private getToken(): string {
+  getToken(): string {
     if (!this.token) {
       this.token = localStorage.getItem('mean-token');
     }
