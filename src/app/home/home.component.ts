@@ -100,6 +100,7 @@ export class HomeComponent implements OnInit {
   isAdmin: boolean = false;
   details: UserDetails;
   advisorIdFromCustomerinContext: string;
+  private advisorEmailFromCustomerInContext: string;
 
   constructor(private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar,
@@ -230,6 +231,7 @@ export class HomeComponent implements OnInit {
     if (groups) {
       if (advisorId) {
         this.advisorService.getAdvisor(advisorId).subscribe((result: any) => {
+            
             this.parseInformationToRelationsWidget(result.email,groups);
           },
           error => {
@@ -339,6 +341,7 @@ export class HomeComponent implements OnInit {
 
   private parseInformationToRelationsWidget(advisor,groups) {
 
+    this.advisorEmailFromCustomerInContext = advisor;
     this.dataRelations = new Observable(observer => {
       observer.next({
         dni: this.customerDni,
@@ -352,6 +355,9 @@ export class HomeComponent implements OnInit {
   }
 
   isButtonVisible() {
+    if (!this.details){
+      return false;
+    }
     return this.isAdmin || (this.details._id === this.advisorIdFromCustomerinContext);
   }
 }

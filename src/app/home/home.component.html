@@ -1,12 +1,22 @@
+<mat-card-content *ngIf="customerDni && !isButtonVisible()">
+  <mat-grid-list cols="1" rowHeight="20px">
+    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="1" [rowspan]="1"
+                   style="background-color: palegreen;">
+      You can not do actions with customer below, owns to advisor ({{this.advisorEmailFromCustomerInContext}})
+    </mat-grid-tile>
+  </mat-grid-list>
+
+</mat-card-content>
 
 <mat-card-content>
   <mat-grid-list cols="4" rowHeight="100px">
 
-    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="1" [rowspan]="1"
+                   style="background-color: aliceblue;">
       <!--  <mat-card class="name-logo-style">
           <mat-card-header class="header-name-logo-style">-->
       <form [formGroup]="findForm" (ngSubmit)="findCustomer()">
-        <div class="home-search-icon"> </div>
+        <div class="home-search-icon"></div>
         <input class="home-input-dni" type="text" formControlName="customerId" placeholder="Search DNI:">
         <input type="submit" value="Find" class="customer-button-search">
       </form>
@@ -14,14 +24,17 @@
            </mat-card>-->
     </mat-grid-tile>
 
-    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="1" [rowspan]="1"
+                   style="background-color: aliceblue;">
       <mat-card class="name-logo-style">
         <mat-card-header class="header-name-logo-style">
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title *ngIf="showCustomerNameLoading" class="title-info-style">
-            <mat-spinner  class="customer-name-loading" [diameter]="20"></mat-spinner>
+            <mat-spinner class="customer-name-loading" [diameter]="20"></mat-spinner>
           </mat-card-title>
-          <mat-card-title class="title-info-style" *ngIf="!customerName && !showCustomerNameLoading"> Search a customer... </mat-card-title>
+          <mat-card-title class="title-info-style" *ngIf="!customerName && !showCustomerNameLoading"> Search a
+            customer...
+          </mat-card-title>
           <mat-card-title class="title-info-style" *ngIf="customerName">
             {{customerName}}
           </mat-card-title>
@@ -30,29 +43,31 @@
       </mat-card>
     </mat-grid-tile>
 
-    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="2" [rowspan]="1" style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4 grid-test-1" [colspan]="2" [rowspan]="1"
+                   style="background-color: aliceblue;">
       <mat-card class="more-info-style">
-        <mat-card-header >
-         <!-- <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image"></div>
 
-          <mat-card-title class="title-info-style" *ngIf="!customerName"> pepepepe </mat-card-title>
-          <mat-card-title class="title-info-style" *ngIf="customerName">{{customerName}}</mat-card-title>
-          <mat-card-subtitle>Customer</mat-card-subtitle>
--->
-          <div style="margin-left: auto; margin-right: auto;" *ngIf="!customerDni || !customerPhone || !customerAddress">
-            <div class="home-dni-icon-before"> </div>
+           <mat-card-title class="title-info-style" *ngIf="!customerName"> pepepepe </mat-card-title>
+           <mat-card-title class="title-info-style" *ngIf="customerName">{{customerName}}</mat-card-title>
+           <mat-card-subtitle>Customer</mat-card-subtitle>
+ -->
+          <div style="margin-left: auto; margin-right: auto;"
+               *ngIf="!customerDni || !customerPhone || !customerAddress">
+            <div class="home-dni-icon-before"></div>
             <span *ngIf="!showCustomerNameLoading"> Search a customer...</span>
-            <mat-spinner *ngIf="showCustomerNameLoading"  class="customer-name-loading" [diameter]="20"></mat-spinner>
+            <mat-spinner *ngIf="showCustomerNameLoading" class="customer-name-loading" [diameter]="20"></mat-spinner>
 
           </div>
 
-          <div class="label-isolate home-dni-icon" style="margin-left: 10px;" *ngIf="customerDni"> </div>
+          <div class="label-isolate home-dni-icon" style="margin-left: 10px;" *ngIf="customerDni"></div>
           <div class="label-isolate" *ngIf="customerDni">  {{customerDni}} </div>
 
-          <div class="label-isolate home-telephone-icon" style="margin-left: 10px;" *ngIf="customerPhone"> </div>
+          <div class="label-isolate home-telephone-icon" style="margin-left: 10px;" *ngIf="customerPhone"></div>
           <div class="label-isolate" *ngIf="customerPhone"> {{customerPhone}} </div>
 
-          <div class="label-isolate home-address-icon" style="margin-left: 10px;" *ngIf="customerAddress"> </div>
+          <div class="label-isolate home-address-icon" style="margin-left: 10px;" *ngIf="customerAddress"></div>
           <div class="label-isolate" *ngIf="customerAddress"> {{customerAddress}}  </div>
 
 
@@ -66,29 +81,26 @@
 <br><br>
 
 
-
-
-
 <mat-card-content class=" mat-elevation-z4 global-position-header-style">
   <mat-grid-list cols="3" rowHeight="30px">
-    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
 
-      <div class="home-expenses-icon"> </div>
-      <strong >Expenses Chart</strong>
-
-    </mat-grid-tile>
-
-    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
-
-      <div class="home-relations-icon"> </div>
-      <strong >Relations with Bank</strong>
+      <div class="home-expenses-icon"></div>
+      <strong>Expenses Chart</strong>
 
     </mat-grid-tile>
 
-    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1"  style="background-color: aliceblue;">
+    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
 
-      <div class="home-commercial-icon"> </div>
-      <strong >Commercial Information</strong>
+      <div class="home-relations-icon"></div>
+      <strong>Relations with Bank</strong>
+
+    </mat-grid-tile>
+
+    <mat-grid-tile class="mat-elevation-z4" [colspan]="1" [rowspan]="1" style="background-color: aliceblue;">
+
+      <div class="home-commercial-icon"></div>
+      <strong>Commercial Information</strong>
 
     </mat-grid-tile>
 
@@ -103,7 +115,9 @@
 <!-- GRAPHIC MOVEMENTS RELATIONS WITH BANK AND CUSTOMER INFORMATION BODY WIDGETS -->
 <mat-card-content>
   <mat-grid-list cols="3" rowHeight="120px">
-    <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px) !important ; top: 0px; height: calc(241px);" class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
+    <mat-grid-tile
+      style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px) !important ; top: 0px; height: calc(241px);"
+      class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
       <!--graphic-->
       <mat-spinner *ngIf="showGraphicLoading" [diameter]="50"></mat-spinner>
       <span *ngIf="!showGraphicLoading && !data">  Search a customer...</span>
@@ -111,25 +125,30 @@
       <app-bar-chart *ngIf="!showGraphicLoading && data" [data]="data | async"></app-bar-chart>
     </mat-grid-tile>
 
-    <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
+    <mat-grid-tile
+      style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);"
+      class=" mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
 
-     <!-- <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
---> <!--!showRelationsLoading &&-->
+      <!-- <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
+ --> <!--!showRelationsLoading &&-->
       <mat-spinner *ngIf="showRelationsLoading" [diameter]="50"></mat-spinner>
       <span *ngIf="!showRelationsLoading && !dataRelations">  Search a customer...</span>
-      <app-relations class="relations_style" *ngIf="!showRelationsLoading && dataRelations" [dataRelations]="dataRelations | async"> </app-relations>
+      <app-relations class="relations_style" *ngIf="!showRelationsLoading && dataRelations"
+                     [dataRelations]="dataRelations | async"></app-relations>
 
 
       <!--relations-->
     </mat-grid-tile>
 
 
-    <mat-grid-tile style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);" class="mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
+    <mat-grid-tile
+      style="background-color: aliceblue; left: 0px; width: calc(((32.3333% - 0.666667px) * 1) + 0px)!important ; top: 0px; height: calc(241px);"
+      class="mat-elevation-z4" [colspan]="1" [rowspan]="2" style="background-color: white;">
 
       <mat-spinner *ngIf="showCommercialLoading" [diameter]="50"></mat-spinner>
       <span *ngIf="!showCommercialLoading && !dataCommercialInformation">  Search a customer...</span>
-      <app-commercial-information class="relations_style" *ngIf="!showCommercialLoading && dataCommercialInformation" [dataCommercialInformation]="dataCommercialInformation | async"> </app-commercial-information>
-
+      <app-commercial-information class="relations_style" *ngIf="!showCommercialLoading && dataCommercialInformation"
+                                  [dataCommercialInformation]="dataCommercialInformation | async"></app-commercial-information>
 
 
     </mat-grid-tile>
@@ -140,9 +159,9 @@
 
 <!-------------- BANNER GLOBAL POSITION -------------->
 <mat-card-content class="mat-elevation-z4 global-position-header-style">
-  <mat-grid-list cols="4" rowHeight="30px">
-    <mat-grid-tile  [colspan]="4" [rowspan]="1" style="background-color: aliceblue;">
-      <div class="home-global-icon"> </div>
+  <mat-grid-list cols="4" rowHeight="50px">
+    <mat-grid-tile [colspan]="4" [rowspan]="1" style="background-color: aliceblue;">
+      <div class="home-global-icon"></div>
       <strong>Global position</strong>
 
     </mat-grid-tile>
@@ -152,7 +171,7 @@
      <mat-spinner style="margin-left: auto;" [diameter]="20"></mat-spinner>
 
     </mat-grid-tile> -->
-    <mat-grid-tile *ngIf="!tableIsFilled" [colspan]="4" [rowspan]="1" style="background-color: white;">
+    <mat-grid-tile *ngIf="!tableIsFilled" [colspan]="4" [rowspan]="4" style="background-color: white;">
       <span *ngIf="!showTableLoading">  Search a customer...</span>
       <mat-spinner *ngIf="showTableLoading" [diameter]="20"></mat-spinner>
 
@@ -162,36 +181,37 @@
 </mat-card-content>
 
 <div *ngIf="tableIsFilled">
-  <mat-card-content *ngIf="isButtonVisible" class="mat-elevation-z4 global-position-header-style">
+  <mat-card-content *ngIf="isButtonVisible()" class="mat-elevation-z4 global-position-header-style">
 
     <mat-grid-list cols="2" rowHeight="40px">
-      <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: white;">
+      <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: white;">
         <span *ngIf="!hasAccounts">Any account found for this customer...</span>
       </mat-grid-tile>
-      <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: white;">
+      <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: white;">
         <div style="margin-left: auto;" *ngIf="hasAccounts">
-          <button  mat-stroked-button class="button-add-movement" (click)="openDialogMovements()">Add Movement</button>
+          <button mat-stroked-button class="button-add-movement" (click)="openDialogMovements()">Add Movement</button>
           <button mat-stroked-button class="button-add-account" (click)="openDialogAccounts()">Add Account</button>
         </div>
         <div style="margin-left: auto;" *ngIf="!hasAccounts">
-          <button mat-stroked-button class="button-add-account-not-movement" (click)="openDialogAccounts()">Add Account</button>
+          <button mat-stroked-button class="button-add-account-not-movement" (click)="openDialogAccounts()">Add
+            Account
+          </button>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
 
   </mat-card-content>
 
-  <mat-card-content *ngIf="!isButtonVisible" class="mat-elevation-z4 global-position-header-style">
+  <mat-card-content *ngIf="!isButtonVisible()" class="mat-elevation-z4 global-position-header-style">
 
 
     <mat-grid-list *ngIf="tableIsFilled" cols="1" rowHeight="40px">
-      <mat-grid-tile  [colspan]="1" [rowspan]="1" style="background-color: white;">
+      <mat-grid-tile [colspan]="1" [rowspan]="1" style="background-color: white;">
         <span *ngIf="!hasAccounts">Any account found for this customer...</span>
       </mat-grid-tile>
     </mat-grid-list>
 
   </mat-card-content>
-
 
 
 </div>
@@ -239,13 +259,14 @@
               </div>
               <div class="example-element-description">
                 Date:
-                <span class="example-element-description-attribution">&emsp;&emsp;{{processDateToFront(description.movement_date)}} </span>
+                <span
+                  class="example-element-description-attribution">&emsp;&emsp;{{processDateToFront(description.movement_date)}} </span>
               </div>
 
             </mat-list-item>
-            <mat-divider style="width: 100%; margin-left: 0;"[inset]="true" *ngIf="!last"></mat-divider>
+            <mat-divider style="width: 100%; margin-left: 0;" [inset]="true" *ngIf="!last"></mat-divider>
           </div>
-          <mat-list-item  *ngIf="element.description.length === 0" style="width: 100%;">
+          <mat-list-item *ngIf="element.description.length === 0" style="width: 100%;">
             <div class="example-element-description">
               <span class="example-element-description-attribution">Not transactions found </span>
             </div>
@@ -267,7 +288,6 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
-
 
 
 <br><br><br>

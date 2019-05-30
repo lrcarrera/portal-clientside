@@ -2,7 +2,7 @@
   <mat-list-item class="commercial-information-risk-money-font">Office:
     <span class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerOffice }}</span>
 
-    <button *ngIf="!profiled && isButtonVisible" mat-stroked-button class="button-profile" (click)="openProfile()">
+    <button *ngIf="!profiled && isButtonVisible()" mat-stroked-button class="button-profile" (click)="openProfile()">
       Profile
     </button>
 

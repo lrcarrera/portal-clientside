@@ -53,7 +53,7 @@ export class AuthenticationService {
   }
 
   public profile(): Observable<any> {
-    return this.http.get('http://localhost:5000/profile');
+    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/profile');
   }
 
   private saveToken(token: string): void {
