@@ -32,4 +32,7 @@ export class AdvisorService {
   getAllAdvisors(){
     return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/advisor');
   }
+  createTaskFromAdvisor(id, taskData){
+    return this.http.put<RelationsModel>('https://enigmatic-mountain-27495.herokuapp.com/task/' + id, taskData);
+  }
 }

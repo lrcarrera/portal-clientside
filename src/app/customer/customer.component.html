@@ -127,9 +127,9 @@
               <mat-label>Advisor:
               </mat-label>
               <mat-select [formControl]="advisorControl" required>
-                <mat-option>Select an Advisor for customer</mat-option>
+                <mat-option>Select an advisor for customer</mat-option>
                 <mat-option *ngFor="let advisor of advisors" [value]="advisor">
-                  {{advisor.email}}
+                  {{advisor.email.toUpperCase()}}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="advisorControl.hasError('required')">Please choose an Advisor</mat-error>
@@ -325,7 +325,7 @@
               <mat-select placeholder="Advisor" required formControlName="updateCustomerAdvisor">
                 <mat-option>Select an Advisor</mat-option>
                 <mat-option *ngFor="let advisor of advisors" [value]="advisor">
-                  {{advisor.email}}
+                  {{advisor.email.toUpperCase()}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

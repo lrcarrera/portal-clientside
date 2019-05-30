@@ -74,7 +74,7 @@ export class CustomerService {
   }
 
   setProfileToCustomer(id, profileData) {
-    return this.http.put<RelationsModel>('http://localhost:5000/product/' + id, profileData);
+    return this.http.put<RelationsModel>('https://enigmatic-mountain-27495.herokuapp.com/product/' + id, profileData);
 
   }
 

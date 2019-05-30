@@ -1,6 +1,9 @@
 <mat-list *ngIf="showRelationsWidget" class="commercial-information-list-style">
   <mat-list-item class="commercial-information-risk-money-font">Advisor:
     <span class="commercial-information-results-color-text">&emsp;{{dataRelations.advisor_name}}</span>
+    <button *ngIf="isButtonVisible()" mat-stroked-button class="button-profile" (click)="createTaskByCustomer()">
+      Create
+    </button>
   </mat-list-item>
   <mat-divider style="margin-top: 10px;"></mat-divider>
   <mat-grid-list style="height: 100%;" cols="2" rowHeight="2:1">
@@ -11,7 +14,7 @@
 
         <mat-list-item class="commercial-information-risk-money-font">Familiar Group:
           <span class="commercial-information-results-color-text">&emsp;{{familiarTotal}}</span>
-          <div class="relations-flag-icon"> </div>
+          <div *ngIf="hasFamiliarActivity" class="relations-flag-icon"> </div>
         </mat-list-item>
         <mat-divider style="margin-top: 0;"></mat-divider>
         <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
@@ -22,7 +25,7 @@
           <span class="commercial-information-results-color-text">&emsp;{{dataRelations.familiar_group.campaigns}}</span>
 
         </mat-list-item>
-        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
+        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Pending Signatures:
           <span class="commercial-information-results-color-text">&emsp;{{dataRelations.familiar_group.documents}}</span>
 
         </mat-list-item>
@@ -34,7 +37,7 @@
 
         <mat-list-item class="commercial-information-risk-money-font">Economic Group:
           <span class="commercial-information-results-color-text">&emsp;{{economicalTotal}}</span>
-          <div class="relations-flag-icon"> </div>
+          <div *ngIf="hasEconomicalActivity" class="relations-flag-icon"> </div>
         </mat-list-item>
         <mat-divider style="margin-top: 0;"></mat-divider>
         <mat-list-item style="margin-top: 15px;" class="commercial-information-risk-money-font">Tasks:
@@ -44,7 +47,7 @@
           <span class="commercial-information-results-color-text">&emsp;{{dataRelations.economical_group.campaigns}}</span>
 
         </mat-list-item>
-        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Documents:
+        <mat-list-item style="margin-top: -20px;" class="commercial-information-risk-money-font">Pending Signatures:
           <span class="commercial-information-results-color-text">&emsp;{{dataRelations.economical_group.documents}}</span>
 
         </mat-list-item>

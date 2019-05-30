@@ -236,7 +236,7 @@ export class CustomerComponent implements OnInit {
           const toSelectOffice = this.offices.find(c => c.name == result.assigned_office[0]);
           this.updateCustomerFb.get('updateCustomerOffice').setValue(toSelectOffice);
 
-          if (this.isAdmin) {//TODO: Revisar porque no updatea en la BD
+          if (this.isAdmin) {
             const toSelectAdvisor = this.advisors.find(advisor => advisor.email === this.getAdvisorEmailToFillCombo(result.advisor));
             this.updateCustomerFb.get('updateCustomerAdvisor').setValue(toSelectAdvisor);
           }

@@ -18,7 +18,9 @@ export interface DataModel {
 }
 
 export interface RelationsModel {
+  dni: string;
   advisor_name: string;
+  advisor_id: string;
   familiar_group: object;
   economical_group: object;
 }
@@ -228,27 +230,15 @@ export class HomeComponent implements OnInit {
     if (groups) {
       if (advisorId) {
         this.advisorService.getAdvisor(advisorId).subscribe((result: any) => {
-            this.parceInformationToRelationsWidget(result.email,groups);
+            this.parseInformationToRelationsWidget(result.email,groups);
           },
           error => {
             this.errors = error;
           });
       } else {
-        this.parceInformationToRelationsWidget('NOT INFORMED',groups);
+        this.parseInformationToRelationsWidget('NOT INFORMED',groups);
       }
     }
-  }
-
-  private parceInformationToRelationsWidget(advisor,groups) {
-
-    this.dataRelations = new Observable(observer => {
-      observer.next({
-        advisor_name: advisor,
-        familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
-        economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
-      });
-      observer.complete();
-    });
   }
 
   public findCustomer() {
@@ -345,6 +335,20 @@ export class HomeComponent implements OnInit {
       observer.complete();
     });
 
+  }
+
+  private parseInformationToRelationsWidget(advisor,groups) {
+
+    this.dataRelations = new Observable(observer => {
+      observer.next({
+        dni: this.customerDni,
+        advisor_name: advisor,
+        advisor_id: this.advisorIdFromCustomerinContext,
+        familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
+        economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
+      });
+      observer.complete();
+    });
   }
 
   isButtonVisible() {

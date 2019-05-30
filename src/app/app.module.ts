@@ -1,36 +1,36 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { RootComponent } from './root/root.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavComponent } from './nav/nav.component';
-import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
-import { HomeComponent } from './home/home.component';
-import { AccountContentTemplate } from './home/popup_create_account/account_content_template.component';
-
-
-import { FooterComponent } from './footer/footer.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { ProfileComponent } from './profile/profile.component';
-import { CustomerComponent } from './customer/customer.component';
+import {RootComponent} from './root/root.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {NavComponent} from './nav/nav.component';
+import {AboutComponent} from './about/about.component';
+import {ContactComponent} from './contact/contact.component';
+import {HomeComponent} from './home/home.component';
+import {AccountContentTemplate} from './home/popup_create_account/account_content_template.component';
 
 
+import {FooterComponent} from './footer/footer.component';
+import {RegisterComponent} from './register/register.component';
+import {LoginComponent} from './login/login.component';
+import {ProfileComponent} from './profile/profile.component';
+import {CustomerComponent} from './customer/customer.component';
 
-import { FormsModule } from '@angular/forms';
+
+import {FormsModule} from '@angular/forms';
 
 import 'hammerjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from './app.material.module';
-import { BarChartComponent } from './barchart/bar-chart.component';
-import { RelationsComponent } from './relations/relations.component';
-import { CommercialDataComponent } from './commercial-data/commercial-data.component';
-import { MovementContentTemplateComponent } from './home/movement-content-template/movement-content-template.component';
-import { ProfileCustomerComponent } from './commercial-data/profile-customer/profile-customer.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppMaterialModule} from './app.material.module';
+import {BarChartComponent} from './barchart/bar-chart.component';
+import {RelationsComponent} from './relations/relations.component';
+import {CommercialDataComponent} from './commercial-data/commercial-data.component';
+import {MovementContentTemplateComponent} from './home/movement-content-template/movement-content-template.component';
+import {ProfileCustomerComponent} from './commercial-data/profile-customer/profile-customer.component';
+import {TaskCreatorComponent} from './relations/task-creator/task-creator.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { ProfileCustomerComponent } from './commercial-data/profile-customer/pro
     RelationsComponent,
     CommercialDataComponent,
     MovementContentTemplateComponent,
-    ProfileCustomerComponent
+    ProfileCustomerComponent,
+    TaskCreatorComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +63,12 @@ import { ProfileCustomerComponent } from './commercial-data/profile-customer/pro
     BrowserAnimationsModule
   ],
   providers: [],
-  entryComponents: [AboutComponent, AccountContentTemplate, MovementContentTemplateComponent, ProfileCustomerComponent],
+  entryComponents: [AboutComponent,
+    AccountContentTemplate,
+    MovementContentTemplateComponent,
+    ProfileCustomerComponent,
+    TaskCreatorComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

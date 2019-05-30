@@ -2,7 +2,9 @@
   <mat-list-item class="commercial-information-risk-money-font">Office:
     <span class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerOffice }}</span>
 
-    <button *ngIf="!profiled && isButtonVisible" mat-stroked-button class="button-profile" (click)="openProfile()">Profile</button>
+    <button *ngIf="!profiled && isButtonVisible" mat-stroked-button class="button-profile" (click)="openProfile()">
+      Profile
+    </button>
 
   </mat-list-item>
 
@@ -19,7 +21,7 @@
     <span
       class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerRevisionDate }}
     </span>
-    <div class="commercial-checked-icon"> </div>
+    <div class="commercial-checked-icon"></div>
 
   </mat-list-item>
   <mat-divider style="margin-top: 30px;"></mat-divider>
