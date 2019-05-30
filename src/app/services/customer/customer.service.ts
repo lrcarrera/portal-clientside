@@ -73,6 +73,11 @@ export class CustomerService {
 
   }
 
+  setProfileToCustomer(id, profileData) {
+    return this.http.put<RelationsModel>('http://localhost:5000/product/' + id, profileData);
+
+  }
+
   /****************************************ADVISOR ROUTES***********************************************/
 
   getAllCustomersByAdvisorId(id) {

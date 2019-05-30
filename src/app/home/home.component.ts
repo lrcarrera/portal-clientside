@@ -24,6 +24,8 @@ export interface RelationsModel {
 }
 
 export interface CommercialInformationModel {
+  dni: string;
+  advisor: string;
   customerRevisionDate: string;
   customerRiskLaundering: string;
   customerOffice: string;
@@ -302,7 +304,7 @@ export class HomeComponent implements OnInit {
     this.fillTableAndChartWithAccounts(result.accounts);
   }
 
-  private static getProductsInfo(products) {
+  public getProductsInfo(products) {
     let qtyProductsProfiled = [
       products.product1,
       products.product2,
@@ -312,6 +314,9 @@ export class HomeComponent implements OnInit {
 
     let derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
 
+    if(qtyProductsProfiled === 0) {
+      derivativeProductsStatus = DerivativeStatus.NOT_STARTED;
+    }
     return [derivativeProductsStatus,qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString()];
   }
 
@@ -330,10 +335,12 @@ export class HomeComponent implements OnInit {
   private renderCommercialInformationWidget(result: any) {
     this.dataCommercialInformation = new Observable(observer => {
       observer.next({
+        dni: this.customerDni,
+        advisor: this.advisorIdFromCustomerinContext,
         customerRevisionDate: this.processDateToFront(result.customer_info.last_modification_date),
         customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
         customerOffice: result.assigned_office,
-        derivatives: HomeComponent.getProductsInfo(result.derivative_products)
+        derivatives: this.getProductsInfo(result.derivative_products)
       });
       observer.complete();
     });

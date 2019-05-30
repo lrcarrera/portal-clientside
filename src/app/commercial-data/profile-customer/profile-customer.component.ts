@@ -1,9 +1,10 @@
-import {Component,Inject,Input,OnInit,ViewChild} from '@angular/core';
+import {Component,Inject,Input,NgModule,OnInit,ViewChild} from '@angular/core';
 
-import {FormControl,FormGroupDirective,NgForm,Validators} from '@angular/forms';
+import {FormControl,FormGroupDirective,FormsModule,NgForm,Validators} from '@angular/forms';
 import {CustomerService} from '../../services/customer/customer.service';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {MAT_DIALOG_DATA,MatDialogRef,MatRadioButton,MatRadioGroup} from '@angular/material';
+import {BrowserModule} from '@angular/platform-browser';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -19,15 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ProfileCustomerComponent {
 
-  accountControl = new FormControl('',[
-    Validators.required,
-  ]);
-
-  descriptionControl = new FormControl('',[
-    Validators.required,
-  ]);
-
-  amountControl = new FormControl('',[
+  insuranceControl = new FormControl('',[
     Validators.required,
   ]);
 
@@ -51,13 +44,39 @@ export class ProfileCustomerComponent {
   @ViewChild('investment')
   investmentRB: MatRadioGroup;
 
+  @ViewChild('derivative')
+  derivativeRB: MatRadioGroup;
+
+  @ViewChild('loan')
+  loanRB: MatRadioGroup;
+
+  @ViewChild('income')
+  incomeRB: MatRadioGroup;
+
+  @ViewChild('insurance')
+  insuranceRB: MatRadioGroup;
+
+  investmentControl: FormControl;
+  derivativeControl: FormControl;
+  loanControl: FormControl;
+  incomeControl: FormControl;
+
+  @Input()
+  required: Boolean;
+
 
   constructor(
     private dialogRef: MatDialogRef<ProfileCustomerComponent>,
     @Inject(MAT_DIALOG_DATA) data,private customerService: CustomerService) {
-    //this.dni = data.dni;
+    this.dni = data.dni;
     //this.accounts = data.accounts;
     //this.populateComboWithAccountDescriptions();
+   /* this.investmentControl = new FormControl('', Validators.required);
+    this.derivativeControl = new FormControl('', Validators.required);
+    this.loanControl = new FormControl('', Validators.required);
+    this.incomeControl = new FormControl('', Validators.required);
+    this.insuranceControl = new FormControl('', Validators.required);
+*/
   }
 
   private populateComboWithAccountDescriptions() {
@@ -68,28 +87,8 @@ export class ProfileCustomerComponent {
 
   public profileCustomer(){
     let requestData = this.buildRequestDataProfileCustomer();
-    console.log(requestData);
-  }
 
-  private buildRequestDataProfileCustomer(){
-    return {
-      profile: {
-        product1: this.investment === 'yes',
-        product2: this.derivative === 'yes',
-        product3: this.income === 'yes',
-        product4: this.insurance === 'yes',
-        product5: this.loan === 'yes',
-      },
-      customer_dni: "XXX"
-    };
-  }
-
-
-  public storeMovementInAccount() {
-
-    let movementData = this.buildRequestDataAddMovement();
-
-    this.customerService.addMovementToAccount(this.dni,movementData).subscribe(result => {
+    this.customerService.setProfileToCustomer(this.dni, requestData).subscribe(result => {
         console.log(result);
         this.dialogRef.close({refresh: true});
       },
@@ -97,6 +96,21 @@ export class ProfileCustomerComponent {
         this.errors = error;
       }
     );
+
+    console.log(requestData);
+  }
+
+  private buildRequestDataProfileCustomer(){
+    return {
+      profile: {
+        product1: this.investmentRB.value === 'yes',
+        product2: this.derivativeRB.value === 'yes',
+        product3: this.loanRB.value === 'yes',
+        product4: this.incomeRB.value === 'yes',
+        product5: this.insuranceRB.value === 'yes',
+      }
+    };
+
   }
 
   /*
@@ -123,20 +137,5 @@ export class ProfileCustomerComponent {
         account_name: this.descriptionControl.value
       };
     }*/
-  private buildRequestDataAddMovement() {
-    let nameOfAccount = this.accountControl.value.account_name;
-
-    let accountInCombo = this.accounts.find(function(account) {
-      return account.account_name === nameOfAccount;
-    });
-
-    return {
-      movement: {
-        amount: this.amountControl.value,
-        description: this.descriptionControl.value
-      },
-      account_iban: accountInCombo.iban
-    };
-  }
 }
 

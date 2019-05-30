@@ -1,7 +1,8 @@
 <mat-list *ngIf="showCommercialInformationWidget" class="commercial-information-list-style">
   <mat-list-item class="commercial-information-risk-money-font">Office:
     <span class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerOffice }}</span>
-    <button  mat-stroked-button class="button-profile" (click)="openProfile()">Profile</button>
+
+    <button *ngIf="!profiled && isButtonVisible" mat-stroked-button class="button-profile" (click)="openProfile()">Profile</button>
 
   </mat-list-item>
 
