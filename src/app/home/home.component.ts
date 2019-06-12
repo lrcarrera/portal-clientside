@@ -326,17 +326,20 @@ export class HomeComponent implements OnInit {
 
   private renderCommercialInformationWidget(result: any) {
     this.dataCommercialInformation = new Observable(observer => {
-      observer.next({
-        dni: this.customerDni,
-        advisor: this.advisorIdFromCustomerinContext,
-        customerRevisionDate: this.processDateToFront(result.customer_info.last_modification_date),
-        customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
-        customerOffice: result.assigned_office,
-        derivatives: this.getProductsInfo(result.derivative_products)
-      });
+      observer.next(this.dataRefreshed(result));
       observer.complete();
     });
+  }
 
+  private dataRefreshed(result: any){
+    return {
+      dni: this.customerDni,
+      advisor: this.advisorIdFromCustomerinContext,
+      customerRevisionDate: this.processDateToFront(result.customer_info.last_modification_date),
+      customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
+      customerOffice: result.assigned_office,
+      derivatives: this.getProductsInfo(result.derivative_products)
+    }
   }
 
   private parseInformationToRelationsWidget(advisor,groups) {

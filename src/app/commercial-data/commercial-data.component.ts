@@ -80,14 +80,6 @@ export class CommercialDataComponent implements OnChanges {
     if(this.dataCommercialInformation.derivatives[0] !== DerivativeStatus.NOT_STARTED ){
       this.profiled = true;
     }
-
-    /*
-    this.familiarTotal = Object.keys(this.dataRelations.familiar_group)
-      .reduce((sum,key) => sum + parseFloat(this.dataRelations.familiar_group[key] || 0),0);
-
-    this.economicalTotal = Object.keys(this.dataRelations.economical_group)
-      .reduce((sum,key) => sum + parseFloat(this.dataRelations.economical_group[key] || 0),0);
-*/
   }
 
   public processDateToFront(date: any) {

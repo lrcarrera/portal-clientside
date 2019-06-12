@@ -112,31 +112,13 @@ export class RelationsComponent implements OnChanges {
   }
 
   private refreshWidget(){
-//TODO: populate info on refresh
     this.customerService.getCustomer(this.dataRelations.dni).subscribe((result: any) => {
-        //this.dataCommercialInformation.customerRevisionDate = this.processDateToFront(result.customer_info.last_modification_date);
-        //this.dataCommercialInformation.customerRiskLaundering = result.customer_info.risk_money_laundering.toString().toUpperCase();
-        // customerOffice: result.assigned_office,
-        //this.dataCommercialInformation.derivatives =  this.getProductsInfo(result.derivative_products);
-
-      if(result){
-
+      if (result) {
         this.dataRelations.familiar_group = result.investment_products.familiar_group;
         this.dataRelations.economical_group = result.investment_products.economical_group;
         this.showWidget();
       }
-       // this.renderRelationsWidget([result.investment_products.familiar_group,result.investment_products.economical_group]);
-
-
-        //dni: this.customerDni,
-          //advisor_name: advisor,
-          //advisor_id: this.advisorIdFromCustomerinContext,
-      //    familiar_group: {tasks: groups[0].tasks,campaigns: groups[0].campaigns,documents: groups[0].documents},
-      //  economical_group: {tasks: groups[1].tasks,campaigns: groups[1].campaigns,documents: groups[1].documents}
-      },
-      error => {
-        //this.errors = error;
-      });
+    });
   }
 
   isButtonVisible() {

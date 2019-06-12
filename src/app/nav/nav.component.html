@@ -2,33 +2,14 @@
   <div class="container">
     <a *ngIf="getAuth().isLoggedIn()" routerLink="/" class="logo">{{appTitle}}</a>
     <a *ngIf="!getAuth().isLoggedIn()" routerLink="/login" class="logo">{{appTitle}}</a>
-
     <nav>
-
       <ul>
-
         <span class="nav-email-tittle" *ngIf="getAuth().isLoggedIn()">{{getEmailLogged()}}</span>
-
-        <!--  <span *ngIf="getAuth().isLoggedIn()" class="user-logger-icon nav-email-tittle">
-            {{getEmailLogged()}}
-          </span>-->
-
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/">Home</a></li>
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/customer">Customer</a></li>
         <li *ngIf="!getAuth().isLoggedIn()"><a routerLink="/login">Login</a></li>
-
-
         <li *ngIf="getAuth().isAdmin()"><a routerLink="/register">Users</a></li>
-
-       <!-- <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/profile">Profile</a></li>-->
-       <!-- <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/about">About</a></li>
-        <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/contact">Contact us</a></li>-->
         <li *ngIf="getAuth().isLoggedIn()"><a routerLink="/login" (click)="logout()">Log out</a></li>
-
-
-
-
-
       </ul>
     </nav>
   </div>

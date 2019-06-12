@@ -11,8 +11,6 @@ import { CustomerComponent } from './customer/customer.component';
 
 import { AuthGuardService } from './guards/auth-guard.service';
 
-
-
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate:
     [AuthGuardService] },
