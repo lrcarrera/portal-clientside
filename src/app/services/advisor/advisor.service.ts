@@ -1,38 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {DataModel} from '../../home/home.component';
-
-
-export interface DataModel {
-  account_name: string;
-  total_movements: number;
-}
-
-export interface RelationsModel {
-  advisor_name: string;
-  familiar_group: object;
-  economical_group: object;
-}
-
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AdvisorService {
+  //endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
+  endPoint : string = 'http://localhost:5000';
 
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {
+  }
   /**************************************ADVISOR EXTERNAL ROUTES**************************************/
 
-  getAdvisor(id){
-    return this.http.get("https://enigmatic-mountain-27495.herokuapp.com/advisor/" + id);
+  getAdvisor(id) {
+    return this.http.get(this.endPoint + '/advisor/' + id);
   }
 
-  getAllAdvisors(){
-    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/advisor');
+  getAllAdvisors() {
+    return this.http.get(this.endPoint + '/advisor');
   }
-  createTaskFromAdvisor(id, taskData){
-    return this.http.put<RelationsModel>('https://enigmatic-mountain-27495.herokuapp.com/task/' + id, taskData);
+
+  createTaskFromAdvisor(id,taskData) {
+    return this.http.put<RelationsModel>(this.endPoint + '/task/' + id,taskData);
   }
+}
+
+export interface RelationsModel {
+  advisor_name: string;
+  familiar_group: object;
+  economical_group: object;
 }

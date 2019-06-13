@@ -1,12 +1,10 @@
-
-
 <div (show)="showBarChart">
-  <div *ngIf="showBarChart"style="font-size:10px;">
-    <span >Expenses in <strong>{{month}}</strong></span>
+  <div *ngIf="showBarChart" style="font-size:10px;">
+    <span>Expenses in <strong>{{month}}</strong></span>
   </div>
-  <div #chart id="chart"(window:resize)="onResize()"></div>
-  <div *ngIf="showBarChart"style="text-align: center; font-size:10px;">
-    <span > Transactions at <strong>{{ dateNow }}</strong> </span>
+  <div #chart id="chart" (window:resize)="onResize()"></div>
+  <div *ngIf="showBarChart" style="text-align: center; font-size:10px;">
+    <span> Transactions at <strong>{{ dateNow }}</strong> </span>
   </div>
 </div>
 

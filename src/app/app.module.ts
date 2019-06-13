@@ -1,7 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
-import {RootComponent} from './root/root.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS,HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
@@ -42,7 +40,6 @@ import {AuthInterceptorServiceService} from './auth-interceptor-service.service'
     HomeComponent,
     AccountContentTemplate,
     FooterComponent,
-    RootComponent,
     CustomerComponent,
     RegisterComponent,
     LoginComponent,

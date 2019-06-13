@@ -1,37 +1,38 @@
 header {
-    background: #7700FF;
+  background: #7700FF;
 
-    .logo {
-        font-weight: bold;
-    }
+  .logo {
+    font-weight: bold;
+  }
 
-    nav {
-        justify-self: right;
+  nav {
+    justify-self: right;
 
-        ul {
-            list-style-type: none;
-            margin: 0; padding: 0;
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
 
-            li {
-                float: left;
+      li {
+        float: left;
 
-                span {
-                  margin-right: 30px;
-                  color: white;
-                }
-
-                a {
-                    padding: 1.5em;
-                    text-transform: uppercase;
-                    font-size: .8em;
-
-                    &:hover {
-                        background: #8E2BFF;
-                    }
-                }
-            }
+        span {
+          margin-right: 30px;
+          color: white;
         }
+
+        a {
+          padding: 1.5em;
+          text-transform: uppercase;
+          font-size: .8em;
+
+          &:hover {
+            background: #8E2BFF;
+          }
+        }
+      }
     }
+  }
 }
 
 .nav-email-tittle {
@@ -39,6 +40,7 @@ header {
   color: white;
 
 }
+
 /*.nav-email-tittle {
   color: white;
   font-weight: lighter;

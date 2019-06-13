@@ -1,6 +1,5 @@
 import {Component,ElementRef,Input,OnChanges,ViewChild,ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3';
-import {count} from 'rxjs-compat/operator/count';
 
 export interface DataModel {
   account_name: string;
@@ -10,7 +9,6 @@ export interface DataModel {
 const MONTHS = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE',
   'JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'
 ];
-
 
 @Component({
   selector: 'app-bar-chart',
@@ -132,11 +130,7 @@ export class BarChartComponent implements OnChanges {
         .style('background-color','black')
         .style('color','white');
 
-
       this.showBarChart = true;
-
     }
   }
-
-
 }

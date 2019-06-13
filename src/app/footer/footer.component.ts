@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component,OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -6,15 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-
-  link: any;
-
-  constructor() { }
-
-
-  ngOnInit() {
-    //this.link = this.router.navigate(['/externalRedirect', { externalUrl: 'www.google.com' }]);
-
+  constructor() {
   }
 
+  ngOnInit() {
+  }
 }

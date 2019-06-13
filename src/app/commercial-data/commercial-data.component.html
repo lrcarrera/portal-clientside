@@ -1,14 +1,10 @@
 <mat-list *ngIf="showCommercialInformationWidget" class="commercial-information-list-style">
   <mat-list-item class="commercial-information-risk-money-font">Office:
     <span class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerOffice }}</span>
-
     <button *ngIf="!profiled && isButtonVisible()" mat-stroked-button class="button-profile" (click)="openProfile()">
       Profile
     </button>
-
   </mat-list-item>
-
-
   <mat-divider style="margin-top: 10px;"></mat-divider>
   <mat-list-item style="height: 40px;" class="commercial-information-risk-money-font">
     Level of exposure to risk of money-laundering:
@@ -22,7 +18,6 @@
       class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.customerRevisionDate }}
     </span>
     <div class="commercial-checked-icon"></div>
-
   </mat-list-item>
   <mat-divider style="margin-top: 30px;"></mat-divider>
   <mat-list-item style="height: 30px;" class="commercial-information-risk-money-font">Profile of Convenience:
@@ -36,6 +31,5 @@
     <span class="commercial-information-results-color-text">&emsp;{{ dataCommercialInformation.derivatives[1] }}</span>
   </mat-list-item>
 </mat-list>
-
 
 <div #commercialinformation id="commercialinformation" (window:resize)="onResize()"></div>

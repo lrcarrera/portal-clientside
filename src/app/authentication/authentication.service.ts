@@ -4,35 +4,14 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators/map';
 import {Router} from '@angular/router';
 
-export interface UserDetails {
-  _id: string;
-  email: string;
-  name: string;
-  exp: number;
-  iat: number;
-  role: string;
-}
-
-interface TokenResponse {
-  token: string;
-}
-
-export interface TokenPayload {
-  email: string;
-  password: string;
-  name?: string;
-  role: string;
-}
-
-
 @Injectable({
   providedIn: 'root'
 })
 
-//AuthenticationService does operations with token received from serverside.
 export class AuthenticationService {
-
   private token: string;
+  //endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
+  endPoint : string = 'http://localhost:5000';
 
   constructor(private http: HttpClient,private router: Router) {
   }
@@ -53,7 +32,7 @@ export class AuthenticationService {
   }
 
   public profile(): Observable<any> {
-    return this.http.get('https://enigmatic-mountain-27495.herokuapp.com/profile');
+    return this.http.get(this.endPoint + '/profile');
   }
 
   private saveToken(token: string): void {
@@ -104,39 +83,39 @@ export class AuthenticationService {
   }
 
   //Manage our requests to endpoint authentication routes
-  private request(type: 'login' | 'register',user?: TokenPayload): Observable<any> {
+  private request(type: 'login' | 'register', user?: TokenPayload): Observable<any> {
     let base;
-
-    //  if (method === 'post') {
-    //base = this.http.post(`/api/${type}`, user);
-    base = this.http.post(`https://enigmatic-mountain-27495.herokuapp.com/${type}`,user);
-    //base = this.http.post(`/api/${type}`, user);
-
-    /*if(type === 'register'){
-      return new Observable(observer => {
-        observer.next({
-          result: 'OK'
-        });
-        observer.complete();
-      });
-    }else{*/
+    base = this.http.post(this.endPoint + '/' + type, user);
     return base.pipe(
       map((data: TokenResponse) => {
         console.log(data);
         if (data.token) {
-          if (type === 'login'){
+          if (type === 'login') {
             this.saveToken(data.token);
           }
         }
         return data;
       })
     );
-
-   // }
-    /*  } else {
-        base = this.http.get(`https://enigmatic-mountain-27495.herokuapp.com/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}`}});
-    }*/
-
-
   }
+}
+
+export interface UserDetails {
+  _id: string;
+  email: string;
+  name: string;
+  exp: number;
+  iat: number;
+  role: string;
+}
+
+interface TokenResponse {
+  token: string;
+}
+
+export interface TokenPayload {
+  email: string;
+  password: string;
+  name?: string;
+  role: string;
 }

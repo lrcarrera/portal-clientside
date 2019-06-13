@@ -1,82 +1,54 @@
 <h2 mat-dialog-title>Please, fill out the profile form below:</h2>
 <mat-dialog-content>
-
   <form class="example-form-profile">
-
     <div class="fields-form-movements-profile">
-      <mat-radio-group aria-label=""   name="investment" ngModel required #investment="ngModel"><br>
+      <mat-radio-group aria-label="" name="investment" ngModel required #investment="ngModel"><br>
         The customer has any knowledge about <strong>investment</strong> products:<br>
         <br>
-
         <mat-radio-button value="yes">Yes</mat-radio-button>
-        <mat-radio-button  style="padding-left: 20px;" class="fields-form-movements-second-radio"
-                          value="no">No
+        <mat-radio-button style="padding-left: 20px;" class="fields-form-movements-second-radio" value="no">No
         </mat-radio-button>
-
       </mat-radio-group>
       <br>
-
-      <mat-radio-group aria-label=""  name="derivative" ngModel required #derivative="ngModel"><br>
+      <mat-radio-group aria-label="" name="derivative" ngModel required #derivative="ngModel"><br>
         The customer has any knowledge about <strong>derivative</strong> products:<br>
         <br>
-
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button style="padding-left: 20px;" class="fields-form-movements-second-radio"
                           value="no">No
         </mat-radio-button>
-
       </mat-radio-group>
       <br>
-
-
       <mat-radio-group aria-label="" name="loan" ngModel required #loan="ngModel"><br>
         The customer has requested <strong>bank loan</strong> previously?
-
         <br><br>
-
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button style="padding-left: 20px;" class="fields-form-movements-second-radio"
                           value="no">No
         </mat-radio-button>
-
       </mat-radio-group>
       <br>
-
-
-      <mat-radio-group aria-label=""  name="income" ngModel required #income="ngModel"><br>
+      <mat-radio-group aria-label="" name="income" ngModel required #income="ngModel"><br>
         The customer has an income of <strong>more than 30000€</strong> per year?
-
         <br><br>
-
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button style="padding-left: 20px;" class="fields-form-movements-second-radio"
                           value="no">No
         </mat-radio-button>
-
       </mat-radio-group>
       <br>
-
-
-      <mat-radio-group aria-label="" name="insurance"  ngModel required #insurance="ngModel"><br>
+      <mat-radio-group aria-label="" name="insurance" ngModel required #insurance="ngModel"><br>
         The customer has any <strong>home insurance</strong> contracted?
-
         <br><br>
-
         <mat-radio-button value="yes">Yes</mat-radio-button>
         <mat-radio-button required="insurance" style="padding-left: 20px;" class="fields-form-movements-second-radio"
                           value="no">No
         </mat-radio-button>
-
       </mat-radio-group>
       <br>
-
     </div>
-
     <br><br>
-
-
   </form>
-
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
@@ -86,10 +58,6 @@
                       derivative.errors?.required ||
                       investment.errors?.required"
 
-    mat-button cdkFocusInitial (click)="profileCustomer()">Save
+          mat-button cdkFocusInitial (click)="profileCustomer()">Save
   </button>
 </mat-dialog-actions>
-
-<!-- Copyright 2019 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license -->

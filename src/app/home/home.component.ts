@@ -8,46 +8,8 @@ import {AccountContentTemplate} from './popup_create_account/account_content_tem
 import {animate,state,style,transition,trigger} from '@angular/animations';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
 import {MatDialog,MatDialogConfig,MatSnackBar} from '@angular/material';
-import {Observable,of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {MovementContentTemplateComponent} from './movement-content-template/movement-content-template.component';
-
-
-export interface DataModel {
-  account_name: string;
-  total_movements: number;
-}
-
-export interface RelationsModel {
-  dni: string;
-  advisor_name: string;
-  advisor_id: string;
-  familiar_group: object;
-  economical_group: object;
-}
-
-export interface CommercialInformationModel {
-  dni: string;
-  advisor: string;
-  customerRevisionDate: string;
-  customerRiskLaundering: string;
-  customerOffice: string;
-  derivatives: any;
-}
-
-export interface Movement {
-  name: string;
-  amount: string;
-}
-
-export interface Account {
-  position: number;
-  id: any;
-  iban: string;
-  account: string;
-  balance: string;
-  description: string;
-  //Array<Movement>
-}
 
 enum DerivativeStatus {
   NOT_STARTED = 'NOT_STARTED',
@@ -134,24 +96,17 @@ export class HomeComponent implements OnInit {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.width = '600px';
-        //this.fillTableAndChartWithAccounts(result);
-        //this.renderExpensesWidget();
         dialogConfig.data = {
           dni: this.customerDni,
           accounts: result
         };
-
-
         const dialogRef = this.movementDialog.open(MovementContentTemplateComponent,dialogConfig);
 
         dialogRef.afterClosed().subscribe(result => {
 
           console.log(`Dialog result: ${result}`);
           this.refreshView(result);
-
         });
-
-
       },
       error => {
         this.errors = error;
@@ -169,14 +124,10 @@ export class HomeComponent implements OnInit {
       dni: this.customerDni
     };
 
-
     const dialogRef = this.account.open(AccountContentTemplate,dialogConfig);
-
     dialogRef.afterClosed().subscribe(result => {
-
       console.log(`Dialog result: ${result}`);
       this.refreshView(result);
-
     });
   }
 
@@ -184,15 +135,12 @@ export class HomeComponent implements OnInit {
     if (result.refresh) {
       this.tableIsFilled = false;
       this.customerService.getAccountsFromCustomer(this.customerDni).subscribe((result: any) => {
-
           this.fillTableAndChartWithAccounts(result);
           this.renderExpensesWidget();
         },
         error => {
           this.errors = error;
         });
-    } else {
-      //  this.tableIsFilled = false;
     }
   }
 
@@ -231,7 +179,7 @@ export class HomeComponent implements OnInit {
     if (groups) {
       if (advisorId) {
         this.advisorService.getAdvisor(advisorId).subscribe((result: any) => {
-            
+
             this.parseInformationToRelationsWidget(result.email,groups);
           },
           error => {
@@ -306,7 +254,7 @@ export class HomeComponent implements OnInit {
 
     let derivativeProductsStatus = qtyProductsProfiled === MAX_PRODUCTS ? DerivativeStatus.COMPLETED : DerivativeStatus.NOT_COMPLETED;
 
-    if(qtyProductsProfiled === 0) {
+    if (qtyProductsProfiled === 0) {
       derivativeProductsStatus = DerivativeStatus.NOT_STARTED;
     }
     return [derivativeProductsStatus,qtyProductsProfiled.toString() + '/' + MAX_PRODUCTS.toString()];
@@ -331,7 +279,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private dataRefreshed(result: any){
+  private dataRefreshed(result: any) {
     return {
       dni: this.customerDni,
       advisor: this.advisorIdFromCustomerinContext,
@@ -339,7 +287,7 @@ export class HomeComponent implements OnInit {
       customerRiskLaundering: result.customer_info.risk_money_laundering.toString().toUpperCase(),
       customerOffice: result.assigned_office,
       derivatives: this.getProductsInfo(result.derivative_products)
-    }
+    };
   }
 
   private parseInformationToRelationsWidget(advisor,groups) {
@@ -358,9 +306,40 @@ export class HomeComponent implements OnInit {
   }
 
   isButtonVisible() {
-    if (!this.details){
+    if (!this.details) {
       return false;
     }
     return this.isAdmin || (this.details._id === this.advisorIdFromCustomerinContext);
   }
+}
+
+export interface DataModel {
+  account_name: string;
+  total_movements: number;
+}
+
+export interface RelationsModel {
+  dni: string;
+  advisor_name: string;
+  advisor_id: string;
+  familiar_group: object;
+  economical_group: object;
+}
+
+export interface CommercialInformationModel {
+  dni: string;
+  advisor: string;
+  customerRevisionDate: string;
+  customerRiskLaundering: string;
+  customerOffice: string;
+  derivatives: any;
+}
+
+export interface Account {
+  position: number;
+  id: any;
+  iban: string;
+  account: string;
+  balance: string;
+  description: string;
 }

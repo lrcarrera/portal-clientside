@@ -1,6 +1,5 @@
 import {Component,OnInit} from '@angular/core';
-import {AuthenticationService,TokenPayload,UserDetails} from '../authentication/authentication.service';
-import {Router} from '@angular/router';
+import {AuthenticationService} from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,41 +8,24 @@ import {Router} from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  appTitle: string = 'MyBankApp';
-  accountDetails: UserDetails;
-  // OR (either will work)
-  //appTitle = 'myapp';
+  appTitle: string = 'MyBank';
 
-  constructor(private auth: AuthenticationService,private router: Router) {
-
-
+  constructor(private auth: AuthenticationService) {
   }
 
   ngOnInit() {
   }
 
   logout() {
-    this.auth.logout();/*
-      this.router.navigateByUrl('/');
-    }, (err) => {
-      console.error(err);
-    });*/
+    this.auth.logout();
   }
 
   getAuth() {
     return this.auth;
   }
 
-  getEmailLogged(){
+  getEmailLogged() {
     return this.auth.getUserDetails().email;
   }
-
-  /*isAdmin() {
-    if (this.auth.getUserDetails()) {
-      return this.auth.getUserDetails().role === 'Admin';
-    } else {
-      return false;
-    }
-  }*/
 
 }

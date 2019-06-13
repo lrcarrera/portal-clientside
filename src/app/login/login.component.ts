@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { AuthenticationService, TokenPayload } from '../authentication/authentication.service';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {AuthenticationService,TokenPayload} from '../authentication/authentication.service';
+import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 
 
@@ -11,14 +11,15 @@ import {MatSnackBar} from '@angular/material';
 })
 export class LoginComponent {
   credentials: TokenPayload = {
-    name:'',
+    name: '',
     email: '',
     password: '',
     role: ''
   };
   loggingInProgress: Boolean = false;
 
-  constructor(private snackBar: MatSnackBar, private auth: AuthenticationService, private router: Router) {}
+  constructor(private snackBar: MatSnackBar,private auth: AuthenticationService,private router: Router) {
+  }
 
 
   login() {
@@ -26,7 +27,7 @@ export class LoginComponent {
     this.auth.login(this.credentials).subscribe(() => {
       this.loggingInProgress = false;
       this.router.navigateByUrl('/');
-    }, (err) => {
+    },(err) => {
       this.loggingInProgress = false;
       this.openSnackBar('Sorry, account not found');
       this.router.navigateByUrl('/login');

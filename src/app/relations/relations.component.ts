@@ -2,18 +2,7 @@ import {Component,Input,OnChanges,ViewChild,ViewEncapsulation} from '@angular/co
 import {MatDialog,MatDialogConfig} from '@angular/material';
 import {CustomerService} from '../services/customer/customer.service';
 import {AuthenticationService,UserDetails} from '../authentication/authentication.service';
-import {ProfileCustomerComponent} from '../commercial-data/profile-customer/profile-customer.component';
 import {TaskCreatorComponent} from './task-creator/task-creator.component';
-
-
-export interface RelationsModel {
-  dni: string;
-  advisor_id: string;
-  advisor_name: string;
-  familiar_group: any;
-  economical_group: any;
-}
-
 
 @Component({
   selector: 'app-relations',
@@ -78,18 +67,15 @@ export class RelationsComponent implements OnChanges {
     this.economicalTotal = Object.keys(this.dataRelations.economical_group)
       .reduce((sum,key) => sum + parseFloat(this.dataRelations.economical_group[key] || 0),0);
 
-    if(this.familiarTotal > 0) {
+    if (this.familiarTotal > 0) {
       this.hasFamiliarActivity = true;
     }
-    if(this.economicalTotal > 0) {
+    if (this.economicalTotal > 0) {
       this.hasEconomicalActivity = true;
     }
-
-
   }
 
   createTaskByCustomer() {
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -99,9 +85,7 @@ export class RelationsComponent implements OnChanges {
       dni: this.dataRelations.dni
     };
 
-
-    const dialogRef = this.createTask.open(TaskCreatorComponent, dialogConfig);
-
+    const dialogRef = this.createTask.open(TaskCreatorComponent,dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
 
       console.log(`Dialog result: ${result}`);
@@ -111,7 +95,7 @@ export class RelationsComponent implements OnChanges {
     });
   }
 
-  private refreshWidget(){
+  private refreshWidget() {
     this.customerService.getCustomer(this.dataRelations.dni).subscribe((result: any) => {
       if (result) {
         this.dataRelations.familiar_group = result.investment_products.familiar_group;
@@ -124,4 +108,12 @@ export class RelationsComponent implements OnChanges {
   isButtonVisible() {
     return this.authenticationService.isAdmin() || (this.details._id === this.dataRelations.advisor_id);
   }
+}
+
+export interface RelationsModel {
+  dni: string;
+  advisor_id: string;
+  advisor_name: string;
+  familiar_group: any;
+  economical_group: any;
 }

@@ -15,21 +15,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-export interface Level {
-  level: string;
-}
-
-export interface Advisor {
-  role: string;
-  _id: string;
-  name: string;
-  email: string;
-}
-
-export interface Office {
-  name: string;
-}
-
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -39,19 +24,13 @@ export interface Office {
 export class CustomerComponent implements OnInit {
 
   dataCustomerTable: Observable<boolean>;
-
   matcher = new MyErrorStateMatcher();
-
   updateCustomerFb: FormGroup;
-
   mode: string;
   findForm: FormGroup;
-
   updateCustomerForm: boolean;
   addCustomerForm: boolean;
-
   dniUpdateInContext: string;
-
   details: UserDetails;
 
   exposureLevels: Level[] = [
@@ -73,11 +52,8 @@ export class CustomerComponent implements OnInit {
   ];
 
   advisors: Advisor[] = [];
-
   isAdmin: boolean = false;
-
   triggerTable: boolean = false;
-
 
   constructor(private advisorService: AdvisorService,
               private customerTable: AboutComponent,
@@ -90,33 +66,23 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*this.deleteForm = this.formBuilderDelete.group({
-      customerId: ['', Validators.required],
-    });*/
-
-
     this.updateCustomerFb = this.formBuilder.group({
       updateCustomerLevel: [null,Validators.required],
       updateCustomerOffice: [null,Validators.required],
       updateCustomerAdvisor: [null,Validators.required]
 
     });
-
     this.findForm = this.formBuilderFind.group({
       customerId: ['',Validators.required],
     });
-
     this.updateCustomerForm = false;
     this.addCustomerForm = false;
-
     this.authenticationService.profile().subscribe(user => {
       this.details = user.authorizedData;
     },(err) => {
       console.error(err);
     });
-
     this.isAdmin = this.authenticationService.isAdmin();
-
 
     if (this.isAdmin) {
       this.advisorService.getAllAdvisors().subscribe((result: any) => {
@@ -129,7 +95,7 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  private cleanAddForm(){
+  private cleanAddForm() {
     if (this.isAdmin) {
       this.advisorControl.reset();
     }
@@ -143,9 +109,6 @@ export class CustomerComponent implements OnInit {
   }
 
   private buildRequestDataCustomer() {
-
-    //let formObj = this.form.getRawValue();
-    //  requestData.customer_info = {};
     let advisorInContext;
     if (this.isAdmin) {
       advisorInContext = this.advisorControl.value;
@@ -159,7 +122,6 @@ export class CustomerComponent implements OnInit {
           last_name: this.lastNameControl.value,
           current_address: this.homeControl.value,
           risk_money_laundering: this.exposureControl.value.level
-          //email_address = formObj.emailAddress;
         },
         dni: this.dniControl.value,
         phone: this.phoneControl.value,
@@ -169,30 +131,8 @@ export class CustomerComponent implements OnInit {
     };
   }
 
-  /*
-
-    phoneControlUpdate = new FormControl('',[
-      Validators.required,
-      Validators.minLength(9)
-    ]);
-    homeControlUpdate = new FormControl('',[
-      Validators.required,
-    ]);
-    dniControlUpdate = new FormControl('',[
-      Validators.required,
-      Validators.minLength(9)
-    ]);
-    firstNameControlUpdate = new FormControl('',[
-      Validators.required,
-    ]);
-    lastNameControlUpdate = new FormControl('',[
-      Validators.required,
-    ]);*/
-
   private buildRequestDataCustomerToUpdate() {
 
-    //let formObj = this.form.getRawValue();
-    //  requestData.customer_info = {};
     let advisorInContext;
     if (this.isAdmin) {
       advisorInContext = this.updateCustomerFb.controls['updateCustomerAdvisor'].value._id;
@@ -206,7 +146,6 @@ export class CustomerComponent implements OnInit {
           last_name: this.lastNameControlUpdate.value,
           current_address: this.homeControlUpdate.value,
           risk_money_laundering: this.updateCustomerFb.controls['updateCustomerLevel'].value.level
-          //email_address = formObj.emailAddress;
         },
         dni: this.dniControlUpdate.value,
         phone: this.phoneControlUpdate.value,
@@ -249,11 +188,7 @@ export class CustomerComponent implements OnInit {
       error => {
         this.openSnackBar('The service is unavailable');
         console.log(error);
-      },
-      () => {
-        // No errors, route to new page
-      }
-    );
+      });
   }
 
   private getAdvisorEmailToFillCombo(advisorId) {
@@ -276,11 +211,7 @@ export class CustomerComponent implements OnInit {
         this.updateCustomerForm = false;
 
         console.log(error);
-      },
-      () => {
-        // No errors, route to new page
-      }
-    );
+      });
   }
 
   private triggerCustomerTable() {
@@ -298,36 +229,25 @@ export class CustomerComponent implements OnInit {
 
         if (result && result.n === 1) {
           console.log(result);
-          //this.deleteForm.reset();
           this.mode = null;
           this.openSnackBar('The customer was deleted successfully');
-
-
           this.triggerCustomerTable();
-
           this.findControl.setValue('');
         } else {
           this.findControl.setValue('');
-
           this.openSnackBar('Customer not found');
         }
       },
       error => {
         this.openSnackBar('The service is unavailable');
         console.log(error);
-      },
-      () => {
-        // No errors, route to new page
-      }
-    );
+      });
   }
 
   private createCustomer() {
     let data = this.buildRequestDataCustomer();
-
     this.customerService.createCustomer(data).subscribe((result: any) => {
-        //console.log(result);
-        //this.form.reset();
+
         if (result.code === 11000) {
           this.openSnackBar('Another customer with the same ID was found');
         } else {
@@ -339,15 +259,10 @@ export class CustomerComponent implements OnInit {
         this.cleanAddForm();
       },
       error => {
-
         this.openSnackBar('The service is unavailable');
         this.mode = null;
         console.log(error);
-      },
-      () => {
-        // No errors, route to new page
-      }
-    );
+      });
   }
 
   private openSnackBar(message: string) {
@@ -357,7 +272,6 @@ export class CustomerComponent implements OnInit {
       panelClass: ['snackbar-style-home']
     });
   }
-
 
   phoneControlUpdate = new FormControl('',[
     Validators.required,
@@ -393,26 +307,34 @@ export class CustomerComponent implements OnInit {
   lastNameControl = new FormControl('',[
     Validators.required,
   ]);
-
   exposureControl = new FormControl('',[
     Validators.required,
   ]);
-
   officeControl = new FormControl('',[
     Validators.required,
   ]);
-
   findControl = new FormControl('',[
     Validators.required,
   ]);
-
   findToUpdateControl = new FormControl('',[
     Validators.required,
   ]);
-
   advisorControl = new FormControl('',[
     Validators.required,
   ]);
-  levelExposure: any;
-  stageValue: string;
+}
+
+export interface Level {
+  level: string;
+}
+
+export interface Advisor {
+  role: string;
+  _id: string;
+  name: string;
+  email: string;
+}
+
+export interface Office {
+  name: string;
 }
