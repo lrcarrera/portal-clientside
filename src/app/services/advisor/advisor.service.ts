@@ -6,8 +6,8 @@ import {HttpClient} from '@angular/common/http';
 })
 
 export class AdvisorService {
-  //endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
-  endPoint : string = 'http://localhost:5000';
+  endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
+  //endPoint : string = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {
   }

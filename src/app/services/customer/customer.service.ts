@@ -7,8 +7,8 @@ import {DataModel} from '../../home/home.component';
 })
 
 export class CustomerService {
-  //endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
-  endPoint : string = 'http://localhost:5000';
+  endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
+  //endPoint : string = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {
   }

@@ -10,8 +10,8 @@ import {Router} from '@angular/router';
 
 export class AuthenticationService {
   private token: string;
-  //endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
-  endPoint : string = 'http://localhost:5000';
+  endPoint : string = 'https://enigmatic-mountain-27495.herokuapp.com';
+  //endPoint : string = 'http://localhost:5000';
 
   constructor(private http: HttpClient,private router: Router) {
   }
